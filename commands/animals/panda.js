@@ -19,7 +19,7 @@ module.exports = {
               .setColor("#006798")
               .setAuthor(
                 `Panda`,
-                `https://cdn.glitch.com/310e3061-4bbb-400e-bb4e-59c6a4084a66%2Femoji-panda.png?v=1603518816660`,
+                `https://cdn.glitch.com/2d031706-b85e-4c2b-8903-3af7e09dd1c4%2F310e3061-4bbb-400e-bb4e-59c6a4084a66_emoji-panda.png?v=1604426627884`,
                 `${img.link}`
               )
               //.setTitle("🐼 Panda")

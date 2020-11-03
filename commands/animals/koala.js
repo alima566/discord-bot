@@ -19,7 +19,7 @@ module.exports = {
               .setColor("#006798")
               .setAuthor(
                 `Koala`,
-                `https://cdn.glitch.com/310e3061-4bbb-400e-bb4e-59c6a4084a66%2Fkoala.png?v=1603519376162`,
+                `https://cdn.glitch.com/2d031706-b85e-4c2b-8903-3af7e09dd1c4%2F310e3061-4bbb-400e-bb4e-59c6a4084a66_koala.png?v=1604426664677`,
                 `${img.link}`
               )
               //.setTitle("🐨 Koala")
