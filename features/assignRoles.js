@@ -88,9 +88,9 @@ module.exports = (client) => {
       emojiText += `${emoji} ${emojis[key].description} ${emoji}\n`;
     }
   }
-  let msgEmbed = new MessageEmbed()
-    .setColor("#34B1EB")
-    .setDescription(emojiText);
+  // let msgEmbed = new MessageEmbed()
+  //   .setColor("#34B1EB")
+  //   .setDescription(emojiText);
 
   firstMessage(client, channelID, emojiText, reactions);
 

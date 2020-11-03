@@ -36,39 +36,37 @@ module.exports = {
       userID: id,
     };
 
-    await mongo().then(async (mongoose) => {
-      try {
-        const results = await dailyRewardsSchema.findOne(obj);
+    //await mongo().then(async (mongoose) => {
+    //try {
+    const results = await dailyRewardsSchema.findOne(obj);
 
-        console.log("RESULTS: ", results);
-        if (results) {
-          const then = new Date(results.updatedAt).getTime();
-          const now = new Date().getTime();
+    console.log("RESULTS: ", results);
+    if (results) {
+      const then = new Date(results.updatedAt).getTime();
+      const now = new Date().getTime();
 
-          const diffTime = Math.abs(now - then);
-          const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24)); //24 hours
-          getTimeRemaining(diffTime);
+      const diffTime = Math.abs(now - then);
+      const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24)); //24 hours
+      getTimeRemaining(diffTime);
 
-          if (diffDays < 1) {
-            claimedCache.push(id);
-            msg.reply(alreadyClaimed);
-            return;
-          }
-        }
-
-        await dailyRewardsSchema.findOneAndUpdate(obj, obj, {
-          upsert: true,
-        });
-
+      if (diffDays < 1) {
         claimedCache.push(id);
-        const newPoints = await gambling.addPoints(guild.id, id, pointsToGive);
-        msg.reply(
-          `You have claimed your daily reward of ${pointsToGive} points!`
-        );
-      } finally {
-        mongoose.connection.close();
+        msg.reply(alreadyClaimed);
+        return;
       }
+    }
+
+    await dailyRewardsSchema.findOneAndUpdate(obj, obj, {
+      upsert: true,
     });
+
+    claimedCache.push(id);
+    const newPoints = await gambling.addPoints(guild.id, id, pointsToGive);
+    msg.reply(`You have claimed your daily reward of ${pointsToGive} points!`);
+    //} finally {
+    //mongoose.connection.close();
+    //}
+    //});
   },
 };
 

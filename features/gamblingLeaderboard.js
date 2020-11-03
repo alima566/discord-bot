@@ -26,6 +26,7 @@ const fetchTopMembers = async (guildID) => {
 
 const updateLeaderboard = async (client) => {
   let msgEmbed = new MessageEmbed()
+    .setColor("#85bb65")
     .setTitle(`Gambling Leaderboard`)
     .setThumbnail(
       `https://cdn.glitch.com/310e3061-4bbb-400e-bb4e-59c6a4084a66%2Fpoker-chip.png?v=1603989317662`
