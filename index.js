@@ -17,7 +17,9 @@ client.on("ready", () => {
   client.user.setActivity("https://www.twitch.tv/kelleebot", {
     type: "WATCHING",
   });
-  new WOKCommands(client, "commands", "features").setMongoPath(
+  new WOKCommands(client, "commands", "features")
+  .setSyntaxError("Incorrect syntax. Please use {PREFIX}{COMMAND} {ARGUMENTS}.")
+  .setMongoPath(
     process.env.MONGO_PATH
   );
 });
