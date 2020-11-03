@@ -1,0 +1,112 @@
+const Canvas = require("canvas");
+const { pointsToGive } = require("@root/config.json");
+const gambling = require("@utils/gambling");
+const gamblingSchema = require("@schemas/gambling-schema");
+const constants = require("@utils/constants");
+const { MessageAttachment, MessageEmbed } = require("discord.js");
+
+// Pass the entire Canvas object because you'll need to access its width, as well its context
+const applyText = (canvas, text) => {
+  const ctx = canvas.getContext("2d");
+
+  // Declare a base size of the font
+  let fontSize = 70;
+
+  do {
+    // Assign the font to the context and decrement it so it can be measured again
+    ctx.font = `${(fontSize -= 10)}px sans-serif`;
+    // Compare pixel width of the text to the canvas minus the approximate avatar size
+  } while (ctx.measureText(text).width > canvas.width - 300);
+
+  // Return the result to use in the actual canvas
+  return ctx.font;
+};
+
+const createCanvas = async (guild, member) => {
+  const canvas = Canvas.createCanvas(700, 250);
+  const ctx = canvas.getContext("2d");
+
+  const background = await Canvas.loadImage(
+    "https://cdn.glitch.com/310e3061-4bbb-400e-bb4e-59c6a4084a66%2FScreen_Shot_2020-08-06_at_2.17.31_PM.png?v=1601076500939"
+  );
+  ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+
+  ctx.strokeStyle = "#74037b";
+  ctx.strokeRect(0, 0, canvas.width, canvas.height);
+
+  // Slightly smaller text placed above the member's display name
+  ctx.font = "28px sans-serif";
+  ctx.strokeStyle = "black";
+  ctx.lineWidth = 8;
+  ctx.strokeText(
+    `Welcome to the ${guild.name}`,
+    canvas.width / 2.5,
+    canvas.height / 3.5
+  );
+  ctx.fillStyle = "#FFFFAF";
+  ctx.fillText(
+    `Welcome to the ${guild.name}`,
+    canvas.width / 2.5,
+    canvas.height / 3.5
+  );
+
+  // Add an exclamation point here and below
+  ctx.font = applyText(canvas, `${member.displayName}!`);
+  ctx.strokeStyle = "black";
+  ctx.lineWidth = 8;
+  ctx.strokeText(
+    `${member.displayName}!`,
+    canvas.width / 2.5,
+    canvas.height / 1.8
+  );
+  ctx.fillStyle = "#FFFFAF";
+  ctx.fillText(
+    `${member.displayName}!`,
+    canvas.width / 2.5,
+    canvas.height / 1.8
+  );
+
+  ctx.beginPath();
+  ctx.arc(125, 125, 100, 0, Math.PI * 2, true);
+  ctx.closePath();
+  ctx.clip();
+
+  // Wait for Canvas to load the image
+  const avatar = await Canvas.loadImage(
+    member.user.displayAvatarURL({ format: "jpg" })
+  );
+  // Draw a shape onto the main canvas
+  ctx.drawImage(avatar, 25, 25, 200, 200);
+
+  const attachment = new MessageAttachment(
+    canvas.toBuffer(),
+    `welcome-${member.displayName.toLowerCase()}.png`
+  );
+
+  return attachment;
+};
+
+module.exports = async (client) => {
+  client.on("guildMemberAdd", async (member) => {
+    const { guild, user } = member;
+    const newPoints = await gambling.addPoints(guild.id, user.id, pointsToGive);
+
+    const channel = member.guild.channels.cache.find(
+      (ch) => ch.name === "welcome"
+    );
+
+    if (!channel) return;
+
+    const attachment = await createCanvas(guild, member);
+    channel.send(attachment);
+
+    let msgEmbed = new MessageEmbed()
+      .setColor("#FF69B4")
+      .setAuthor(`${member.user.tag}`, member.user.displayAvatarURL())
+      .setDescription(`**${member.user} has joined the server**`)
+      .setTimestamp()
+      .setFooter(`ID: ${member.user.id}`);
+
+    constants.sendMessageToBotThings(client, msgEmbed);
+  });
+};
