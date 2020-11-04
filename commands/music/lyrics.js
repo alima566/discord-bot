@@ -5,7 +5,7 @@ module.exports = {
   commands: "lyrics",
   expectedArgs: "<song_title> - <artist>",
   minArgs: 0,
-  maxArgs: 2,
+  maxArgs: -1,
   description:
     "Shows lyrics for either what's currently playing or for what's specfied.",
   callback: async (msg, args, text) => {
