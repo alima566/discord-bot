@@ -1,7 +1,8 @@
 const Canvas = require("canvas");
-const { pointsToGive } = require("@root/config.json");
+const { pointsToGive, welcomeMessageCache } = require("@root/config.json");
 const gambling = require("@utils/gambling");
 const gamblingSchema = require("@schemas/gambling-schema");
+const welcomeSchema = require("@schemas/welcome-schema");
 const constants = require("@utils/constants");
 const { MessageAttachment, MessageEmbed } = require("discord.js");
 
@@ -27,8 +28,7 @@ const createCanvas = async (guild, member) => {
   const ctx = canvas.getContext("2d");
 
   const background = await Canvas.loadImage(
-    '../../img/310e3061-4bbb-400e-bb4e-59c6a4084a66_Screen_Shot_2020-08-06_at_2.17.31_PM.png'
-    //"https://cdn.glitch.com/2d031706-b85e-4c2b-8903-3af7e09dd1c4%2F310e3061-4bbb-400e-bb4e-59c6a4084a66_Screen_Shot_2020-08-06_at_2.17.31_PM.png?v=1604426607480"
+    "https://cdn.glitch.com/2d031706-b85e-4c2b-8903-3af7e09dd1c4%2F310e3061-4bbb-400e-bb4e-59c6a4084a66_Screen_Shot_2020-08-06_at_2.17.31_PM.png?v=1604426607480"
   );
   ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
 
@@ -87,6 +87,26 @@ const createCanvas = async (guild, member) => {
   return attachment;
 };
 
+const welcomeMessage = async (member) => {
+  const { guild } = member;
+  let data = welcomeMessageCache[guild.id];
+
+  if (!data) {
+    console.log("FETCHING FROM DATABASE");
+    const result = await welcomeSchema.findOne({ _id: guild.id });
+    welcomeMessageCache[guild.id] = data = [
+      result.channelID,
+      result.welcomeMessage,
+    ];
+  }
+
+  const channelID = data[0];
+  const text = data[1];
+
+  const channel = guild.channels.cache.get(channelID);
+  channel.send(text.replace(/<@>/g, `<@${member.id}>`));
+};
+
 module.exports = async (client) => {
   client.on("guildMemberAdd", async (member) => {
     const { guild, user } = member;
@@ -99,6 +119,7 @@ module.exports = async (client) => {
     if (!channel) return;
 
     const attachment = await createCanvas(guild, member);
+    welcomeMessage(member);
     channel.send(attachment);
 
     let msgEmbed = new MessageEmbed()

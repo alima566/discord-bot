@@ -1,3 +1,4 @@
 {
-  "pointsToGive": 1000
+  "pointsToGive": 1000,
+  "welcomeMessageCache": {}
 }
