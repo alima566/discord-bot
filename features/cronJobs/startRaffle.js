@@ -1,8 +1,9 @@
 const ms = require("ms");
 const cron = require("cron");
+const { rafflePoints } = require("@root/config.json");
 module.exports = async (client) => {
   const startRaffle = new cron.CronJob(
-    "00 00 9-21/4 * * *",
+    "00 00 9-22/4 * * *",
     () => {
       execute(client);
     },
@@ -24,7 +25,7 @@ const execute = async (client) => {
 
   const giveawayDuration = "30m";
   const giveawayNumberWinners = "1";
-  const giveawayPrize = "500 Points";
+  const giveawayPrize = `${rafflePoints} Points`;
 
   client.giveawaysManager.start(giveawayChannel, {
     // The giveaway duration
