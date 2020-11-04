@@ -27,7 +27,8 @@ const createCanvas = async (guild, member) => {
   const ctx = canvas.getContext("2d");
 
   const background = await Canvas.loadImage(
-    "https://cdn.glitch.com/2d031706-b85e-4c2b-8903-3af7e09dd1c4%2F310e3061-4bbb-400e-bb4e-59c6a4084a66_Screen_Shot_2020-08-06_at_2.17.31_PM.png?v=1604426607480"
+    '../../img/310e3061-4bbb-400e-bb4e-59c6a4084a66_Screen_Shot_2020-08-06_at_2.17.31_PM.png'
+    //"https://cdn.glitch.com/2d031706-b85e-4c2b-8903-3af7e09dd1c4%2F310e3061-4bbb-400e-bb4e-59c6a4084a66_Screen_Shot_2020-08-06_at_2.17.31_PM.png?v=1604426607480"
   );
   ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
 

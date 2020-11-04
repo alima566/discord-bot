@@ -27,20 +27,20 @@ module.exports = (client) => {
       if (removedRoles.size > 0) {
         let roleID = removedRoles.map((r) => r.id);
         for (var i = 0; i < roleID.length; i++) {
-          roleUpdatedLog(removedRoles.get(roleID[i]), oldMem.user, "removed");
+          roleUpdatedLog(client, removedRoles.get(roleID[i]), oldMem.user, "removed");
         }
       }
       if (addedRoles.size > 0) {
         let roleID = addedRoles.map((r) => r.id);
         for (var i = 0; i < roleID.length; i++) {
-          roleUpdatedLog(addedRoles.get(roleID[i]), oldMem.user, "given");
+          roleUpdatedLog(client, addedRoles.get(roleID[i]), oldMem.user, "given");
         }
       }
     }
   });
 };
 
-const roleUpdatedLog = (role, user, type) => {
+const roleUpdatedLog = (client, role, user, type) => {
   let description = `**${user} was ${type}`;
   if (type === "given") {
     description += ` the `;
@@ -56,10 +56,10 @@ const roleUpdatedLog = (role, user, type) => {
     .setFooter(`ID: ${user.id}`);
 
   constants.sendMessageToBotThings(client, msgEmbed);
-  //sendDMToUser(role, user, type);
+  //sendDMToUser(client, role, user, type);
 };
 
-const sendDMToUser = (role, user, type) => {
+const sendDMToUser = (client, role, user, type) => {
   let title = type.toLowerCase() === "given" ? "Added" : "Removed";
   let react = type.toLowerCase() === "given" ? "reacting" : "unreacting";
   let description = `You have been ${type}`;
