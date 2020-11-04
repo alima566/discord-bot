@@ -1,15 +1,15 @@
 const ms = require("ms");
 const cron = require("cron");
 module.exports = async (client) => {
-  // const startRaffle = new cron.CronJob(
-  //   "00 39 14 * * *",
-  //   () => {
-  //     execute(client);
-  //   },
-  //   null,
-  //   true,
-  //   "America/Denver"
-  // );
+  const startRaffle = new cron.CronJob(
+    "00 00 9-21/4 * * *",
+    () => {
+      execute(client);
+    },
+    null,
+    true,
+    "America/Denver"
+  );
 };
 
 const execute = async (client) => {
@@ -57,5 +57,5 @@ const execute = async (client) => {
     },
   });
 
-  //channel.send(`Giveaway started in ${giveawayChannel}!`);
+  channel.send(`Giveaway started in ${giveawayChannel}!`);
 };
