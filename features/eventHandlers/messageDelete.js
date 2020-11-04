@@ -5,9 +5,7 @@ module.exports = (client) => {
     if (!msg.guild) return;
 
     let msgEmbed = new MessageEmbed().setColor("RED");
-    if (msg.content !== null) {
-      if (msg.partial) await msg.fetch();
-
+    if (!msg.partial) {
       if (msg.author.bot) return;
       msgEmbed
         .setAuthor(`${msg.author.tag}`, msg.author.displayAvatarURL())
@@ -18,7 +16,7 @@ module.exports = (client) => {
         .setFooter(`Author: ${msg.author.id} | Message ID: ${msg.id}`);
     } else {
       msgEmbed
-        .setAuthor(`${msg.guild.name}`, msg.guild.iconURL())
+        .setAuthor(`${msg.guild.nam}`, msg.guild.iconURL())
         .setDescription(`**Message deleted in ${msg.channel}**`)
         .setTimestamp()
         .setFooter(`Author: ? | Message ID: ${msg.id}`);
