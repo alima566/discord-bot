@@ -40,13 +40,13 @@ const createCanvas = async (guild, member) => {
   ctx.strokeStyle = "black";
   ctx.lineWidth = 8;
   ctx.strokeText(
-    `Welcome to the ${guild.name}`,
+    `Welcome to the ${guild.name},`,
     canvas.width / 2.5,
     canvas.height / 3.5
   );
   ctx.fillStyle = "#FFFFAF";
   ctx.fillText(
-    `Welcome to the ${guild.name}`,
+    `Welcome to the ${guild.name},`,
     canvas.width / 2.5,
     canvas.height / 3.5
   );
