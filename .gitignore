@@ -1,5 +1,5 @@
 /.env
 node_modules
-/.vscode
-/.giveaways.json
-/.package-lock.json
+.vscode
+.giveaways.json
+.package-lock.json
