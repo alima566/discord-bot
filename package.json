@@ -36,7 +36,8 @@
   "_moduleAliases": {
     "@root": ".",
     "@schemas": "./schemas",
-    "@utils": "./utils"
+    "@utils": "./utils",
+    "@features": "./features"
   },
     "engines": {
     "node": "12.x",
