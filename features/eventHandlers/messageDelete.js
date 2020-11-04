@@ -16,7 +16,7 @@ module.exports = (client) => {
         .setFooter(`Author: ${msg.author.id} | Message ID: ${msg.id}`);
     } else {
       msgEmbed
-        .setAuthor(`${msg.guild.nam}`, msg.guild.iconURL())
+        .setAuthor(`${msg.guild.name}`, msg.guild.iconURL())
         .setDescription(`**Message deleted in ${msg.channel}**`)
         .setTimestamp()
         .setFooter(`Author: ? | Message ID: ${msg.id}`);
