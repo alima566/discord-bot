@@ -43,7 +43,7 @@ const execute = async (client) => {
       timeRemaining: "Time remaining: **{duration}**!",
       inviteToParticipate: "React with 🎉 to participate!",
       winMessage: "Congratulations, {winners}! You won **{prize}**!",
-      embedFooter: "Giveaways",
+      embedFooter: "Raffles",
       noWinner: "Raffle cancelled, no valid participants.",
       hostedBy: "Hosted by: {user}",
       winners: "winner(s)",
@@ -58,5 +58,5 @@ const execute = async (client) => {
     },
   });
 
-  channel.send(`Giveaway started in ${giveawayChannel}!`);
+  channel.send(`Raffle started in ${giveawayChannel}!`);
 };
