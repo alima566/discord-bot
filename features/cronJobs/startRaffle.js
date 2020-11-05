@@ -1,6 +1,6 @@
 const ms = require("ms");
 const cron = require("cron");
-const { rafflePoints } = require("@root/config.json");
+const { rafflePoints, giveawayReactEmoji } = require("@root/config.json");
 module.exports = async (client) => {
   const startRaffle = new cron.CronJob(
     "00 00 9-22/4 * * *",
@@ -38,10 +38,10 @@ const execute = async (client) => {
     hostedBy: `<@754033907267010560>`,
     // Messages
     messages: {
-      giveaway: `🎉🎉 **RAFFLE** 🎉🎉`,
-      giveawayEnded: "🎉🎉 **RAFFLE ENDED** 🎉🎉",
+      giveaway: `${giveawayReactEmoji}${giveawayReactEmoji} **RAFFLE** ${giveawayReactEmoji}${giveawayReactEmoji}`,
+      giveawayEnded: `${giveawayReactEmoji}${giveawayReactEmoji} **RAFFLE ENDED** ${giveawayReactEmoji}${giveawayReactEmoji}`,
       timeRemaining: "Time remaining: **{duration}**!",
-      inviteToParticipate: "React with 🎉 to participate!",
+      inviteToParticipate: `React with ${giveawayReactEmoji} to participate!`,
       winMessage: "Congratulations, {winners}! You won **{prize}**!",
       embedFooter: "Raffles",
       noWinner: "Raffle cancelled, no valid participants.",

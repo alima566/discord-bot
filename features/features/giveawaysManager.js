@@ -1,4 +1,5 @@
 const { GiveawaysManager } = require("discord-giveaways");
+const { giveawayReactEmoji } = require("@root/config.json");
 module.exports = (client) => {
   client.giveawaysManager = new GiveawaysManager(client, {
     storage: "./giveaways.json",
@@ -7,7 +8,7 @@ module.exports = (client) => {
       botsCanWin: false,
       exemptPermissions: ["MANAGE_MESSAGES", "ADMINISTRATOR"],
       embedColor: "#FF0000",
-      reaction: "🎉",
+      reaction: `${giveawayReactEmoji}`,
     },
   });
 

@@ -1,3 +1,4 @@
+const { giveawayReactEmoji } = require("@root/config.json");
 const ms = require("ms");
 module.exports = {
   commands: ["start-giveaway", "sgive"],
@@ -53,10 +54,10 @@ module.exports = {
       hostedBy: msg.author,
       // Messages
       messages: {
-        giveaway: `🎉🎉 **GIVEAWAY** 🎉🎉`,
-        giveawayEnded: "🎉🎉 **GIVEAWAY ENDED** 🎉🎉",
+        giveaway: `${giveawayReactEmoji}${giveawayReactEmoji} **GIVEAWAY** ${giveawayReactEmoji}${giveawayReactEmoji}`,
+        giveawayEnded: `${giveawayReactEmoji}${giveawayReactEmoji} **GIVEAWAY ENDED** ${giveawayReactEmoji}${giveawayReactEmoji}`,
         timeRemaining: "Time remaining: **{duration}**!",
-        inviteToParticipate: "React with 🎉 to participate!",
+        inviteToParticipate: `React with ${giveawayReactEmoji} to participate!`,
         winMessage: "Congratulations, {winners}! You won **{prize}**!",
         embedFooter: "Giveaways",
         noWinner: "Giveaway cancelled, no valid participants.",
