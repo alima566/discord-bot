@@ -21,7 +21,7 @@ const execute = async (client) => {
     (c) => c.id === "771608859352891392"
   );
 
-  if (!giveawayChannel) return;
+  if (!channel || !giveawayChannel) return;
 
   const giveawayDuration = "30m";
   const giveawayNumberWinners = "1";
@@ -58,5 +58,5 @@ const execute = async (client) => {
     },
   });
 
-  channel.send(`Raffle started in ${giveawayChannel}!`);
+  channel.send(`A raffle has started in ${giveawayChannel}!`);
 };
