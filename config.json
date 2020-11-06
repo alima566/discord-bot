@@ -1,4 +1,5 @@
 {
+  "prefix": "!",
   "pointsToGive": 1000,
   "rafflePoints": 500,
   "giveawayReactEmoji": "🎉",
