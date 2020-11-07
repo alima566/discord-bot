@@ -47,7 +47,6 @@ module.exports = {
         );
         return;
       }
-      return;
     } else if (isNaN(pointsToGamble)) {
       msg.channel.send(`Please provide a valid number of points.`);
       return;

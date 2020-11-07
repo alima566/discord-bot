@@ -18,10 +18,10 @@ client.on("ready", () => {
     type: "WATCHING",
   });
   new WOKCommands(client, "commands", "features")
-  .setSyntaxError("Incorrect syntax. Please use {PREFIX}{COMMAND} {ARGUMENTS}.")
-  .setMongoPath(
-    process.env.MONGO_PATH
-  );
+    .setSyntaxError(
+      "Incorrect syntax. Please use {PREFIX}{COMMAND} {ARGUMENTS}."
+    )
+    .setMongoPath(process.env.MONGO_PATH);
 });
 
 client.login(process.env.DISCORD_TOKEN);
