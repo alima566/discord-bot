@@ -9,7 +9,7 @@ module.exports = {
   callback: async (msg, args, text) => {
     const gamblingChannelID = "770695220220264448";
     if (msg.channel.id !== `${gamblingChannelID}`) {
-      msg.channel
+      msg.reply
         .send(`Points can only be checked in <#${gamblingChannelID}>!`)
         .then((message) => {
           message.delete({ timeout: 5000 });

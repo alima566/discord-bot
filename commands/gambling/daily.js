@@ -27,7 +27,7 @@ module.exports = {
 
     if (channel.id !== `${gamblingChannelID}`) {
       channel
-        .send(`Daily can only be redeemed in <#${gamblingChannelID}>!`)
+        .reply(`Daily can only be redeemed in <#${gamblingChannelID}>!`)
         .then((message) => {
           message.delete({ timeout: 5000 });
         });
