@@ -9,9 +9,10 @@ module.exports = {
   cooldown: 60 * 2.5,
   requiredChannel: "gambling",
   callback: async (msg, args) => {
-    if (msg.channel.id !== "770695220220264448") {
+    const gamblingChannelID = "770695220220264448";
+    if (msg.channel.id !== `${gamblingChannelID}`) {
       msg.channel
-        .send(`Gambling is only allowed in <#770695220220264448>!`)
+        .send(`Gambling is only allowed in <#${gamblingChannelID}>!`)
         .then((message) => {
           message.delete({ timeout: 5000 });
         });

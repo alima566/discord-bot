@@ -21,12 +21,13 @@ module.exports = {
   description: "Gives users their daily reward of 1000 points.",
   requiredChannel: "gambling",
   callback: async (msg, args) => {
+    const gamblingChannelID = "770695220220264448";
     const { guild, member, channel } = msg;
     const { id } = member;
 
-    if (channel.id !== "770695220220264448") {
+    if (channel.id !== `${gamblingChannelID}`) {
       channel
-        .send(`Daily can only be redeemed in <#770695220220264448>!`)
+        .send(`Daily can only be redeemed in <#${gamblingChannelID}>!`)
         .then((message) => {
           message.delete({ timeout: 5000 });
         });
