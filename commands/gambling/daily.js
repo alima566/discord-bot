@@ -21,8 +21,18 @@ module.exports = {
   description: "Gives users their daily reward of 1000 points.",
   requiredChannel: "gambling",
   callback: async (msg, args) => {
-    const { guild, member } = msg;
+    const { guild, member, channel } = msg;
     const { id } = member;
+
+    if (channel.id !== "770695220220264448") {
+      channel
+        .send(`Daily can only be redeemed in <#770695220220264448>!`)
+        .then((message) => {
+          message.delete({ timeout: 5000 });
+        });
+      msg.delete();
+      return;
+    }
 
     if (claimedCache.includes(id)) {
       console.log("Returning from cache");

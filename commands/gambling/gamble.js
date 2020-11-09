@@ -9,9 +9,17 @@ module.exports = {
   cooldown: 60 * 2.5,
   requiredChannel: "gambling",
   callback: async (msg, args) => {
-    const target = msg.mentions.users.first() || msg.author;
-    const targetID = target.id;
+    if (msg.channel.id !== "770695220220264448") {
+      msg.channel
+        .send(`Gambling is only allowed in <#770695220220264448>!`)
+        .then((message) => {
+          message.delete({ timeout: 5000 });
+        });
+      msg.delete();
+      return;
+    }
 
+    const target = msg.mentions.users.first() || msg.author;
     const guildID = msg.guild.id;
     const userID = target.id;
 
