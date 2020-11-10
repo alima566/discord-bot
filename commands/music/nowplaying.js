@@ -1,7 +1,7 @@
 module.exports = {
   commands: ["nowplaying", "np", "currentsong"],
   description: "Shows what's currently playing.",
-  callback: (msg, args, text) => {
+  callback: (msg) => {
     try {
       const serverQueue = msg.client.queue.get(msg.guild.id);
       if (!serverQueue) return msg.channel.send("There is nothing playing.");

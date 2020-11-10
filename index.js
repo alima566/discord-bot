@@ -10,7 +10,6 @@ const client = new Discord.Client({
 
 client.commands = new Discord.Collection();
 client.queue = new Map();
-const queue = new Map();
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);

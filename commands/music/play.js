@@ -5,7 +5,7 @@ module.exports = {
   minArgs: 1,
   maxArgs: 1,
   description: "Plays a song from the specified YouTube URL.",
-  callback: async (msg, args, text) => {
+  callback: async (msg, args) => {
     try {
       const queue = msg.client.queue;
       const serverQueue = msg.client.queue.get(msg.guild.id);

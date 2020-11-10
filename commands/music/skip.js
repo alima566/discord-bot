@@ -1,7 +1,7 @@
 module.exports = {
   commands: "skip",
   description: "Skips the current song.",
-  callback: (msg, args, text) => {
+  callback: (msg) => {
     const serverQueue = msg.client.queue.get(msg.guild.id);
     if (!msg.member.voice.channel)
       return msg.channel.send(

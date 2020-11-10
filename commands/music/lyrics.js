@@ -8,7 +8,7 @@ module.exports = {
   maxArgs: -1,
   description:
     "Shows lyrics for either what's currently playing or for what's specfied.",
-  callback: async (msg, args, text) => {
+  callback: async (msg, args) => {
     let songName = "";
     const serverQueue = msg.client.queue.get(msg.guild.id);
     if (args.length === 0 && serverQueue) {

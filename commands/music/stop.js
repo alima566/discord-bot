@@ -1,7 +1,7 @@
 module.exports = {
   commands: "stop",
   description: "Stops the current song.",
-  callback: (msg, args, text) => {
+  callback: (msg) => {
     try {
       const serverQueue = msg.client.queue.get(msg.guild.id);
       if (!msg.member.voice.channel)
