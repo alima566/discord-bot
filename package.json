@@ -30,6 +30,7 @@
     "nodemon": "^2.0.6",
     "numeral": "^2.0.6",
     "random-animals-api": "^1.2.0",
+    "twit": "^2.2.11",
     "wokcommands": "^1.0.1",
     "ytdl-core": "^4.0.2"
   },
@@ -39,7 +40,7 @@
     "@utils": "./utils",
     "@features": "./features"
   },
-    "engines": {
+  "engines": {
     "node": "12.x",
     "npm": "6.14.8"
   }
