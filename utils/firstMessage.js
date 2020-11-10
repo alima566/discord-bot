@@ -1,14 +1,14 @@
-module.exports = async (client, id, msg, reactions = []) => {
+module.exports = async (client, id, text, reactions = []) => {
   const channel = await client.channels.fetch(id);
 
   channel.messages.fetch().then((messages) => {
     if (messages.size === 0) {
-      channel.send(msg).then((message) => {
+      channel.send(text).then((message) => {
         addReactions(message, reactions);
       });
     } else {
       for (const msg of messages) {
-        msg[1].edit(msg);
+        msg[1].edit(text);
         addReactions(msg[1], reactions);
       }
     }
