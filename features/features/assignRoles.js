@@ -19,19 +19,27 @@ module.exports = (client) => {
     kellee1HeartEyes: {
       role: "ACNH",
       description:
-        "**For access to the `Animal Crossing` channel, react with**",
+        "**For access to the <#754196934985646171> channel, react with**",
     },
     "🍚": {
       role: "POKE",
-      description: "**For access to the `Pokemon` channel, react with**",
+      description:
+        "**For access to the <#754196970813390878> channel, react with**",
     },
     "🇹": {
       role: "TET",
-      description: "**For access to the `Tetris` channel, react with**",
+      description:
+        "**For access to the <#754196992254804048> channel, react with**",
     },
     "🍜": {
       role: "Anime",
-      description: "**For access to the `Anime` channel, react with**",
+      description:
+        "**For access to the <#754487781220286474> channel, react with**",
+    },
+    "⚔️": {
+      role: "GI",
+      description:
+        "**For access to the <#775809627589312532> channel, react with**",
     },
     "⏰": {
       role: "Schedule",
