@@ -11,8 +11,8 @@ module.exports = {
   callback: async (msg, args) => {
     const gamblingChannelID = "770695220220264448";
     if (msg.channel.id !== `${gamblingChannelID}`) {
-      msg.reply
-        .send(`Gambling is only allowed in <#${gamblingChannelID}>!`)
+      msg
+        .reply(`Gambling is only allowed in <#${gamblingChannelID}>!`)
         .then((message) => {
           message.delete({ timeout: 5000 });
         });
