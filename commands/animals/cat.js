@@ -47,7 +47,7 @@ module.exports = {
 
 function getRandomCatFact() {
   return new Promise(async function (resolve, reject) {
-    const URL = `https://some-random-api.ml/facts/cat`;
+    const URL = `https://meowfacts.herokuapp.com/`; //`https://some-random-api.ml/facts/cat`;
     const header = {
       method: "GET",
       parse: "JSON",
@@ -55,7 +55,9 @@ function getRandomCatFact() {
     try {
       const body = await fetch(URL, { header });
       const result = await body.json();
-      const fact = result.fact;
+      console.log(result.data[0]);
+      //const fact = result.fact;
+      const fact = result.data[0];
       resolve(fact);
     } catch (err) {
       console.log(err);
