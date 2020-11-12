@@ -27,13 +27,23 @@ module.exports = (client) => {
       if (removedRoles.size > 0) {
         let roleID = removedRoles.map((r) => r.id);
         for (var i = 0; i < roleID.length; i++) {
-          roleUpdatedLog(client, removedRoles.get(roleID[i]), oldMem.user, "removed");
+          roleUpdatedLog(
+            client,
+            removedRoles.get(roleID[i]),
+            oldMem.user,
+            "removed"
+          );
         }
       }
       if (addedRoles.size > 0) {
         let roleID = addedRoles.map((r) => r.id);
         for (var i = 0; i < roleID.length; i++) {
-          roleUpdatedLog(client, addedRoles.get(roleID[i]), oldMem.user, "given");
+          roleUpdatedLog(
+            client,
+            addedRoles.get(roleID[i]),
+            oldMem.user,
+            "given"
+          );
         }
       }
     }
@@ -69,7 +79,7 @@ const sendDMToUser = (client, role, user, type) => {
     description += ` from the `;
   }
   description += `\`${role.name}\` role by ${react} in ${role.guild.name}.`;
-  let msgEmbed = new Discord.MessageEmbed()
+  let msgEmbed = new MessageEmbed()
     .setColor("BLUE")
     .setTitle(`Role ${title}`)
     .setDescription(description)
