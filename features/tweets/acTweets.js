@@ -11,7 +11,9 @@ module.exports = (client) => {
       let channel = client.channels
         .fetch(channelID)
         .then((channel) => {
-          channel.send(url);
+          if (!T.isReply(tweet)) {
+            channel.send(url);
+          }
         })
         .catch((err) => console.log(err));
     } catch (err) {

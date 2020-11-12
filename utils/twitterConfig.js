@@ -6,3 +6,17 @@ module.exports = new Twit({
   access_token: process.env.TWITTER_ACCESS_TOKEN,
   access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET,
 });
+
+module.exports.isReply = (tweet) => {
+  if (
+    tweet.retweeted_status ||
+    tweet.in_reply_to_status_id ||
+    tweet.in_reply_to_status_id_str ||
+    tweet.in_reply_to_user_id ||
+    tweet.in_reply_to_user_id_str ||
+    tweet.in_reply_to_screen_name
+  ) {
+    return true;
+  }
+  return false;
+};
