@@ -1,4 +1,4 @@
-&const T = require("@utils/twitterConfig");
+const T = require("@utils/twitterConfig");
 module.exports = (client) => {
   var stream = T.stream("statuses/filter", {
     follow: ["287885794"],
