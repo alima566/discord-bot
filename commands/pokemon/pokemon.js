@@ -8,7 +8,7 @@ module.exports = {
   description:
     "Retrieve information about a specific Pokémon. Command works with either the Pokémon name or its Pokédex number.",
   cooldown: 15,
-  callback: (msg, args, text) => {
+  callback: (msg, args) => {
     fetch(`https://pokeapi.co/api/v2/pokemon/${args[0].toLowerCase()}/`)
       .then((response) => response.json())
       .then((data) => {
@@ -64,7 +64,7 @@ module.exports = {
   },
 };
 
-function capFirstLetter(string) {
+const capFirstLetter = (string) => {
   var words = string.split(/(\s|-)+/),
     output = [];
 
@@ -74,20 +74,20 @@ function capFirstLetter(string) {
 
   return output.join("");
   //return string.charAt(0).toUpperCase() + string.slice(1);
-}
+};
 
-function getPokemonType(pokeType) {
+const getPokemonType = (pokeType) => {
   let pokeTypeDesc = [];
   pokeType.forEach((type) => {
     pokeTypeDesc.push(capFirstLetter(type["type"]["name"]));
   });
   return pokeTypeDesc;
-}
+};
 
-function getPokemonAbilites(pokeAbilities) {
+const getPokemonAbilites = (pokeAbilities) => {
   let pokeAbilitiesDesc = [];
   pokeAbilities.forEach((ability) => {
     pokeAbilitiesDesc.push(capFirstLetter(ability["ability"]["name"]));
   });
   return pokeAbilitiesDesc;
-}
+};
