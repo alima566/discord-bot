@@ -19,8 +19,6 @@ module.exports = {
     }
 
     const target = msg.mentions.users.first() || msg.author;
-    const targetID = target.id;
-
     const guildID = msg.guild.id;
     const userID = target.id;
 

@@ -20,7 +20,7 @@ module.exports = {
       return;
     }
 
-    const target = msg.mentions.users.first() || msg.author;
+    const target = msg.author;
     const guildID = msg.guild.id;
     const userID = target.id;
 
