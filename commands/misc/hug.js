@@ -1,4 +1,12 @@
 const constants = require("@utils/constants");
+
+const aaronHug = [
+  "Aaron runs away because <username> just tried to hug him! No hugging Aaron allowed!",
+  "Aaron requests that <username> stay at least 6 feet away from him during these times. Hug rejected.",
+  "Did you really just try to hug Aaron? You wanna get banned?",
+  "Aaron is social distancing and does not want <username> invading his bubble. Please do not try to hug him again.",
+];
+
 module.exports = {
   commands: "hug",
   minArgs: 0,
@@ -45,13 +53,8 @@ module.exports = {
         user.toLowerCase() === "aaron" ||
         userID === "464635440801251328"
       ) {
-        var index = constants.getRandomIntInclusive(
-          0,
-          constants.BOT_COMMAND_RESPONSES["aaronHug"].length - 1
-        );
-        var response = constants.BOT_COMMAND_RESPONSES["aaronHug"][
-          index
-        ].replace("<username>", author.username);
+        var index = constants.getRandomNumber(aaronHug.length);
+        var response = aaronHug[index].replace("<username>", author.username);
         msg.channel.send(response);
         return;
       } else {
@@ -64,6 +67,6 @@ module.exports = {
   },
 };
 
-function hasNumber(user) {
+const hasNumber = (user) => {
   return /\d/.test(user);
-}
+};

@@ -7,7 +7,7 @@ module.exports = {
   cooldown: 15,
   description: "KelleeBot gives you or another user a random compliment.",
   callback: (msg, args, text) => {
-    var index = constants.getRandomIntInclusive(0, comp.COMPLIMENTS.length - 1);
+    var index = constants.getRandomNumber(comp.COMPLIMENTS.length);
     if (!args.length) {
       msg.channel.send(
         comp.COMPLIMENTS[index].replace("<user>", msg.author.username)

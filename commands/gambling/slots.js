@@ -25,16 +25,16 @@ module.exports = {
       return;
     }
 
-    const target = msg.mentions.users.first() || msg.author;
+    const target = msg.author;
     const guildID = msg.guild.id;
     const userID = target.id;
 
     const pointsToGamble = args[0];
     const actualPoints = await gambling.getPoints(guildID, userID);
 
-    const slot1 = constants.getRandomIntInclusive(0, slotsEmoji.length - 1);
-    const slot2 = constants.getRandomIntInclusive(0, slotsEmoji.length - 1);
-    const slot3 = constants.getRandomIntInclusive(0, slotsEmoji.length - 1);
+    const slot1 = constants.getRandomNumber(slotsEmoji.length);
+    const slot2 = constants.getRandomNumber(slotsEmoji.length);
+    const slot3 = constants.getRandomNumber(slotsEmoji.length);
     const text = `<@${userID}> spun ${slotsEmoji[slot1]} | ${slotsEmoji[slot2]} | ${slotsEmoji[slot3]}`;
 
     if (actualPoints === 0) {
