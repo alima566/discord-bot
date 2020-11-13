@@ -46,10 +46,10 @@ module.exports = {
         const newPoints = await gambling.addPoints(
           guildID,
           userID,
-          pointsToGamble * 2
+          actualPoints * 2
         );
         msg.channel.send(
-          `${text} and won ${numeral(pointsToGamble * 2).format(",")} ${
+          `${text} and won ${numeral(actualPoints * 2).format(",")} ${
             newPoints > 1 || newPoints === 0 ? "points" : "point"
           }! They now have ${numeral(newPoints).format(",")} ${
             newPoints > 1 || newPoints === 0 ? "points" : "point"
