@@ -3,6 +3,7 @@ const numeral = require("numeral");
 const constants = require("@utils/constants");
 
 const slotsEmoji = ["💰", "✨", "💩", "🔥"];
+const multiplier = 2;
 
 module.exports = {
   commands: ["slots", "slot"],
@@ -46,10 +47,10 @@ module.exports = {
         const newPoints = await gambling.addPoints(
           guildID,
           userID,
-          actualPoints * 2
+          actualPoints * multiplier
         );
         msg.channel.send(
-          `${text} and won ${numeral(actualPoints * 2).format(",")} ${
+          `${text} and won ${numeral(actualPoints * multiplier).format(",")} ${
             newPoints > 1 || newPoints === 0 ? "points" : "point"
           }! They now have ${numeral(newPoints).format(",")} ${
             newPoints > 1 || newPoints === 0 ? "points" : "point"
@@ -84,10 +85,12 @@ module.exports = {
         const newPoints = await gambling.addPoints(
           guildID,
           userID,
-          pointsToGamble * 2
+          pointsToGamble * multiplier
         );
         msg.channel.send(
-          `${text} and won ${numeral(pointsToGamble * 2).format(",")} ${
+          `${text} and won ${numeral(pointsToGamble * multiplier).format(
+            ","
+          )} ${
             newPoints > 1 || newPoints === 0 ? "points" : "point"
           }! They now have ${numeral(newPoints).format(",")} ${
             newPoints > 1 || newPoints === 0 ? "points" : "point"
