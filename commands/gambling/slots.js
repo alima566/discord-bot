@@ -2,8 +2,12 @@ const gambling = require("@utils/gambling");
 const numeral = require("numeral");
 const constants = require("@utils/constants");
 
-const slotsEmoji = ["💰", "✨", "💩", "🔥"];
+const slotsEmoji = ["kellee1Star", "kellee2Star", "kellee3Star", "kellee4Star"]; //["💰", "✨", "💩", "🔥"];
 const multiplier = 2;
+
+const getEmoji = (msg, emoteName) => {
+  return msg.guild.emojis.cache.find((e) => e.name === emoteName);
+};
 
 module.exports = {
   commands: ["slots", "slot"],
@@ -32,10 +36,15 @@ module.exports = {
     const pointsToGamble = args[0];
     const actualPoints = await gambling.getPoints(guildID, userID);
 
-    const slot1 = constants.getRandomNumber(slotsEmoji.length);
-    const slot2 = constants.getRandomNumber(slotsEmoji.length);
-    const slot3 = constants.getRandomNumber(slotsEmoji.length);
-    const text = `<@${userID}> spun ${slotsEmoji[slot1]} | ${slotsEmoji[slot2]} | ${slotsEmoji[slot3]}`;
+    const slot1 = constants.getRandomNumber(slotsEmoji);
+    const slot2 = constants.getRandomNumber(slotsEmoji);
+    const slot3 = constants.getRandomNumber(slotsEmoji);
+
+    const emote1 = getEmoji(msg, slotsEmoji[slot1]);
+    const emote2 = getEmoji(msg, slotsEmoji[slot2]);
+    const emote3 = getEmoji(msg, slotsEmoji[slot3]);
+
+    const text = `<@${userID}> spun ${emote1} | ${emote2} | ${emote3}`;
 
     if (actualPoints === 0) {
       msg.channel.send(`You don't have any points to gamble.`);
