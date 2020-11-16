@@ -3,7 +3,7 @@ const numeral = require("numeral");
 const constants = require("@utils/constants");
 
 const slotsEmoji = ["kellee1Star", "kellee2Star", "kellee3Star", "kellee4Star"]; //["💰", "✨", "💩", "🔥"];
-const multiplier = 2;
+const multiplier = slotsEmoji.length;
 
 const getEmoji = (msg, emoteName) => {
   return msg.guild.emojis.cache.find((e) => e.name === emoteName);
