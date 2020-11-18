@@ -59,7 +59,7 @@ module.exports = {
           actualPoints * multiplier
         );
         msg.channel.send(
-          `${text} and won ${numeral(newPoints).format(",")} ${
+          `${text} and won ${numeral(actualPoints * multiplier).format(",")} ${
             newPoints > 1 || newPoints === 0 ? "points" : "point"
           }! They now have ${numeral(newPoints).format(",")} ${
             newPoints > 1 || newPoints === 0 ? "points" : "point"
@@ -97,7 +97,9 @@ module.exports = {
           pointsToGamble * multiplier
         );
         msg.channel.send(
-          `${text} and won ${numeral(newPoints).format(",")} ${
+          `${text} and won ${numeral(pointsToGamble * multiplier).format(
+            ","
+          )} ${
             newPoints > 1 || newPoints === 0 ? "points" : "point"
           }! They now have ${numeral(newPoints).format(",")} ${
             newPoints > 1 || newPoints === 0 ? "points" : "point"
