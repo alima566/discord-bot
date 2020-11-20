@@ -37,9 +37,16 @@ module.exports = {
       return;
     }
 
-    if (claimedCache.includes(id)) {
+    const inCache = claimedCache.find((cache) => {
+      return cache.id === id;
+    });
+    const index = claimedCache.findIndex((cache) => {
+      return cache.id === id;
+    });
+    if (inCache) {
       console.log("Returning from cache");
-      msg.reply(alreadyClaimed);
+      const remaining = getTimeRemaining(claimedCache[index].updatedAt);
+      msg.reply(`${alreadyClaimed} Please try again in ${remaining}`);
       return;
     }
 
@@ -53,37 +60,24 @@ module.exports = {
     await mongo().then(async (mongoose) => {
       try {
         const results = await dailyRewardsSchema.findOne(obj);
+        const updatedAt = results.updatedAt;
 
         console.log("RESULTS: ", results);
         if (results) {
-          const thenUTC = moment.utc(results.updatedAt);
-          const nowUTC = moment.utc();
-          const hours = nowUTC.diff(thenUTC, "hours");
-
-          if (hours < 24) {
-            claimedCache.push(id);
-            msg.reply(alreadyClaimed);
+          const remaining = getTimeRemaining(updatedAt);
+          if (getHours(updatedAt) < 24) {
+            claimedCache.push({ id: id, updatedAt: updatedAt });
+            msg.reply(`${alreadyClaimed} Please try again in ${remaining}`);
             return;
           }
-          // const then = new Date(results.updatedAt).getTime();
-          // const now = new Date().getTime();
-
-          // const diffTime = Math.abs(now - then);
-          // const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24)); //24 hours
-          // getTimeRemaining(diffTime);
-
-          // if (diffDays < 1) {
-          //   claimedCache.push(id);
-          //   msg.reply(alreadyClaimed);
-          //   return;
-          // }
         }
 
         await dailyRewardsSchema.findOneAndUpdate(obj, obj, {
           upsert: true,
         });
 
-        claimedCache.push(id);
+        console.log(updatedAt);
+        claimedCache.push({ id: id, updatedAt: updatedAt });
         const newPoints = await gambling.addPoints(guild.id, id, pointsToGive);
         msg.reply(
           `You have claimed your daily reward of ${pointsToGive} points!`
@@ -95,18 +89,18 @@ module.exports = {
   },
 };
 
-const getTimeRemaining = (diffTime) => {
-  let days = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-  let hours = Math.floor((diffTime / (1000 * 60 * 60)) % 24);
-  let minutes = Math.floor((diffTime / 1000 / 60) % 60);
-  let seconds = Math.floor((diffTime / 1000) % 60);
+const getTimeRemaining = (updatedAt) => {
+  const thenUTC = moment.utc(updatedAt);
+  const nowUTC = moment.utc();
 
-  console.log("HOURS:", hours);
-  console.log("MINS:", minutes);
-  /*let hours = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  let minutes = Math.floor((diffTime % (1000 * 60 * 60)) / (1000 * 60));
-  let seconds = Math.floor((diffTime % (1000 * 60)) / 1000);
+  const oneDay = thenUTC.add(1, "days");
+  const timeRemaining = oneDay.diff(nowUTC);
+  const duration = moment.duration(timeRemaining);
+  return `${duration.hours()} hours, ${duration.minutes()} minutes, and ${duration.seconds()} seconds.`;
+};
 
-  return `You still ${24 -
-    hours} hours and ${minutes} remaining before you can claim your next daily reward.`;*/
+const getHours = (updatedAt) => {
+  const thenUTC = moment.utc(updatedAt);
+  const nowUTC = moment.utc();
+  return nowUTC.diff(thenUTC, "hours");
 };
