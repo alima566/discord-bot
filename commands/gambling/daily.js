@@ -1,3 +1,5 @@
+const moment = require("moment");
+
 const { pointsToGive } = require("@root/config.json");
 const dailyRewardsSchema = require("@schemas/daily-rewards-schema");
 const gambling = require("@utils/gambling");
@@ -54,18 +56,27 @@ module.exports = {
 
         console.log("RESULTS: ", results);
         if (results) {
-          const then = new Date(results.updatedAt).getTime();
-          const now = new Date().getTime();
+          const thenUTC = moment.utc(results.updatedAt);
+          const nowUTC = moment.utc();
+          const hours = nowUTC.diff(thenUTC, "hours");
 
-          const diffTime = Math.abs(now - then);
-          const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24)); //24 hours
-          getTimeRemaining(diffTime);
-
-          if (diffDays < 1) {
+          if (hours < 24) {
             claimedCache.push(id);
             msg.reply(alreadyClaimed);
             return;
           }
+          // const then = new Date(results.updatedAt).getTime();
+          // const now = new Date().getTime();
+
+          // const diffTime = Math.abs(now - then);
+          // const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24)); //24 hours
+          // getTimeRemaining(diffTime);
+
+          // if (diffDays < 1) {
+          //   claimedCache.push(id);
+          //   msg.reply(alreadyClaimed);
+          //   return;
+          // }
         }
 
         await dailyRewardsSchema.findOneAndUpdate(obj, obj, {
