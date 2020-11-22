@@ -96,7 +96,20 @@ const getTimeRemaining = (updatedAt) => {
   const oneDay = thenUTC.add(1, "days");
   const timeRemaining = oneDay.diff(nowUTC);
   const duration = moment.duration(timeRemaining);
-  return `${duration.hours()} hours, ${duration.minutes()} minutes, and ${duration.seconds()} seconds.`;
+
+  const hoursDuration = duration.hours();
+  const minsDuration = duration.minutes();
+  const secsDuration = duration.sexonds();
+
+  let hoursText = hoursDuration > 1 ? "hours" : "hour";
+  let minsText = minsDuration > 1 ? "minutes" : "minute";
+  let secsText = secsDuration > 1 ? "seconds" : "second";
+
+  if (hoursDuration === 0) {
+    return `${minsDuration} ${minsText} and ${secsDuration} ${secsText}.`;
+  } else {
+    return `${hoursDuration} ${hoursText}, ${minsDuration} ${minsText}, and ${secsDuration} ${secsText}.`;
+  }
 };
 
 const getHours = (updatedAt) => {
