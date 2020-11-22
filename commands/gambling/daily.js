@@ -99,7 +99,7 @@ const getTimeRemaining = (updatedAt) => {
 
   const hoursDuration = duration.hours();
   const minsDuration = duration.minutes();
-  const secsDuration = duration.sexonds();
+  const secsDuration = duration.seconds();
 
   let hoursText = hoursDuration > 1 ? "hours" : "hour";
   let minsText = minsDuration > 1 ? "minutes" : "minute";
