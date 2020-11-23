@@ -8,7 +8,7 @@ module.exports = {
   expectedArgs: "<The target's @> <The number of points to add>",
   permissionError: "You must be an admininstrator to execute this command.",
   requiredPermissions: ["ADMINISTRATOR"],
-  callback: async (msg, args, text, client) => {
+  callback: async (msg, args) => {
     const mention = msg.mentions.users.first();
     if (!mention) {
       msg.channel.send(`Please tag a user to add points to.`);

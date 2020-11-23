@@ -22,7 +22,7 @@ module.exports = {
   cooldown: 15,
   description: "Gives users their daily reward of 1000 points.",
   requiredChannel: "gambling",
-  callback: async (msg, args) => {
+  callback: async (msg) => {
     const gamblingChannelID = "770695220220264448";
     const { guild, member, channel } = msg;
     const { id } = member;

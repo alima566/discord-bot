@@ -6,7 +6,7 @@ module.exports = {
   description: "Displays how many points you or another user has.",
   cooldown: 15,
   requiredChannel: "gambling",
-  callback: async (msg, args, text) => {
+  callback: async (msg) => {
     const gamblingChannelID = "770695220220264448";
     if (msg.channel.id !== `${gamblingChannelID}`) {
       msg
