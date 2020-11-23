@@ -10,7 +10,7 @@ module.exports = {
   description:
     "Retrieve information about a specific fish in *Animal Crossing: New Horizons*.",
   cooldown: 15,
-  callback: (msg, args, text) => {
+  callback: (msg, args) => {
     fetch(`https://api.nookipedia.com/nh/fish/${args[0].toLowerCase()}`, {
       method: "GET",
       headers: {
