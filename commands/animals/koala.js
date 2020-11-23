@@ -5,7 +5,7 @@ module.exports = {
   cooldown: 15,
   description:
     "KelleeBot shows you a random picture of a koala and provides you with a random koala fact.",
-  callback: async (msg, args, text) => {
+  callback: async (msg) => {
     let m = await msg.channel.send(`Looking for a koala...`);
     fetch(`https://some-random-api.ml/img/koala`, {
       method: "GET",

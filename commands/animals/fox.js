@@ -5,7 +5,7 @@ module.exports = {
   cooldown: 15,
   description:
     "KelleeBot shows you a random picture of a fox and provides you with a random fox fact.",
-  callback: async (msg, args, text) => {
+  callback: async (msg) => {
     let m = await msg.channel.send(`Looking for a fox...`);
     fetch(`https://randomfox.ca/floof`)
       .then((resp) => resp.json())
