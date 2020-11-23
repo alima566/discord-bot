@@ -13,7 +13,7 @@ module.exports = {
   maxArgs: 1,
   cooldown: 15,
   description: "Hugs another user.",
-  callback: (msg, args, text) => {
+  callback: (msg, args) => {
     const { author } = msg;
     if (!args.length) {
       msg.channel.send(

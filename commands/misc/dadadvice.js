@@ -3,7 +3,7 @@ module.exports = {
   commands: "dadadvice",
   cooldown: 15,
   description: "KelleeBot gives you a random dad advice.",
-  callback: (msg, args, text) => {
+  callback: (msg) => {
     fetch(`https://api.adviceslip.com/advice`) //`https://api.scorpstuff.com/advice.php`)
       .then((response) => response.json())
       .then((data) => {

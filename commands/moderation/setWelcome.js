@@ -8,7 +8,7 @@ module.exports = {
   description: "Sets a welcome message for the server.",
   requiredPermissions: ["ADMINISTRATOR"],
   permissionError: "You must be an administrator to execute this command.",
-  callback: async (msg, args, text, client) => {
+  callback: async (msg, args, text) => {
     const { channel, guild } = msg;
     const welcomeMessage = args.join(" ");
 
