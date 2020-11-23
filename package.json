@@ -16,15 +16,15 @@
     "cheerio": "^1.0.0-rc.3",
     "cron": "^1.8.2",
     "discord-giveaways": "^4.2.1",
-    "discord.js": "^12.4.1",
+    "discord.js": "^12.5.0",
     "dotenv": "^8.2.0",
     "ffmpeg": "0.0.4",
     "fluent-ffmpeg": "^2.1.2",
-    "fs": "0.0.1-security",
+    "fs": "0.0.2",
     "module-alias": "^2.2.2",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.31",
-    "mongoose": "^5.10.11",
+    "mongoose": "^5.10.15",
     "ms": "^2.1.2",
     "node-fetch": "^2.6.1",
     "nodemon": "^2.0.6",
@@ -32,7 +32,7 @@
     "random-animals-api": "^1.2.0",
     "twit": "^2.2.11",
     "wokcommands": "^1.0.1",
-    "ytdl-core": "^4.0.2"
+    "ytdl-core": "^4.0.6"
   },
   "_moduleAliases": {
     "@root": ".",
