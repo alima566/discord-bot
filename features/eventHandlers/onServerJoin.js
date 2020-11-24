@@ -4,6 +4,7 @@ const gambling = require("@utils/gambling");
 const welcomeSchema = require("@schemas/welcome-schema");
 const constants = require("@utils/constants");
 const { MessageAttachment, MessageEmbed } = require("discord.js");
+const mongo = require("@utils/mongo");
 
 // Pass the entire Canvas object because you'll need to access its width, as well its context
 const applyText = (canvas, text) => {
@@ -90,38 +91,47 @@ const welcomeMessage = async (member) => {
   const { guild } = member;
   let data = welcomeMessageCache[guild.id];
 
-  if (!data) {
-    console.log("FETCHING FROM DATABASE");
-    const result = await welcomeSchema.findOne({ _id: guild.id });
-    welcomeMessageCache[guild.id] = data = [
-      result.channelID,
-      result.welcomeMessage,
-    ];
+  if (data) {
+    console.log("FETCHING FROM CACHE");
+    return data;
   }
 
-  const channelID = data[0];
-  const text = data[1];
-
-  const channel = guild.channels.cache.get(channelID);
-  channel.send(text.replace(/<@>/g, `<@${member.id}>`));
+  return await mongo().then(async (mongoose) => {
+    try {
+      console.log("FETCHING FROM DATABASE");
+      const result = await welcomeSchema.findOne({ _id: guild.id });
+      welcomeMessageCache[guild.id] = data = [
+        result.channelID,
+        result.welcomeMessage,
+      ];
+      return data;
+    } finally {
+      mongoose.connection.close();
+    }
+  });
 };
 
 module.exports = async (client) => {
   client.on("guildMemberAdd", async (member) => {
     const { guild, user } = member;
-    const welcomeMessage = `Welcome to the ${guild.name}, ${member.user}! Please read <#732786545169399838> for access to the rest of the server.`;
 
     await gambling.addPoints(guild.id, user.id, pointsToGive);
 
-    const channel = member.guild.channels.cache.find(
-      (ch) => ch.name === "welcome"
-    );
+    const data = await welcomeMessage(member);
+    const channelID = data[0];
+    const text = data[1];
+
+    const channel = guild.channels.cache.get(channelID);
+
+    // const channel = member.guild.channels.cache.find(
+    //   (ch) => ch.name === "welcome"
+    // );
 
     if (!channel) return;
 
     const attachment = await createCanvas(guild, member);
-    //welcomeMessage(member);
-    channel.send(welcomeMessage);
+
+    channel.send(text.replace(/<@>/g, `<@${member.id}>`));
     channel.send(attachment);
 
     let msgEmbed = new MessageEmbed()
