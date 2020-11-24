@@ -1,4 +1,5 @@
 const moment = require("moment");
+const numeral = require("numeral");
 
 const { pointsToGive } = require("@root/config.json");
 const dailyRewardsSchema = require("@schemas/daily-rewards-schema");
@@ -80,7 +81,9 @@ module.exports = {
         claimedCache.push({ id: id, updatedAt: moment.utc() });
         const newPoints = await gambling.addPoints(guild.id, id, pointsToGive);
         msg.reply(
-          `You have claimed your daily reward of ${pointsToGive} points!`
+          `You have claimed your daily reward of ${numeral(pointsToGive).format(
+            "0,0"
+          )} points!`
         );
       } finally {
         mongoose.connection.close();
