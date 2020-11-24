@@ -109,6 +109,8 @@ const welcomeMessage = async (member) => {
 module.exports = async (client) => {
   client.on("guildMemberAdd", async (member) => {
     const { guild, user } = member;
+    const welcomeMessage = `Welcome to the ${guild.name}, ${member.user}! Please read <#732786545169399838> for access to the rest of the server.`;
+
     await gambling.addPoints(guild.id, user.id, pointsToGive);
 
     const channel = member.guild.channels.cache.find(
@@ -118,7 +120,8 @@ module.exports = async (client) => {
     if (!channel) return;
 
     const attachment = await createCanvas(guild, member);
-    welcomeMessage(member);
+    //welcomeMessage(member);
+    channel.send(welcomeMessage);
     channel.send(attachment);
 
     let msgEmbed = new MessageEmbed()
