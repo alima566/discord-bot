@@ -5,7 +5,7 @@ const Discord = require("discord.js");
 const WOKCommands = require("wokcommands");
 
 const client = new Discord.Client({
-  partials: ["MESSAGE", "CHANNEL", "REACTION"],
+  partials: ["MESSAGE", "CHANNEL", "REACTION", "USER", "GUILD_MEMBER"],
 });
 
 client.commands = new Discord.Collection();
