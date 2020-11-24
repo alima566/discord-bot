@@ -16,7 +16,7 @@ module.exports = (client) => {
 
 const execute = async (client) => {
   const guildId = "707103910686621758";
-  const channelId = "740349602800205844";
+  const channelId = "724484131643457650";
 
   const guild = client.guilds.cache.get(guildId);
   if (guild) {
