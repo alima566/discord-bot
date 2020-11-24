@@ -1,35 +1,95 @@
 const { MessageEmbed } = require("discord.js");
 const constants = require("@utils/constants");
-const msgEmbed = new MessageEmbed().setColor("GREEN");
+let embed = null;
 module.exports = (client) => {
   client.on("channelCreate", async (channel) => {
     if (channel.type.toLowerCase() === "dm") return;
-    msgEmbed
-      .setDescription(`**Channel Created: #${channel.name}**`)
-      .setAuthor(`${channel.guild.name}`, channel.guild.iconURL())
-      .setTimestamp();
-    constants.sendMessageToBotThings(client, msgEmbed);
+    if (channel.type.toLowerCase() === "category") {
+      embed = createChannelEmbed(
+        channel,
+        null,
+        `**Category Created: ${channel.name}**`
+      );
+    } else if (channel.type.toLowerCase() === "text") {
+      embed = createChannelEmbed(
+        channel,
+        null,
+        `**Channel Created: <#${channel.id}>**`
+      );
+    } else if (channel.type.toLowerCase() === "voice") {
+      embed = createChannelEmbed(
+        channel,
+        null,
+        `**Voice Channel Created: #${channel.name}**`
+      );
+    }
+    constants.sendMessageToBotThings(client, embed);
   });
 
   client.on("channelDelete", async (channel) => {
-    msgEmbed
-      .setDescription(`**Channel Deleted: #${channel.name}**`)
-      .setAuthor(`${channel.guild.name}`, channel.guild.iconURL())
-      .setTimestamp();
-    constants.sendMessageToBotThings(client, msgEmbed);
+    if (channel.type.toLowerCase() === "category") {
+      embed = createChannelEmbed(
+        channel,
+        null,
+        `**Category Deleted: ${channel.name}**`
+      );
+    } else if (channel.type.toLowerCase() === "text") {
+      embed = createChannelEmbed(
+        channel,
+        null,
+        `**Channel Deleted: #${channel.name}**`
+      );
+    } else if (channel.type.toLowerCase() === "voice") {
+      embed = createChannelEmbed(
+        channel,
+        null,
+        `**Voice Channel Deleted: ${channel.name}**`
+      );
+    }
+    constants.sendMessageToBotThings(client, embed);
   });
 
   client.on("channelUpdate", async (oldChan, newChan) => {
     if (oldChan.name !== newChan.name) {
-      msgEmbed
-        .setDescription(`**Channel Name Changed**`)
-        .addFields(
-          { name: `**Before**`, value: `${oldChan.name}`, inline: true },
-          { name: `**After**`, value: `${newChan.name}`, inline: true }
-        )
-        .setAuthor(`${channel.guild.name}`, channel.guild.iconURL())
-        .setTimestamp();
-      constants.sendMessageToBotThings(client, msgEmbed);
+      if (newChan.type.toLowerCase() === "category") {
+        embed = createChannelEmbed(
+          oldChan,
+          newChan,
+          `**Category Name Changed**`
+        );
+      } else if (newChan.type.toLowerCase() === "text") {
+        embed = createChannelEmbed(
+          oldChan,
+          newChan,
+          `**Channel Name Changed**`
+        );
+      } else if (newChan.type.toLowerCase() === "voice") {
+        embed = createChannelEmbed(
+          oldChan,
+          newChan,
+          `**Voice Category Name Changed**`
+        );
+      }
+      constants.sendMessageToBotThings(client, embed);
     }
   });
+};
+
+const createChannelEmbed = (oldChan, newChan, description) => {
+  let embed = new MessageEmbed()
+    .setColor("GREEN")
+    .setDescription(description)
+    .setAuthor(`${oldChan.guild.name}`, oldChan.guild.iconURL())
+    .setTimestamp();
+  if (newChan !== null) {
+    embed.addFields(
+      {
+        name: `**Before**`,
+        value: `${oldChan.name}`,
+        inline: true,
+      },
+      { name: `**After**`, value: `${newChan.name}`, inline: true }
+    );
+  }
+  return embed;
 };
