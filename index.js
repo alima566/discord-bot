@@ -18,7 +18,7 @@ client.on("ready", () => {
   });
   new WOKCommands(client, "commands", "features")
     .setSyntaxError(
-      "Incorrect syntax. Please use {PREFIX}{COMMAND} {ARGUMENTS}."
+      "Incorrect syntax. Please use `{PREFIX}{COMMAND} {ARGUMENTS}`."
     )
     .setMongoPath(process.env.MONGO_PATH);
 });
