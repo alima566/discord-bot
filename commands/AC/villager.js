@@ -3,6 +3,7 @@ const { MessageEmbed } = require("discord.js");
 const moment = require("moment");
 module.exports = {
   commands: "villager",
+  category: "AC",
   expectedArgs: "<villager_name>",
   minArgs: 1,
   maxArgs: 1,

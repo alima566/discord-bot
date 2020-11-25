@@ -2,6 +2,7 @@ const { giveawayReactEmoji } = require("@root/config.json");
 const ms = require("ms");
 module.exports = {
   commands: ["start-giveaway", "sgive"],
+  category: "Giveaways",
   expectedArgs: "<channel> <role> <duration> <# of winners> <prize>",
   minArgs: 4, //5,
   description: "Starts a giveaway.",

@@ -2,6 +2,7 @@ const gambling = require("@utils/gambling");
 const numeral = require("numeral");
 module.exports = {
   commands: ["points", "balance", "bal"],
+  category: "Gambling",
   maxArgs: 1,
   description: "Displays how many points you or another user has.",
   //cooldown: 15,

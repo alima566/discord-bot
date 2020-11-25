@@ -1,5 +1,6 @@
 module.exports = {
   commands: "fc",
+  category: "Misc",
   cooldown: "15s",
   description: "Kéllee's Nintendo Switch friend code.",
   callback: (msg) => {

@@ -2,6 +2,7 @@ const constants = require("@utils/constants");
 const comp = require("@utils/compliments");
 module.exports = {
   commands: "ty",
+  category: "Misc",
   minArgs: 0,
   maxArgs: 1,
   cooldown: "15s",

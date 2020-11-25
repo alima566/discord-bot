@@ -1,5 +1,6 @@
 module.exports = {
   commands: "stop",
+  category: "Music",
   description: "Stops the current song.",
   callback: (msg) => {
     try {

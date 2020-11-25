@@ -9,6 +9,7 @@ const aaronHug = [
 
 module.exports = {
   commands: "hug",
+  category: "Misc",
   minArgs: 0,
   maxArgs: 1,
   cooldown: "15s",

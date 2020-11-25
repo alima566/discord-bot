@@ -1,5 +1,6 @@
 module.exports = {
   commands: ["reroll-giveaway", "rgive"],
+  category: "Giveaways",
   expectedArgs: "<message_ID>",
   minArgs: 1,
   maxArgs: 1,

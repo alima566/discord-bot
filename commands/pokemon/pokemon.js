@@ -2,6 +2,7 @@ const fetch = require("node-fetch");
 const { MessageEmbed } = require("discord.js");
 module.exports = {
   commands: "pokemon",
+  category: "Pokemon",
   expectedArgs: "<pokemon_name> OR <pokedex_number>",
   minArgs: 1,
   maxArgs: 1,

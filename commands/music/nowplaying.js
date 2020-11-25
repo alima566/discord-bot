@@ -1,5 +1,6 @@
 module.exports = {
   commands: ["nowplaying", "np", "currentsong"],
+  category: "Music",
   description: "Shows what's currently playing.",
   callback: (msg) => {
     try {

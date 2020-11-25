@@ -3,6 +3,7 @@ const cheerio = require("cheerio");
 const { MessageEmbed } = require("discord.js");
 module.exports = {
   commands: "lyrics",
+  category: "Music",
   expectedArgs: "<song_title> - <artist>",
   minArgs: 0,
   maxArgs: -1,

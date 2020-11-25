@@ -4,6 +4,7 @@ const numeral = require("numeral");
 const constants = require("@utils/constants");
 module.exports = {
   commands: "fish",
+  category: "AC",
   expectedArgs: "<fish_name>",
   minArgs: 1,
   maxArgs: 1,

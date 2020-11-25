@@ -2,6 +2,7 @@ const fetch = require("node-fetch");
 const { MessageEmbed } = require("discord.js");
 module.exports = {
   commands: "fox",
+  category: "Animals",
   cooldown: "15s",
   description:
     "KelleeBot shows you a random picture of a fox and provides you with a random fox fact.",

@@ -1,6 +1,7 @@
 const ytdl = require("ytdl-core");
 module.exports = {
   commands: "play",
+  category: "Music",
   expectedArgs: "<YouTube URL>",
   minArgs: 1,
   maxArgs: 1,

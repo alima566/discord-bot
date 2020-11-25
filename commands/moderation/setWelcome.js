@@ -2,6 +2,7 @@ const welcomeSchema = require("@schemas/welcome-schema");
 const { welcomeMessageCache } = require("@root/config.json");
 module.exports = {
   commands: ["setwelcome", "welcome"],
+  category: "Moderation",
   expectedArgs: "<The welcome message>",
   minArgs: 1,
   maxArgs: -1,

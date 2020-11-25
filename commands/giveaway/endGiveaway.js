@@ -1,6 +1,7 @@
 const ms = require("ms");
 module.exports = {
   commands: ["end-giveaway", "egive"],
+  category: "Giveaways",
   expectedArgs: "<message_ID>",
   minArgs: 1,
   maxArgs: 1,

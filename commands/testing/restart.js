@@ -1,5 +1,6 @@
 module.exports = {
   commands: "restart",
+  category: "Testing",
   description: "Restarts the bot.",
   permissionError: "You must be an administrator to execute this command.",
   requiredPermissions: ["ADMINISTRATOR"],

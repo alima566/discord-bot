@@ -3,6 +3,7 @@ const { MessageEmbed } = require("discord.js");
 const numeral = require("numeral");
 module.exports = {
   commands: "art",
+  category: "AC",
   expectedArgs: "<artwork_name>",
   minArgs: 1,
   maxArgs: 1,

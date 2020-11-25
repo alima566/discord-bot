@@ -2,6 +2,7 @@ const gambling = require("@utils/gambling");
 const numeral = require("numeral");
 module.exports = {
   commands: ["gamble", "roulette"],
+  category: "Gambling",
   minArgs: 1,
   maxArgs: 1,
   description: "Users can gamble away the amount of points that they have.",

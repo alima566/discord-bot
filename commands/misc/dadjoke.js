@@ -1,6 +1,7 @@
 const fetch = require("node-fetch");
 module.exports = {
   commands: "dadjoke",
+  category: "Misc",
   cooldown: "15s",
   description: "KelleeBot tells you a random dad joke.",
   callback: async (msg) => {
