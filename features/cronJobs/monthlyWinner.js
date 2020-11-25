@@ -23,7 +23,7 @@ const execute = async (client) => {
   if (guild) {
     const channel = client.channels.cache.get(channelId);
     if (channel) {
-      const { guildID, userID, points } = await fetchWinner(guildId);
+      const { userID, points } = await fetchWinner(guildId);
       const month = moment().format("MMMM");
       channel.send(
         `Congrats to <@${userID}> for having the most points (${numeral(
