@@ -8,6 +8,7 @@ module.exports = {
   maxArgs: -1,
   description:
     "Shows lyrics for either what's currently playing or for what's specfied.",
+  cooldown: "15s",
   callback: async (msg, args) => {
     let songName = "";
     const serverQueue = msg.client.queue.get(msg.guild.id);
