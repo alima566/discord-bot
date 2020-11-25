@@ -6,7 +6,7 @@ module.exports = {
   maxArgs: 1,
   description: "Users can gamble away the amount of points that they have.",
   expectedArgs: "<The amount you want to gamble>",
-  cooldown: 60 * 2.5,
+  //cooldown: 60 * 2.5,
   requiredChannel: "gambling",
   callback: async (msg, args) => {
     const gamblingChannelID = "770695220220264448";

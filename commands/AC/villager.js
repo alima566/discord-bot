@@ -8,7 +8,7 @@ module.exports = {
   maxArgs: 1,
   description:
     "Retrieve information about a specific villager in any Animal Crossing game.",
-  cooldown: 15,
+  cooldown: "15s",
   callback: (msg, args) => {
     fetch(
       `https://api.nookipedia.com/villagers?name=${args[0].toLowerCase()}&nhdetails=true`,

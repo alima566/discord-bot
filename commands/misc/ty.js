@@ -4,7 +4,7 @@ module.exports = {
   commands: "ty",
   minArgs: 0,
   maxArgs: 1,
-  cooldown: 15,
+  cooldown: "15s",
   description: "KelleeBot gives you or another user a random compliment.",
   callback: (msg, args) => {
     var index = constants.getRandomNumber(comp.COMPLIMENTS.length);

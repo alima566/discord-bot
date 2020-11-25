@@ -20,7 +20,7 @@ const alreadyClaimed = "You have already claimed your daily reward.";
 
 module.exports = {
   commands: "daily",
-  cooldown: 15,
+  //cooldown: 15,
   description: "Gives users their daily reward of 1000 points.",
   requiredChannel: "gambling",
   callback: async (msg) => {

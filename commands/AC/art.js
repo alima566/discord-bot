@@ -8,7 +8,7 @@ module.exports = {
   maxArgs: 1,
   description:
     "Retrieve information about a specific artwork in *Animal Crossing: New Horizons*.",
-  cooldown: 15,
+  cooldown: "15s",
   callback: (msg, args) => {
     fetch(`https://acnhapi.com/v1/art/${args[0].toLowerCase()}`)
       .then((response) => response.json())

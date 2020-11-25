@@ -4,7 +4,7 @@ module.exports = {
   commands: ["points", "balance", "bal"],
   maxArgs: 1,
   description: "Displays how many points you or another user has.",
-  cooldown: 15,
+  //cooldown: 15,
   requiredChannel: "gambling",
   callback: async (msg) => {
     const gamblingChannelID = "770695220220264448";

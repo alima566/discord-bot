@@ -9,7 +9,7 @@ module.exports = {
   maxArgs: 1,
   description:
     "Retrieve information about a specific bug in *Animal Crossing: New Horizons*.",
-  cooldown: 15,
+  cooldown: "15s",
   callback: (msg, args) => {
     fetch(`https://api.nookipedia.com/nh/bugs/${args[0].toLowerCase()}`, {
       method: "GET",

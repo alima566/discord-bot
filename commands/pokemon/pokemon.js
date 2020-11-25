@@ -7,7 +7,7 @@ module.exports = {
   maxArgs: 1,
   description:
     "Retrieve information about a specific Pokémon. Command works with either the Pokémon name or its Pokédex number.",
-  cooldown: 15,
+  cooldown: "15s",
   callback: (msg, args) => {
     fetch(`https://pokeapi.co/api/v2/pokemon/${args[0].toLowerCase()}/`)
       .then((response) => response.json())

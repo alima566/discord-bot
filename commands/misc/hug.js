@@ -11,7 +11,7 @@ module.exports = {
   commands: "hug",
   minArgs: 0,
   maxArgs: 1,
-  cooldown: 15,
+  cooldown: "15s",
   description: "Hugs another user.",
   callback: (msg, args) => {
     const { author } = msg;

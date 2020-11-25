@@ -1,7 +1,7 @@
 const fetch = require("node-fetch");
 module.exports = {
   commands: "dadadvice",
-  cooldown: 15,
+  cooldown: "15s",
   description: "KelleeBot gives you a random dad advice.",
   callback: (msg) => {
     fetch(`https://api.adviceslip.com/advice`) //`https://api.scorpstuff.com/advice.php`)
