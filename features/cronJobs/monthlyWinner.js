@@ -32,6 +32,7 @@ const execute = async (client) => {
           "0,0"
         )}) for the month of ${month}! You have won a free month of Discord Nitro.`
       );
+      sendDM(client, userID, month, points);
       return;
     }
   }
@@ -53,4 +54,15 @@ const fetchWinner = async (guildID) => {
       mongoose.connection.close();
     }
   });
+};
+
+const sendDM = (client, userID, month, points) => {
+  let text = `Congratulations! You have the most points for the month of ${month} with ${numeral(
+    points
+  ).format(
+    "0,0"
+  )} points and have won a free month of Discord Nitro!\n\nTo claim it, please click on this link: ${
+    process.env.DISCORD_NITRO_GIFT_LINK
+  }. Please contact <@464635440801251328> if you encounter any problems.\n\nEnjoy the Nitro!`;
+  client.users.cache.get(userID).send(text);
 };
