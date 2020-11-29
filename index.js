@@ -20,7 +20,14 @@ client.on("ready", () => {
     .setSyntaxError(
       "Incorrect syntax. Please use `{PREFIX}{COMMAND} {ARGUMENTS}`."
     )
-    .setMongoPath(process.env.MONGO_PATH);
+    .setMongoPath(process.env.MONGO_PATH)
+    .setColor("#7289da")
+    .setCategoryEmoji("AC", "🍀")
+    .setCategoryEmoji("Animals", "🐱")
+    .setCategoryEmoji("Gambling", "🎰")
+    .setCategoryEmoji("Misc", "🎮")
+    .setCategoryEmoji("Music", "🎵")
+    .setCategoryEmoji("Pokemon", "🍚");
 });
 
 client.login(process.env.DISCORD_TOKEN);
