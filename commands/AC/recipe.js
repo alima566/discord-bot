@@ -1,7 +1,5 @@
 const fetch = require("node-fetch");
 const { MessageEmbed } = require("discord.js");
-const numeral = require("numeral");
-const constants = require("@utils/constants");
 module.exports = {
   commands: ["recipe", "diy"],
   category: "AC",
@@ -32,11 +30,6 @@ module.exports = {
           .setThumbnail(`${data.image_url}`)
           .addFields(
             {
-              name: `**DIY Sell Price**`,
-              value: `${numeral(data.sell).format("0,0")}`,
-              inline: true,
-            },
-            {
               name: `**Materials**`,
               value: `${getAllMaterials(data)}`,
               inline: true,
@@ -44,6 +37,15 @@ module.exports = {
             {
               name: `**Obtained From**`,
               value: `${getAvailabilty(data)}`,
+              inline: true,
+            },
+            {
+              name: `**Note**`,
+              value: `${
+                getAvailabiltyNote(data).length !== 1
+                  ? getAvailabiltyNote(data)
+                  : "-"
+              }`,
               inline: true,
             }
           );
@@ -70,4 +72,12 @@ const getAvailabilty = (data) => {
     availability += `${avail.from}\n`;
   });
   return availability;
+};
+
+const getAvailabiltyNote = (data) => {
+  let availabilityNote = "";
+  data.availability.forEach((avail) => {
+    availabilityNote += `${avail.note}\n`;
+  });
+  return availabilityNote;
 };
