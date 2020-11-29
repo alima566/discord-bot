@@ -53,19 +53,15 @@ module.exports = {
             {
               name: `**Months Available**`,
               value: `North:\n${constants.getMonthsAvailable(
-                data.availability_north
-              )}\nSouth:\n${constants.getMonthsAvailable(
-                data.availability_south
-              )}`,
+                data.north
+              )}\nSouth:\n${constants.getMonthsAvailable(data.south)}`,
               inline: true,
             },
             {
               name: `**Time Available**`,
               value: `North:\n${constants.getTimesAvailable(
-                data.availability_north
-              )}\nSouth:\n${constants.getTimesAvailable(
-                data.availability_south
-              )}`,
+                data.north
+              )}\nSouth:\n${constants.getTimesAvailable(data.south)}`,
               inline: true,
             }
           );
