@@ -4,7 +4,7 @@ module.exports.getRandomNumber = (array) => {
 
 module.exports.getMonthsAvailable = (hemisphere) => {
   let avail = "";
-  hemisphere.forEach((hem) => {
+  hemisphere.availability_array.forEach((hem) => {
     avail += hem.months + "\n";
   });
   return avail;
@@ -12,7 +12,7 @@ module.exports.getMonthsAvailable = (hemisphere) => {
 
 module.exports.getTimesAvailable = (hemisphere) => {
   let avail = "";
-  hemisphere.forEach((hem) => {
+  hemisphere.availability_array.forEach((hem) => {
     avail += hem.time + "\n";
   });
   return avail;
