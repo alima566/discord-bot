@@ -59,7 +59,7 @@ module.exports = {
 const getAllMaterials = (data) => {
   let materials = "";
   data.materials.forEach((mat) => {
-    materials += `${mat.name}: ${mat.count}\n`;
+    materials += `${mat.count}x ${mat.name}\n`;
   });
   return materials;
 };
