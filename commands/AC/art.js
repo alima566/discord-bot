@@ -11,33 +11,44 @@ module.exports = {
     "Retrieve information about a specific artwork in *Animal Crossing: New Horizons*.",
   cooldown: "15s",
   callback: (msg, args) => {
-    fetch(`https://acnhapi.com/v1/art/${args[0].toLowerCase()}`)
+    fetch(`https://api.nookipedia.com/nh/art/${args[0].toLowerCase()}`, {
+      method: "GET",
+      headers: {
+        "X-API-KEY": process.env.NOOK_API_KEY,
+        "Accept-Version": "2.0.0",
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
-        let link = `https://nookipedia.com/wiki/${data["file-name"]}`;
-        let artName = capFirstLetter(data.name["name-USen"]);
         let msgEmbed = new MessageEmbed()
           .setColor("DARK_RED")
-          .setURL(`${link}`)
-          .setAuthor(`${artName}`, `${data.image_uri}`, `${link}`)
+          .setURL(`${data.url}`)
+          .setAuthor(`${data.name}`, `${data.image_url}`, `${data.url}`)
           .setDescription(
-            `More info about the ${artName} can be found here:\n${link}`
+            `More info about the ${data.name} can be found here:\n${data.url}`
           )
-          .setThumbnail(`${data.image_uri}`)
+          .setThumbnail(`${data.image_url}`)
           .addFields(
             {
               name: `**Buy Price**`,
-              value: `${numeral(data["buy-price"]).format("0,0")}`,
+              value: `${numeral(data.buy).format("0,0")}`,
               inline: true,
             },
             {
               name: `**Sell Price**`,
-              value: `${numeral(data["sell-price"]).format("0,0")}`,
+              value: `${numeral(data.sell).format("0,0")}`,
               inline: true,
             },
             {
               name: `**Has Fake**`,
-              value: data.hasFake ? "Yes" : "No",
+              value: data.has_fake ? "Yes" : "No",
+              inline: true,
+            },
+            {
+              name: `**Authenticity**`,
+              value: !data.authenticity
+                ? `This artwork is always genuine.`
+                : data.authenticity,
               inline: true,
             }
           );
@@ -49,13 +60,3 @@ module.exports = {
       });
   },
 };
-
-function capFirstLetter(string) {
-  var words = string.trim().split(/ +/),
-    output = [];
-
-  for (var i = 0, len = words.length; i < len; i += 1) {
-    output.push(words[i][0].toUpperCase() + words[i].toLowerCase().substr(1));
-  }
-  return output.join(" ");
-}
