@@ -32,7 +32,7 @@ module.exports = {
           .setThumbnail(`${data.image_url}`)
           .addFields(
             {
-              name: `**Sell Price**`,
+              name: `**DIY Sell Price**`,
               value: `${numeral(data.sell).format("0,0")}`,
               inline: true,
             },
