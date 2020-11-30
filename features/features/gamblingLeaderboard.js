@@ -21,7 +21,7 @@ const fetchTopMembers = async (guildID) => {
       "0,0"
     )} points.\n`;
   }
-  text += "\n";
+  text += `\nPoints are reset back to 0 at 12 AM ${timezone} on the first of each month.\n`;
   return text;
 };
 
