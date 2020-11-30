@@ -5,7 +5,7 @@ const numeral = require("numeral");
 const moment = require("moment-timezone");
 
 const fetchTopMembers = async (guildID) => {
-  const timezone = moment.tz("America_New_York").format("z");
+  const timezone = moment.tz("America/New_York").format("z");
   let text = `Person with the most points at the end of each month gets a free month of *Discord Nitro*. A winner is determined at 12AM ${timezone} on the first of every month.\n\n`;
   const results = await gamblingSchema
     .find({
@@ -44,7 +44,12 @@ const updateLeaderboard = async (client) => {
         const topMembers = await fetchTopMembers(guildID);
         msgEmbed.setDescription(topMembers);
         if (firstMessage) {
-          firstMessage.edit(msgEmbed);
+          const lastEditedAt = moment
+            .tz(firstMessage.editedAt, "America/New_York")
+            .format("YYYY/MM/DD HH:mm:ss z");
+          firstMessage.edit(
+            msgEmbed.setFooter(`Leaderboard last updated at: ${lastEditedAt}`)
+          );
         } else {
           channel.send(msgEmbed);
         }
