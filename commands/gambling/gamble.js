@@ -67,9 +67,7 @@ module.exports = {
       return msg.reply(
         `you don't have enough points! You only have ${numeral(
           actualPoints
-        ).format(",")} ${
-          actualPoints > 1 || actualPoints === 0 ? "points" : "point"
-        }!`
+        ).format(",")} ${actualPoints !== 1 ? "points" : "point"}!`
       );
     } else {
       if (coinFlip() === 0) {
@@ -82,9 +80,9 @@ module.exports = {
           `<@${userID}> gambled ${numeral(pointsToGamble).format(
             ","
           )} and lost ${numeral(pointsToGamble).format(",")} ${
-            pointsToGamble > 1 || pointsToGamble === 0 ? "points" : "point"
+            pointsToGamble !== 1 ? "points" : "point"
           }. They now have ${numeral(newPoints).format(",")} ${
-            newPoints > 1 || newPoints === 0 ? "points" : "point"
+            newPoints !== 1 ? "points" : "point"
           }.`
         );
         return;
@@ -98,9 +96,9 @@ module.exports = {
           `<@${userID}> gambled ${numeral(pointsToGamble).format(
             ","
           )} and won ${numeral(pointsToGamble).format(",")} ${
-            pointsToGamble > 1 || pointsToGamble === 0 ? "points" : "point"
+            pointsToGamble !== 1 ? "points" : "point"
           }! They now have ${numeral(newPoints).format(",")} ${
-            newPoints > 1 || newPoints === 0 ? "points" : "point"
+            newPoints !== 1 ? "points" : "point"
           }.`
         );
         return;

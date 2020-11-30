@@ -26,7 +26,7 @@ module.exports = {
     const points = await gambling.getPoints(guildID, userID);
     msg.channel.send(
       `${target} has ${numeral(points).format(",")} ${
-        points > 1 || points === 0 ? "points" : "point"
+        points !== 1 ? "points" : "point"
       }!`
     );
   },

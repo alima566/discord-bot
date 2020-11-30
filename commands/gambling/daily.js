@@ -105,12 +105,14 @@ const getTimeRemaining = (updatedAt) => {
   const minsDuration = duration.minutes();
   const secsDuration = duration.seconds();
 
-  let hoursText = hoursDuration > 1 ? "hours" : "hour";
-  let minsText = minsDuration > 1 ? "minutes" : "minute";
-  let secsText = secsDuration > 1 ? "seconds" : "second";
+  let hoursText = hoursDuration !== 1 ? "hours" : "hour";
+  let minsText = minsDuration !== 1 ? "minutes" : "minute";
+  let secsText = secsDuration !== 1 ? "seconds" : "second";
 
   if (hoursDuration === 0) {
     return `${minsDuration} ${minsText} and ${secsDuration} ${secsText}.`;
+  } else if (hoursDuration === 0 && minsDuration === 0) {
+    return `${secsDuration} ${secsText}.`;
   } else {
     return `${hoursDuration} ${hoursText}, ${minsDuration} ${minsText}, and ${secsDuration} ${secsText}.`;
   }
