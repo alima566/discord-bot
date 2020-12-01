@@ -5,13 +5,13 @@ const gamblingSchema = require("@schemas/gambling-schema");
 
 module.exports = (client) => {
   const monthlyWinner = new cron.CronJob(
-    "00 00 22 1 * *",
+    "00 00 00 1 * *",
     () => {
       execute(client);
     },
     null,
     true,
-    "America/Denver"
+    "America/New_York"
   );
 };
 
@@ -24,7 +24,10 @@ const execute = async (client) => {
     const channel = client.channels.cache.get(channelId);
     if (channel) {
       const { userID, points } = await fetchWinner(guildId);
-      const month = moment().format("MMMM");
+      const month = moment()
+        .tz("America/New_York")
+        .subtract(1, "months")
+        .format("MMMM");
       channel.send(
         `Congrats to <@${userID}> for having the most points (${numeral(
           points

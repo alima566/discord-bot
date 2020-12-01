@@ -4,13 +4,13 @@ const gambling = require("@utils/gambling");
 
 module.exports = (client) => {
   const resetPoints = new cron.CronJob(
-    "05 00 22 1 * *",
+    "05 00 00 1 * *",
     () => {
       execute(client);
     },
     null,
     true,
-    "America/Denver"
+    "America/New_York"
   );
 };
 
