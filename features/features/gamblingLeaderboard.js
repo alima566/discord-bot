@@ -21,9 +21,9 @@ const fetchTopMembers = async (guildID) => {
     .limit(10);
   for (let count = 0; count < results.length; count++) {
     const { userID, points = 0 } = results[count];
-    text += `${count + 1}. <@${userID}> has ${numeral(points).format(
-      "0,0"
-    )} points.\n`;
+    text += `${count + 1}. <@${userID}> has ${numeral(points).format("0,0")} ${
+      points !== 1 ? "points" : "point"
+    }.\n`;
   }
   text += `\nPoints will be reset back to 0 at 12AM ${timezone} on ${nextMonth} 1st.\n`;
   return text;
