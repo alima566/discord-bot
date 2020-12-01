@@ -37,9 +37,6 @@ module.exports = {
 
 const getRanking = async (guildID, userID) => {
   const results = await gamblingSchema.find({ guildID }).sort({ points: -1 });
-  for (let count = 0; count < results.length; count++) {
-    if (results[count].userID === userID) {
-      return `${count + 1} out of ${results.length}`;
-    }
-  }
+  const rank = results.findIndex((i) => i.userID === userID);
+  return `${rank + 1} out of ${results.length}`;
 };
