@@ -1,5 +1,5 @@
 module.exports = {
-  commands: "dream",
+  commands: ["dream", "da"],
   category: "Misc",
   cooldown: "15s",
   description: "Kéllee's ACNH dream address.",
