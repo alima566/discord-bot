@@ -76,7 +76,13 @@ const updateCounter = async (client) => {
 };
 
 module.exports = async (client) => {
-  const guild = client.guilds.cache.get("707103910686621758");
-  await fetchData(guild.id);
+  const results = await gamblingLeaderboardSchema.find({});
+  for (const result of results) {
+    const { _id: guildID } = result;
+    const guild = client.guilds.cache.get(guildID);
+    if (guild) {
+      await fetchData(guild.id);
+    }
+  }
   updateCounter(client);
 };
