@@ -21,7 +21,7 @@ const execute = async (client) => {
 
 const resetAllPoints = async (guildId) => {
   const results = await gamblingSchema.find({
-    guildId,
+    guildID: guildId,
   });
   if (results) {
     for (const result of results) {
