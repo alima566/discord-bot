@@ -4,7 +4,6 @@ const numeral = require("numeral");
 const { pointsToGive } = require("@root/config.json");
 const dailyRewardsSchema = require("@schemas/daily-rewards-schema");
 const gambling = require("@utils/gambling");
-const mongo = require("@utils/mongo");
 
 // Array of member IDs who have claimed their daily rewards in the last 24 hours
 // Resets every 10 mins
@@ -53,43 +52,36 @@ module.exports = {
     }
 
     console.log("Fetching from mongo");
-
     const obj = {
       guildID: guild.id,
       userID: id,
     };
 
-    await mongo().then(async (mongoose) => {
-      try {
-        const results = await dailyRewardsSchema.findOne(obj);
-        const updatedAt = results.updatedAt;
+    const results = await dailyRewardsSchema.findOne(obj);
+    const updatedAt = results.updatedAt;
 
-        console.log("RESULTS: ", results);
-        if (results) {
-          const remaining = getTimeRemaining(updatedAt);
-          if (getHours(updatedAt) < 24) {
-            claimedCache.push({ id: id, updatedAt: updatedAt });
-            msg.reply(`${alreadyClaimed} Please try again in ${remaining}`);
-            return;
-          }
-        }
-
-        await dailyRewardsSchema.findOneAndUpdate(obj, obj, {
-          upsert: true,
-        });
-
-        console.log(updatedAt);
-        claimedCache.push({ id: id, updatedAt: moment.utc() });
-        const newPoints = await gambling.addPoints(guild.id, id, pointsToGive);
-        msg.reply(
-          `You have claimed your daily reward of ${numeral(pointsToGive).format(
-            "0,0"
-          )} points!`
-        );
-      } finally {
-        mongoose.connection.close();
+    console.log("RESULTS: ", results);
+    if (results) {
+      const remaining = getTimeRemaining(updatedAt);
+      if (getHours(updatedAt) < 24) {
+        claimedCache.push({ id: id, updatedAt: updatedAt });
+        msg.reply(`${alreadyClaimed} Please try again in ${remaining}`);
+        return;
       }
+    }
+
+    await dailyRewardsSchema.findOneAndUpdate(obj, obj, {
+      upsert: true,
     });
+
+    console.log(updatedAt);
+    claimedCache.push({ id: id, updatedAt: moment.utc() });
+    const newPoints = await gambling.addPoints(guild.id, id, pointsToGive);
+    msg.reply(
+      `You have claimed your daily reward of ${numeral(pointsToGive).format(
+        "0,0"
+      )} points!`
+    );
   },
 };
 

@@ -2,7 +2,7 @@ const cron = require("cron");
 const moment = require("moment");
 const numeral = require("numeral");
 const gamblingSchema = require("@schemas/gambling-schema");
-const mongo = require("@utils/mongo");
+
 module.exports = (client) => {
   const monthlyWinner = new cron.CronJob(
     "00 00 22 1 * *",
@@ -39,21 +39,15 @@ const execute = async (client) => {
 };
 
 const fetchWinner = async (guildID) => {
-  return await mongo().then(async (mongoose) => {
-    try {
-      const results = await gamblingSchema
-        .find({
-          guildID,
-        })
-        .sort({
-          points: -1,
-        })
-        .limit(1);
-      return results[0];
-    } finally {
-      mongoose.connection.close();
-    }
-  });
+  const results = await gamblingSchema
+    .find({
+      guildID,
+    })
+    .sort({
+      points: -1,
+    })
+    .limit(1);
+  return results[0];
 };
 
 const sendDM = (client, userID, month, points) => {
