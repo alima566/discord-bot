@@ -101,10 +101,10 @@ const getTimeRemaining = (updatedAt) => {
   let minsText = minsDuration !== 1 ? "minutes" : "minute";
   let secsText = secsDuration !== 1 ? "seconds" : "second";
 
-  if (hoursDuration === 0) {
-    return `${minsDuration} ${minsText} and ${secsDuration} ${secsText}.`;
-  } else if (hoursDuration === 0 && minsDuration === 0) {
+  if (hoursDuration === 0 && minsDuration === 0) {
     return `${secsDuration} ${secsText}.`;
+  } else if (hoursDuration === 0) {
+    return `${minsDuration} ${minsText} and ${secsDuration} ${secsText}.`;
   } else {
     return `${hoursDuration} ${hoursText}, ${minsDuration} ${minsText}, and ${secsDuration} ${secsText}.`;
   }
