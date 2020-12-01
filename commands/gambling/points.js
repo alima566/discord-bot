@@ -1,5 +1,7 @@
 const gambling = require("@utils/gambling");
 const numeral = require("numeral");
+const gamblingSchema = require("@schemas/gambling-schema");
+
 module.exports = {
   commands: ["points", "balance", "bal"],
   category: "Gambling",
@@ -24,10 +26,20 @@ module.exports = {
     const userID = target.id;
 
     const points = await gambling.getPoints(guildID, userID);
+    const ranking = await getRanking(guildID, userID);
     msg.channel.send(
       `${target} has ${numeral(points).format(",")} ${
         points !== 1 ? "points" : "point"
-      }!`
+      } and ranks ${ranking}!`
     );
   },
+};
+
+const getRanking = async (guildID, userID) => {
+  const results = await gamblingSchema.find({ guildID }).sort({ points: -1 });
+  for (let count = 0; count < results.length; count++) {
+    if (results[count].userID === userID) {
+      return `${count + 1} out of ${results.length}`;
+    }
+  }
 };
