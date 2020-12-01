@@ -4,7 +4,6 @@ const gambling = require("@utils/gambling");
 const welcomeSchema = require("@schemas/welcome-schema");
 const constants = require("@utils/constants");
 const { MessageAttachment, MessageEmbed } = require("discord.js");
-const mongo = require("@utils/mongo");
 
 // Pass the entire Canvas object because you'll need to access its width, as well its context
 const applyText = (canvas, text) => {
@@ -96,19 +95,13 @@ const welcomeMessage = async (member) => {
     return data;
   }
 
-  return await mongo().then(async (mongoose) => {
-    try {
-      console.log("FETCHING FROM DATABASE");
-      const result = await welcomeSchema.findOne({ _id: guild.id });
-      welcomeMessageCache[guild.id] = data = [
-        result.channelID,
-        result.welcomeMessage,
-      ];
-      return data;
-    } finally {
-      mongoose.connection.close();
-    }
-  });
+  console.log("FETCHING FROM DATABASE");
+  const result = await welcomeSchema.findOne({ _id: guild.id });
+  welcomeMessageCache[guild.id] = data = [
+    result.channelID,
+    result.welcomeMessage,
+  ];
+  return data;
 };
 
 module.exports = async (client) => {
