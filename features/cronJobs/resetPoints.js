@@ -23,12 +23,16 @@ const resetAllPoints = async (guildId) => {
   const results = await gamblingSchema.find({
     guildId,
   });
-  for (const result of results) {
-    const { guildID, userID } = result;
-    const points = await gambling.getPoints(guildID, userID);
-    const newPoints = await gambling.addPoints(guildID, userID, points * -1);
+  if (results) {
+    for (const result of results) {
+      const { guildID, userID } = result;
+      const points = await gambling.getPoints(guildID, userID);
+      const newPoints = await gambling.addPoints(guildID, userID, points * -1);
+
+      console.log(userID, newPoints);
+    }
+    console.log(
+      `Points have been reset back to 0 for all ${results.length} records.`
+    );
   }
-  console.log(
-    `Points have been reset back to 0 for all ${results.length} records.`
-  );
 };
