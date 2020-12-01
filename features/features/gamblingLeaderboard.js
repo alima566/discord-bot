@@ -6,6 +6,10 @@ const moment = require("moment-timezone");
 
 const fetchTopMembers = async (guildID) => {
   const timezone = moment.tz("America/New_York").format("z");
+  const nextMonth = moment()
+    .tz("America/New_York")
+    .add(1, "months")
+    .format("MMMM");
   let text = `Person with the most points at the end of each month gets a free month of *Discord Nitro*. A winner is determined at 12AM ${timezone} on the first of every month.\n\n`;
   const results = await gamblingSchema
     .find({
@@ -21,7 +25,7 @@ const fetchTopMembers = async (guildID) => {
       "0,0"
     )} points.\n`;
   }
-  text += `\nPoints are reset back to 0 at 12AM ${timezone} on the first of each month.\n`;
+  text += `\nPoints will be reset back to 0 at 12AM ${timezone} on ${nextMonth} 1st.\n`;
   return text;
 };
 
