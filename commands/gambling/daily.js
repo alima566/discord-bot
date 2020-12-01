@@ -74,7 +74,6 @@ module.exports = {
       upsert: true,
     });
 
-    console.log(updatedAt);
     claimedCache.push({ id: id, updatedAt: moment.utc() });
     const newPoints = await gambling.addPoints(guild.id, id, pointsToGive);
     msg.reply(
