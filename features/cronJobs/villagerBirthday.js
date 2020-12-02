@@ -86,7 +86,7 @@ const execute = (client) => {
           )
           .setFooter(
             `Powered by Nookipedia`,
-            `https://dodo.ac/np/images/thumb/9/99/Nookipedia_Leaf_%26_Text_%28Autumn%29.png/179px-Nookipedia_Leaf_%26_Text_%28Autumn%29.png`
+            `https://nookipedia.com/wikilogo.png`
           );
         channel.send(msgEmbed);
       }
