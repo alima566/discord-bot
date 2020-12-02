@@ -13,7 +13,7 @@ module.exports = {
     let mention =
       args[0].toLowerCase() === "all" ? "all" : msg.mentions.users.first();
 
-    if (mention !== "all" || !mention) {
+    if (!mention) {
       msg.channel.send(`Please tag a user to add points to.`);
       return;
     }
