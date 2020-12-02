@@ -16,23 +16,26 @@ module.exports = (client) => {
 
 const execute = async (client) => {
   const guildId = "707103910686621758";
-  resetAllPoints(guildId);
-};
+  const guild = client.guilds.cache.get(guildId);
+  if (guild) {
+    const results = await gamblingSchema.find({
+      guildID: guildId,
+    });
+    if (results) {
+      for (const result of results) {
+        const { guildID, userID } = result;
+        const points = await gambling.getPoints(guildID, userID);
+        const newPoints = await gambling.addPoints(
+          guildID,
+          userID,
+          points * -1
+        );
 
-const resetAllPoints = async (guildId) => {
-  const results = await gamblingSchema.find({
-    guildID: guildId,
-  });
-  if (results) {
-    for (const result of results) {
-      const { guildID, userID } = result;
-      const points = await gambling.getPoints(guildID, userID);
-      const newPoints = await gambling.addPoints(guildID, userID, points * -1);
-
-      console.log(userID, newPoints);
+        console.log(userID, newPoints);
+      }
+      console.log(
+        `Points have been reset back to 0 for all ${results.length} records.`
+      );
     }
-    console.log(
-      `Points have been reset back to 0 for all ${results.length} records.`
-    );
   }
 };
