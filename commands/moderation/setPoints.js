@@ -2,7 +2,7 @@ const gambling = require("@utils/gambling");
 const numeral = require("numeral");
 module.exports = {
   commands: ["set", "setpoints"],
-  category: "Gambling",
+  category: "Moderation",
   minArgs: 2,
   maxArgs: 2,
   description: "Sets a specified amount of points to the specified user",
