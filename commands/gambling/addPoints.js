@@ -32,22 +32,26 @@ module.exports = {
 
     if (mention === "all") {
       msg.guild.members.cache.forEach(async (mem) => {
-        await gambling.addPoints(guildID, mem.user.id, points);
+        await gambling.addPoints(guildID, mem.user.id, parseInt(points));
       });
       msg.channel.send(
-        `You have given ${msg.guild.memberCount} users ${numeral(points).format(
-          ","
-        )} ${points !== 1 ? "points" : "point"}.`
+        `You have given ${msg.guild.memberCount} users ${numeral(
+          parseInt(points)
+        ).format(",")} ${parseInt(points) !== 1 ? "points" : "point"}.`
       );
       return;
     }
 
-    const newPoints = await gambling.addPoints(guildID, userID, points);
+    const newPoints = await gambling.addPoints(
+      guildID,
+      userID,
+      parseInt(points)
+    );
     msg.channel.send(
-      `You have given <@${userID}> ${numeral(points).format(",")} ${
-        points !== 1 ? "points" : "point"
+      `You have given <@${userID}> ${numeral(parseInt(points)).format(",")} ${
+        parseInt(points) !== 1 ? "points" : "point"
       }. They now have ${numeral(newPoints).format(",")} ${
-        points !== 1 ? "points" : "point"
+        newPoints !== 1 ? "points" : "point"
       }.`
     );
   },
