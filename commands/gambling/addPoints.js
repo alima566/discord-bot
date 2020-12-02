@@ -22,8 +22,8 @@ module.exports = {
     if (isNaN(points)) {
       msg.channel.send(`Please provide a valid number of points.`);
       return;
-    } else if (points < 0) {
-      msg.channel.send(`Please enter in a postive number.`);
+    } else if (points <= 0) {
+      msg.channel.send(`Please enter a number greater than 0.`);
       return;
     }
 
