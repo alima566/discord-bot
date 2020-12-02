@@ -32,7 +32,9 @@ module.exports = {
 
     if (mention === "all") {
       msg.guild.members.cache.forEach(async (mem) => {
-        await gambling.addPoints(guildID, mem.user.id, parseInt(points));
+        if (!mem.user.bot) {
+          await gambling.addPoints(guildID, mem.user.id, parseInt(points));
+        }
       });
       msg.channel.send(
         `You have given ${msg.guild.memberCount} users ${numeral(
