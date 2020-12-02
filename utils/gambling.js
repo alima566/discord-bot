@@ -23,6 +23,28 @@ module.exports.addPoints = async (guildID, userID, points) => {
   return result.points;
 };
 
+module.exports.setPoints = async (guildID, userID, points) => {
+  const result = await gamblingSchema.findOneAndUpdate(
+    {
+      guildID,
+      userID,
+    },
+    {
+      guildID,
+      userID,
+      $set: {
+        points,
+      },
+    },
+    {
+      upsert: true,
+      new: true,
+    }
+  );
+  pointsCache[`${guildID}-${userID}`] = result.points;
+  return result.points;
+};
+
 module.exports.getPoints = async (guildID, userID) => {
   const cachedValue = pointsCache[`${guildID}-${userID}`];
   if (cachedValue) {
