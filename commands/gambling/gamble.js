@@ -74,13 +74,13 @@ module.exports = {
         const newPoints = await gambling.addPoints(
           guildID,
           userID,
-          -pointsToGamble
+          -parseInt(pointsToGamble)
         );
         msg.channel.send(
           `<@${userID}> gambled ${numeral(pointsToGamble).format(
             ","
           )} and lost ${numeral(pointsToGamble).format(",")} ${
-            pointsToGamble !== 1 ? "points" : "point"
+            parseInt(pointsToGamble) !== 1 ? "points" : "point"
           }. They now have ${numeral(newPoints).format(",")} ${
             newPoints !== 1 ? "points" : "point"
           }.`
@@ -90,13 +90,13 @@ module.exports = {
         const newPoints = await gambling.addPoints(
           guildID,
           userID,
-          pointsToGamble
+          parseInt(pointsToGamble)
         );
         msg.channel.send(
           `<@${userID}> gambled ${numeral(pointsToGamble).format(
             ","
           )} and won ${numeral(pointsToGamble).format(",")} ${
-            pointsToGamble !== 1 ? "points" : "point"
+            parseInt(pointsToGamble) !== 1 ? "points" : "point"
           }! They now have ${numeral(newPoints).format(",")} ${
             newPoints !== 1 ? "points" : "point"
           }.`
