@@ -24,17 +24,11 @@ const execute = async (client) => {
     if (results) {
       for (const result of results) {
         const { guildID, userID } = result;
-        const points = await gambling.getPoints(guildID, userID);
-        const newPoints = await gambling.addPoints(
-          guildID,
-          userID,
-          points * -1
-        );
-
+        const newPoints = await gambling.setPoints(guildID, userID, 0);
         console.log(userID, newPoints);
       }
       console.log(
-        `Points have been reset back to 0 for all ${results.length} records.`
+        `Points have been reset back to 0 for all ${results.length} members.`
       );
     }
   }
