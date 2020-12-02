@@ -30,6 +30,11 @@ module.exports = {
     const guildID = msg.guild.id;
     const userID = mention.id;
 
+    if (mention.bot) {
+      msg.channel.send(`You can not give points to bots!`);
+      return;
+    }
+
     if (mention === "all") {
       msg.guild.members.cache.forEach(async (mem) => {
         if (!mem.user.bot) {
