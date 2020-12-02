@@ -13,7 +13,7 @@ module.exports = {
     const { channel, guild } = msg;
     const welcomeMessage = args.join(" ");
 
-    welcomeMessageCache[guild.id] = [channel.id, text];
+    welcomeMessageCache[guild.id] = [channel.id, welcomeMessage];
 
     await welcomeSchema.findOneAndUpdate(
       {
