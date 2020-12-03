@@ -21,5 +21,6 @@ module.exports = {
       message = args.join(" ");
       msg.channel.send(message);
     }
+    msg.delete();
   },
 };
