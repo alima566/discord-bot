@@ -10,7 +10,8 @@ module.exports = {
   permissionError: "You must be an admininstrator to execute this command.",
   requiredPermissions: ["ADMINISTRATOR"],
   callback: async (msg, args) => {
-    const mention = msg.mentions.users.first();
+    let mention =
+      args[0].toLowerCase() === "all" ? "all" : msg.mentions.users.first();
 
     if (!mention) {
       msg.channel.send(`Please tag a user to set points to.`);
@@ -28,6 +29,25 @@ module.exports = {
 
     const guildID = msg.guild.id;
     const userID = mention.id;
+
+    if (mention.bot) {
+      msg.channel.send(`You can not give points to bots!`);
+      return;
+    }
+
+    if (mention === "all") {
+      msg.channel.members.cache.forEach(async (mem) => {
+        if (!mem.user.bot) {
+          await gambling.setPoints(guildID, mem.user.id, parseInt(points));
+        }
+      });
+      msg.channel.send(
+        `You have set ${msg.guild.memberCount} users points to ${numeral(
+          parseInt(points)
+        ).format(",")}`
+      );
+      return;
+    }
 
     const newPoints = await gambling.setPoints(
       guildID,
