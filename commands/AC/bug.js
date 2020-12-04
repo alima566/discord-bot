@@ -1,7 +1,7 @@
 const fetch = require("node-fetch");
 const { MessageEmbed } = require("discord.js");
 const numeral = require("numeral");
-const constants = require("@utils/constants");
+const { getMonthsAvailable, getTimesAvailable } = require("@utils/constants");
 module.exports = {
   commands: "bug",
   category: "AC",
@@ -52,16 +52,16 @@ module.exports = {
             },
             {
               name: `**Months Available**`,
-              value: `North:\n${constants.getMonthsAvailable(
+              value: `North:\n${getMonthsAvailable(
                 data.north
-              )}\nSouth:\n${constants.getMonthsAvailable(data.south)}`,
+              )}\nSouth:\n${getMonthsAvailable(data.south)}`,
               inline: true,
             },
             {
               name: `**Time Available**`,
-              value: `North:\n${constants.getTimesAvailable(
+              value: `North:\n${getTimesAvailable(
                 data.north
-              )}\nSouth:\n${constants.getTimesAvailable(data.south)}`,
+              )}\nSouth:\n${getTimesAvailable(data.south)}`,
               inline: true,
             }
           )
