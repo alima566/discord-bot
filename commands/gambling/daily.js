@@ -58,10 +58,7 @@ module.exports = {
     };
 
     const results = await dailyRewardsSchema.findOne(obj);
-    let updatedAt = "";
-    if (results) {
-      updatedAt = results.updatedAt;
-    }
+    let updatedAt = results ? results.updatedAt : moment.utc();
 
     console.log("RESULTS: ", results);
     if (results) {
