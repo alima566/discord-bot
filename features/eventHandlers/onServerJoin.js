@@ -138,6 +138,6 @@ module.exports = async (client) => {
       .setTimestamp()
       .setFooter(`ID: ${member.user.id}`);
 
-    constants.sendMessageToBotThings(client, msgEmbed);
+    constants.sendMessageToBotThings(client, guild, msgEmbed);
   });
 };

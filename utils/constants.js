@@ -20,8 +20,8 @@ module.exports.getTimesAvailable = (hemisphere) => {
   return avail;
 };
 
-module.exports.sendMessageToBotThings = async (client, msgEmbed) => {
-  const results = await botChannelSchema.find({});
+module.exports.sendMessageToBotThings = async (client, guild, msgEmbed) => {
+  const results = await botChannelSchema.find({ _id: guild.id });
   for (const result of results) {
     const { _id: guildID, channelID } = result;
     const guild = client.guilds.cache.get(guildID);

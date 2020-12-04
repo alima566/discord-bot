@@ -23,7 +23,7 @@ module.exports = (client) => {
         `**Voice Channel Created: #${channel.name}**`
       );
     }
-    constants.sendMessageToBotThings(client, embed);
+    constants.sendMessageToBotThings(client, channel.guild, embed);
   });
 
   client.on("channelDelete", async (channel) => {
@@ -46,7 +46,7 @@ module.exports = (client) => {
         `**Voice Channel Deleted: ${channel.name}**`
       );
     }
-    constants.sendMessageToBotThings(client, embed);
+    constants.sendMessageToBotThings(client, channel.guild, embed);
   });
 
   client.on("channelUpdate", async (oldChan, newChan) => {
@@ -70,7 +70,7 @@ module.exports = (client) => {
           `**Voice Category Name Changed**`
         );
       }
-      constants.sendMessageToBotThings(client, embed);
+      constants.sendMessageToBotThings(client, newChan.guild, embed);
     }
   });
 };

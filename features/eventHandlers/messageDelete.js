@@ -21,6 +21,6 @@ module.exports = (client) => {
         .setTimestamp()
         .setFooter(`Author: ? | Message ID: ${msg.id}`);
     }
-    constants.sendMessageToBotThings(client, msgEmbed);
+    constants.sendMessageToBotThings(client, msg.guild, msgEmbed);
   });
 };
