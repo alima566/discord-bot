@@ -2,6 +2,7 @@ const Canvas = require("canvas");
 const { pointsToGive, welcomeMessageCache } = require("@root/config.json");
 const gambling = require("@utils/gambling");
 const welcomeSchema = require("@schemas/welcome-schema");
+const gamblingSchema = require("@schemas/gambling-schema");
 const constants = require("@utils/constants");
 const { MessageAttachment, MessageEmbed } = require("discord.js");
 
@@ -108,18 +109,21 @@ module.exports = async (client) => {
   client.on("guildMemberAdd", async (member) => {
     const { guild, user } = member;
 
-    await gambling.addPoints(guild.id, user.id, pointsToGive);
+    const result = await gamblingSchema.findOne({
+      guildID: guild.id,
+      userID: user.id,
+    });
+
+    // Check to see if user already exists in db, if not, give them 1000 points
+    if (!result) {
+      await gambling.addPoints(guild.id, user.id, pointsToGive);
+    }
 
     const data = await welcomeMessage(member);
     const channelID = data[0];
     const text = data[1];
 
     const channel = guild.channels.cache.get(channelID);
-
-    // const channel = member.guild.channels.cache.find(
-    //   (ch) => ch.name === "welcome"
-    // );
-
     if (!channel) return;
 
     const attachment = await createCanvas(guild, member);
