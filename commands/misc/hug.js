@@ -1,4 +1,4 @@
-const constants = require("@utils/constants");
+const { getRandomNumber } = require("@utils/constants");
 
 const aaronHug = [
   "Aaron runs away because <username> just tried to hug him! No hugging Aaron allowed!",
@@ -54,7 +54,7 @@ module.exports = {
         user.toLowerCase() === "aaron" ||
         userID === "464635440801251328"
       ) {
-        var index = constants.getRandomNumber(aaronHug.length);
+        var index = getRandomNumber(aaronHug.length);
         var response = aaronHug[index].replace("<username>", author.username);
         msg.channel.send(response);
         return;

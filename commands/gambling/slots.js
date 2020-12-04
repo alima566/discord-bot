@@ -1,6 +1,6 @@
 const gambling = require("@utils/gambling");
 const numeral = require("numeral");
-const constants = require("@utils/constants");
+const { getRandomNumber } = require("@utils/constants");
 
 const slotsEmoji = ["kellee1Star", "kellee2Star", "kellee3Star", "kellee4Star"]; //["💰", "✨", "💩", "🔥"];
 const multiplier = slotsEmoji.length;
@@ -37,9 +37,9 @@ module.exports = {
     const pointsToGamble = args[0];
     const actualPoints = await gambling.getPoints(guildID, userID);
 
-    const slot1 = constants.getRandomNumber(slotsEmoji);
-    const slot2 = constants.getRandomNumber(slotsEmoji);
-    const slot3 = constants.getRandomNumber(slotsEmoji);
+    const slot1 = getRandomNumber(slotsEmoji);
+    const slot2 = getRandomNumber(slotsEmoji);
+    const slot3 = getRandomNumber(slotsEmoji);
 
     const emote1 = getEmoji(msg, slotsEmoji[slot1]);
     const emote2 = getEmoji(msg, slotsEmoji[slot2]);
