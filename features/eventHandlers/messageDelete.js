@@ -1,4 +1,4 @@
-const { sendMessageToBotThings } = require("@utils/constants");
+const { sendMessageToBotThings } = require("@utils/functions");
 const { MessageEmbed } = require("discord.js");
 module.exports = (client) => {
   client.on("messageDelete", async (msg) => {

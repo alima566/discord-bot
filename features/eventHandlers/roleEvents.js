@@ -1,5 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-const { sendMessageToBotThings } = require("@utils/constants");
+const { sendMessageToBotThings } = require("@utils/functions");
 const msgEmbed = new MessageEmbed().setColor("YELLOW");
 module.exports = (client) => {
   client.on("roleCreate", async (role) => {

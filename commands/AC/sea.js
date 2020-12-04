@@ -1,7 +1,7 @@
 const fetch = require("node-fetch");
 const { MessageEmbed } = require("discord.js");
 const numeral = require("numeral");
-const { getMonthsAvailable, getTimesAvailable } = require("@utils/constants");
+const { getMonthsAvailable, getTimesAvailable } = require("@utils/functions");
 module.exports = {
   commands: "sea",
   category: "AC",

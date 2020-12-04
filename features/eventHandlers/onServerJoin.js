@@ -3,7 +3,7 @@ const { pointsToGive, welcomeMessageCache } = require("@root/config.json");
 const gambling = require("@utils/gambling");
 const welcomeSchema = require("@schemas/welcome-schema");
 const gamblingSchema = require("@schemas/gambling-schema");
-const { sendMessageToBotThings } = require("@utils/constants");
+const { sendMessageToBotThings } = require("@utils/functions");
 const { MessageAttachment, MessageEmbed } = require("discord.js");
 
 // Pass the entire Canvas object because you'll need to access its width, as well its context

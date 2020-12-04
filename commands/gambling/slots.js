@@ -1,6 +1,6 @@
 const gambling = require("@utils/gambling");
 const numeral = require("numeral");
-const { getRandomNumber } = require("@utils/constants");
+const { getRandomNumber } = require("@utils/functions");
 
 const slotsEmoji = ["kellee1Star", "kellee2Star", "kellee3Star", "kellee4Star"]; //["💰", "✨", "💩", "🔥"];
 const multiplier = slotsEmoji.length;

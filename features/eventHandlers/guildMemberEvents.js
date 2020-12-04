@@ -1,5 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-const { sendMessageToBotThings } = require("@utils/constants");
+const { sendMessageToBotThings } = require("@utils/functions");
 module.exports = (client) => {
   client.on("guildMemberUpdate", async (oldMem, newMem) => {
     if (oldMem.nickname !== newMem.nickname) {

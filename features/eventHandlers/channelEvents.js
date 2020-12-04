@@ -1,5 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-const { sendMessageToBotThings } = require("@utils/constants");
+const { sendMessageToBotThings } = require("@utils/functions");
 let embed = null;
 module.exports = (client) => {
   client.on("channelCreate", async (channel) => {

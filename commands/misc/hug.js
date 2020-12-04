@@ -1,4 +1,4 @@
-const { getRandomNumber } = require("@utils/constants");
+const { getRandomNumber } = require("@utils/functions");
 
 const aaronHug = [
   "Aaron runs away because <username> just tried to hug him! No hugging Aaron allowed!",

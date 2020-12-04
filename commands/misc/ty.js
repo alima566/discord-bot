@@ -1,4 +1,4 @@
-const { getRandomNumber } = require("@utils/constants");
+const { getRandomNumber } = require("@utils/functions");
 const comp = require("@utils/compliments");
 module.exports = {
   commands: "ty",
