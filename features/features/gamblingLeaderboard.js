@@ -46,11 +46,11 @@ const getText = () => {
 };
 
 const updateCounter = async (client) => {
-  let guildId = "";
+  let guildIDs = [];
   const results = await gamblingLeaderboardSchema.find({});
   for (const result of results) {
     const { channelID, _id: guildID } = result;
-    guildId = guildID;
+    guildIDs.push(guildID);
     const guild = client.guilds.cache.get(guildID);
     if (guild) {
       const channel = client.channels.cache.get(channelID);
@@ -68,7 +68,9 @@ const updateCounter = async (client) => {
   counter -= seconds;
   if (counter <= 0) {
     counter = startingCounter;
-    await fetchData(guildId);
+    for (const guildID of guildIDs) {
+      await fetchData(guildID);
+    }
   }
   setTimeout(() => {
     updateCounter(client);
