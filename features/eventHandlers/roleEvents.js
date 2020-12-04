@@ -23,7 +23,10 @@ module.exports = (client) => {
   });
 
   client.on("roleUpdate", async (oldRole, newRole) => {
-    if (!oldRole.deleted || !newRole.deleted) {
+    if (
+      oldRole.name !== newRole.name &&
+      (!oldRole.deleted || !newRole.deleted)
+    ) {
       msgEmbed
         .setDescription(`**Role Name Changed**`)
         .addFields(
@@ -34,6 +37,7 @@ module.exports = (client) => {
         .setTimestamp()
         .setFooter(`ID: ${newRole.id}`);
       constants.sendMessageToBotThings(client, newRole.guild, msgEmbed);
+      console.log("ROLE UPDATED");
     }
   });
 };
