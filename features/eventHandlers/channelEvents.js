@@ -1,5 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-const constants = require("@utils/constants");
+const { sendMessageToBotThings } = require("@utils/constants");
 let embed = null;
 module.exports = (client) => {
   client.on("channelCreate", async (channel) => {
@@ -23,7 +23,7 @@ module.exports = (client) => {
         `**Voice Channel Created: #${channel.name}**`
       );
     }
-    constants.sendMessageToBotThings(client, channel.guild, embed);
+    sendMessageToBotThings(client, channel.guild, embed);
   });
 
   client.on("channelDelete", async (channel) => {
@@ -46,7 +46,7 @@ module.exports = (client) => {
         `**Voice Channel Deleted: ${channel.name}**`
       );
     }
-    constants.sendMessageToBotThings(client, channel.guild, embed);
+    sendMessageToBotThings(client, channel.guild, embed);
   });
 
   client.on("channelUpdate", async (oldChan, newChan) => {
@@ -70,7 +70,7 @@ module.exports = (client) => {
           `**Voice Category Name Changed**`
         );
       }
-      constants.sendMessageToBotThings(client, newChan.guild, embed);
+      sendMessageToBotThings(client, newChan.guild, embed);
     }
   });
 };

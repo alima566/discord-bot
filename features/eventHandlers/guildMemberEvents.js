@@ -1,5 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-const constants = require("@utils/constants");
+const { sendMessageToBotThings } = require("@utils/constants");
 module.exports = (client) => {
   client.on("guildMemberUpdate", async (oldMem, newMem) => {
     if (oldMem.nickname !== newMem.nickname) {
@@ -15,7 +15,7 @@ module.exports = (client) => {
         )
         .setTimestamp()
         .setFooter(`ID: ${newMem.id}`);
-      constants.sendMessageToBotThings(client, newMem.guild, msgEmbed);
+      sendMessageToBotThings(client, newMem.guild, msgEmbed);
     }
     if (oldMem.roles.cache.size !== newMem.roles.cache.size) {
       let removedRoles = oldMem.roles.cache.filter(
@@ -65,7 +65,7 @@ const roleUpdatedLog = (client, role, user, type) => {
     .setTimestamp()
     .setFooter(`ID: ${user.id}`);
 
-  constants.sendMessageToBotThings(client, role.guild, msgEmbed);
+  sendMessageToBotThings(client, role.guild, msgEmbed);
   //sendDMToUser(client, role, user, type);
 };
 

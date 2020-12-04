@@ -3,7 +3,7 @@ const { pointsToGive, welcomeMessageCache } = require("@root/config.json");
 const gambling = require("@utils/gambling");
 const welcomeSchema = require("@schemas/welcome-schema");
 const gamblingSchema = require("@schemas/gambling-schema");
-const constants = require("@utils/constants");
+const { sendMessageToBotThings } = require("@utils/constants");
 const { MessageAttachment, MessageEmbed } = require("discord.js");
 
 // Pass the entire Canvas object because you'll need to access its width, as well its context
@@ -138,6 +138,6 @@ module.exports = async (client) => {
       .setTimestamp()
       .setFooter(`ID: ${member.user.id}`);
 
-    constants.sendMessageToBotThings(client, guild, msgEmbed);
+    sendMessageToBotThings(client, guild, msgEmbed);
   });
 };

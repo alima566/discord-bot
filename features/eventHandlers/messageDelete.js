@@ -1,4 +1,4 @@
-const constants = require("@utils/constants");
+const { sendMessageToBotThings } = require("@utils/constants");
 const { MessageEmbed } = require("discord.js");
 module.exports = (client) => {
   client.on("messageDelete", async (msg) => {
@@ -21,6 +21,6 @@ module.exports = (client) => {
         .setTimestamp()
         .setFooter(`Author: ? | Message ID: ${msg.id}`);
     }
-    constants.sendMessageToBotThings(client, msg.guild, msgEmbed);
+    sendMessageToBotThings(client, msg.guild, msgEmbed);
   });
 };

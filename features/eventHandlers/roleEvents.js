@@ -1,5 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-const constants = require("@utils/constants");
+const { sendMessageToBotThings } = require("@utils/constants");
 const msgEmbed = new MessageEmbed().setColor("YELLOW");
 module.exports = (client) => {
   client.on("roleCreate", async (role) => {
@@ -8,7 +8,7 @@ module.exports = (client) => {
       .setAuthor(`${role.guild.name}`, role.guild.iconURL())
       .setTimestamp()
       .setFooter(`ID: ${role.id}`);
-    constants.sendMessageToBotThings(client, role.guild, msgEmbed);
+    sendMessageToBotThings(client, role.guild, msgEmbed);
     console.log("ROLE CREATED");
   });
 
@@ -18,7 +18,7 @@ module.exports = (client) => {
       .setAuthor(`${role.guild.name}`, role.guild.iconURL())
       .setTimestamp()
       .setFooter(`ID: ${role.id}`);
-    constants.sendMessageToBotThings(client, role.guild, msgEmbed);
+    sendMessageToBotThings(client, role.guild, msgEmbed);
     console.log("ROLE DELETED");
   });
 
@@ -36,7 +36,7 @@ module.exports = (client) => {
         .setAuthor(`${newRole.guild.name}`, newRole.guild.iconURL())
         .setTimestamp()
         .setFooter(`ID: ${newRole.id}`);
-      constants.sendMessageToBotThings(client, newRole.guild, msgEmbed);
+      sendMessageToBotThings(client, newRole.guild, msgEmbed);
       console.log("ROLE UPDATED");
     }
   });
