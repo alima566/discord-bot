@@ -28,7 +28,7 @@ module.exports = {
     );
 
     msg
-      .reply(`Bot loggin channel has been set to <#${channel.id}>.`)
+      .reply(`Bot logging channel has been set to <#${channel.id}>.`)
       .then((m) => {
         m.delete({ timeout: 3000 });
       });
