@@ -76,32 +76,48 @@ module.exports = {
           userID,
           -parseInt(pointsToGamble)
         );
-        msg.channel.send(
-          `<@${userID}> gambled ${numeral(pointsToGamble).format(
-            ","
-          )} and lost ${numeral(pointsToGamble).format(",")} ${
-            parseInt(pointsToGamble) !== 1 ? "points" : "point"
-          }. They now have ${numeral(newPoints).format(",")} ${
-            newPoints !== 1 ? "points" : "point"
-          }.`
-        );
-        return;
+        if (actualPoints === parseInt(pointsToGamble)) {
+          msg.channel.send(
+            `<@${userID}> went all in and lost all of their points :sob:`
+          );
+          return;
+        } else {
+          msg.channel.send(
+            `<@${userID}> gambled ${numeral(pointsToGamble).format(
+              ","
+            )} and lost ${numeral(pointsToGamble).format(",")} ${
+              parseInt(pointsToGamble) !== 1 ? "points" : "point"
+            }. They now have ${numeral(newPoints).format(",")} ${
+              newPoints !== 1 ? "points" : "point"
+            }.`
+          );
+          return;
+        }
       } else {
         const newPoints = await gambling.addPoints(
           guildID,
           userID,
           parseInt(pointsToGamble)
         );
-        msg.channel.send(
-          `<@${userID}> gambled ${numeral(pointsToGamble).format(
-            ","
-          )} and won ${numeral(pointsToGamble).format(",")} ${
-            parseInt(pointsToGamble) !== 1 ? "points" : "point"
-          }! They now have ${numeral(newPoints).format(",")} ${
-            newPoints !== 1 ? "points" : "point"
-          }.`
-        );
-        return;
+        if (actualPoints === parseInt(pointsToGamble)) {
+          msg.channel.send(
+            `<@${userID}> went all in and won! They now have ${numeral(
+              newPoints
+            ).format(",")} points!`
+          );
+          return;
+        } else {
+          msg.channel.send(
+            `<@${userID}> gambled ${numeral(pointsToGamble).format(
+              ","
+            )} and won ${numeral(pointsToGamble).format(",")} ${
+              parseInt(pointsToGamble) !== 1 ? "points" : "point"
+            }! They now have ${numeral(newPoints).format(",")} ${
+              newPoints !== 1 ? "points" : "point"
+            }.`
+          );
+          return;
+        }
       }
     }
   },
