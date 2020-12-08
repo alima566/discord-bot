@@ -4,5 +4,6 @@ module.exports = {
   description: "Shows what's currently playing.",
   callback: async (msg) => {
     msg.client.player.nowPlaying(msg);
+    return;
   },
 };
