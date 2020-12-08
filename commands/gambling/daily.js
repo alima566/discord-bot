@@ -3,7 +3,6 @@ const numeral = require("numeral");
 
 const { pointsToGive } = require("@root/config.json");
 const dailyRewardsSchema = require("@schemas/daily-rewards-schema");
-const gamblingChannelSchema = require("@schemas/gambling-channel-schema");
 const gambling = require("@utils/gambling");
 
 // Array of member IDs who have claimed their daily rewards in the last 24 hours
@@ -32,9 +31,7 @@ module.exports = {
     if (gamblingChannel !== null) {
       if (channel.id !== gamblingChannel) {
         msg
-          .reply(
-            `Daily can only be redeemed in <#${gamblingChannel.channelID}>!`
-          )
+          .reply(`Daily can only be redeemed in <#${gamblingChannel}>!`)
           .then((message) => {
             message.delete({ timeout: 5000 });
           });
@@ -42,7 +39,9 @@ module.exports = {
         return;
       }
     } else {
-      msg.reply(`No gambling channel has been set.`);
+      msg.reply(
+        `A gambling channel needs to be set first in order for this command to be used.`
+      );
       return;
     }
 
