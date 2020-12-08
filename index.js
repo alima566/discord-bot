@@ -3,12 +3,14 @@ require("dotenv").config();
 
 const Discord = require("discord.js");
 const WOKCommands = require("wokcommands");
+const { Player } = require("discord-player");
 
 const client = new Discord.Client({
   partials: ["MESSAGE", "CHANNEL", "REACTION", "USER", "GUILD_MEMBER"],
 });
+const player = new Player(client);
 
-client.commands = new Discord.Collection();
+client.player = player;
 client.queue = new Map();
 
 client.on("ready", () => {
