@@ -10,8 +10,19 @@ module.exports = {
   requiredPermissions: ["ADMINISTRATOR"],
   permissionError: "You must be an administrator to execute this command.",
   callback: async (msg, args, text) => {
-    const { channel, guild } = msg;
-    const welcomeMessage = args.join(" ");
+    const { guild } = msg;
+    let welcomeMessage = ""; //args.join(" ");
+
+    let channel = msg.mentions.channels.first();
+    if (channel) {
+      if (args.length === 1) {
+        return msg.channel.send(`Please provide a welcome message.`);
+      }
+      welcomeMessage = args.slice(1).join(" ");
+    } else {
+      channel = msg.channel;
+      welcomeMessage = args.join(" ");
+    }
 
     welcomeMessageCache[guild.id] = [channel.id, welcomeMessage];
 
@@ -28,5 +39,14 @@ module.exports = {
         upsert: true,
       }
     );
+
+    msg
+      .reply(
+        `Welcome has been set to <#${channel.id}> and the welcome message is ${welcomeMessage}`
+      )
+      .then((m) => {
+        m.delete({ timeout: 3000 });
+      });
+    msg.delete();
   },
 };
