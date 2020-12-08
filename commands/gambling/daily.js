@@ -3,6 +3,7 @@ const numeral = require("numeral");
 
 const { pointsToGive } = require("@root/config.json");
 const dailyRewardsSchema = require("@schemas/daily-rewards-schema");
+const gamblingChannelSchema = require("@schemas/gambling-channel-schema");
 const gambling = require("@utils/gambling");
 
 // Array of member IDs who have claimed their daily rewards in the last 24 hours
@@ -24,17 +25,24 @@ module.exports = {
   description: "Gives users their daily reward of 1000 points.",
   requiredChannel: "gambling",
   callback: async (msg) => {
-    const gamblingChannelID = "770695220220264448";
     const { guild, member, channel } = msg;
     const { id } = member;
+    const gamblingChannel = await gambling.getGamblingChannel(guild.id);
 
-    if (channel.id !== `${gamblingChannelID}`) {
-      msg
-        .reply(`Daily can only be redeemed in <#${gamblingChannelID}>!`)
-        .then((message) => {
-          message.delete({ timeout: 5000 });
-        });
-      msg.delete();
+    if (gamblingChannel !== null) {
+      if (channel.id !== gamblingChannel) {
+        msg
+          .reply(
+            `Daily can only be redeemed in <#${gamblingChannel.channelID}>!`
+          )
+          .then((message) => {
+            message.delete({ timeout: 5000 });
+          });
+        msg.delete();
+        return;
+      }
+    } else {
+      msg.reply(`No gambling channel has been set.`);
       return;
     }
 
