@@ -1,4 +1,5 @@
 const { MessageEmbed } = require("discord.js");
+const ms = require("ms");
 module.exports = (client) => {
   client.player
     .on("trackStart", (msg, track) => {
@@ -19,7 +20,9 @@ module.exports = (client) => {
     .on("searchResults", (msg, query, tracks) => {
       const msgEmbed = new MessageEmbed()
         .setAuthor(`Here are your search results for ${query}:`)
-        .setDescription(tracks.map((t, i) => `${i + 1}. ${t.title}`))
+        .setDescription(
+          tracks.map((t, i) => `${i + 1}. ${t.title} (${ms(t.durationMS)})`)
+        )
         .setFooter(`Type the number of the song you want to play!`);
 
       msg.channel.send(msgEmbed);
