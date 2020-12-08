@@ -1,5 +1,5 @@
 module.exports = {
-  name: ["resume"],
+  commands: ["resume"],
   category: "Music",
   description: "Resumes the paused music.",
   callback: async (msg) => {

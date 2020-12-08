@@ -1,5 +1,5 @@
 module.exports = {
-  name: ["pause"],
+  commands: ["pause"],
   category: "Music",
   description: "Pauses the music.",
   callback: async (msg) => {
