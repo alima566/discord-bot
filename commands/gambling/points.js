@@ -10,20 +10,29 @@ module.exports = {
   //cooldown: 15,
   requiredChannel: "gambling",
   callback: async (msg) => {
-    const gamblingChannelID = "770695220220264448";
-    if (msg.channel.id !== `${gamblingChannelID}`) {
-      msg
-        .reply(`Points can only be checked in <#${gamblingChannelID}>!`)
-        .then((message) => {
-          message.delete({ timeout: 5000 });
-        });
-      msg.delete();
-      return;
-    }
-
     const target = msg.mentions.users.first() || msg.author;
+    const channelID = msg.channel.id;
     const guildID = msg.guild.id;
     const userID = target.id;
+
+    const gamblingChannel = await gambling.getGamblingChannel(guildID);
+
+    if (gamblingChannel !== null) {
+      if (channelID !== gamblingChannel) {
+        msg
+          .reply(`Points can only be checked in <#${gamblingChannel}>!`)
+          .then((message) => {
+            message.delete({ timeout: 5000 });
+          });
+        msg.delete();
+        return;
+      }
+    } else {
+      msg.reply(
+        `A gambling channel needs to be set first in order for this command to be used.`
+      );
+      return;
+    }
 
     const points = await gambling.getPoints(guildID, userID);
     const ranking = await getRanking(guildID, userID);
