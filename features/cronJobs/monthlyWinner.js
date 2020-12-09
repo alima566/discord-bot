@@ -60,7 +60,7 @@ const sendDM = (client, userID, month, points) => {
     "0,0"
   )} points and have won a free month of Discord Nitro!\n\nTo claim it, please click on this link: ${
     process.env.DISCORD_NITRO_GIFT_LINK
-  }. Please contact <@464635440801251328> if you encounter any problems.\n\nEnjoy the Nitro!`;
+  }.\n\nPlease contact <@464635440801251328> if you encounter any problems.\n\nEnjoy the Nitro!\n\n*Please do no reply to this DM as this is not monitored.*`;
   client.users.cache
     .get(userID)
     .send(text)
