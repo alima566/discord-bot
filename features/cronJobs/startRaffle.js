@@ -14,12 +14,8 @@ module.exports = async (client) => {
 };
 
 const execute = async (client) => {
-  const channel = client.channels.cache.find(
-    (c) => c.id === "770695220220264448"
-  );
-  const giveawayChannel = client.channels.cache.find(
-    (c) => c.id === "771608859352891392"
-  );
+  const channel = client.channels.cache.get("770695220220264448");
+  const giveawayChannel = client.channels.cache.get("771608859352891392");
 
   if (!channel || !giveawayChannel) return;
 
