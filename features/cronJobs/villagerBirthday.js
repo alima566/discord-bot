@@ -18,9 +18,7 @@ module.exports = (client) => {
 const execute = (client) => {
   let month = parseInt(moment().format("M"));
   let day = moment().date();
-  let channel = client.channels.cache.find(
-    (c) => c.id === "754196934985646171"
-  );
+  let channel = client.channels.cache.get("754196934985646171");
   fetch(
     `https://api.nookipedia.com/villagers?birthmonth=${month}&birthday=${day}&nhdetails=true`,
     {

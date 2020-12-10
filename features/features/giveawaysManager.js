@@ -15,9 +15,7 @@ module.exports = (client) => {
   client.giveawaysManager.on(
     "giveawayReactionAdded",
     (giveaway, member, reaction) => {
-      let channel = client.channels.cache.find(
-        (c) => c.id === "740349602800205844"
-      );
+      let channel = client.channels.cache.get("740349602800205844");
       channel.send(
         `${member.user.tag} entered giveaway #${giveaway.messageID} (${reaction.emoji.name})`
       );
@@ -30,9 +28,7 @@ module.exports = (client) => {
   client.giveawaysManager.on(
     "giveawayReactionRemoved",
     (giveaway, member, reaction) => {
-      let channel = client.channels.cache.find(
-        (c) => c.id === "740349602800205844"
-      );
+      let channel = client.channels.cache.get("740349602800205844");
       channel.send(
         `${member.user.tag} unreacted to giveaway #${giveaway.messageID} (${reaction.emoji.name})`
       );
