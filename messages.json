@@ -84,7 +84,7 @@
     "spanish": "Se agregó el rol {ROLE} al comando {COMMAND}."
   },
   "SYNTAX_ERROR": {
-    "english": "Incorrect usage! Please use \"{PREFIX}{COMMAND} {ARGUMENTS}\"",
+    "english": "Incorrect usage! Please use `{PREFIX}{COMMAND} {ARGUMENTS}`",
     "spanish": "¡Uso incorrecto! Utilice `{PREFIX}{COMMAND} {ARGUMENTS}`"
   },
   "NO_DATABASE_FOUND": {
