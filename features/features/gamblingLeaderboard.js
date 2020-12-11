@@ -88,3 +88,9 @@ module.exports = async (client) => {
   }
   updateCounter(client);
 };
+
+module.exports.config = {
+  displayName: "Leaderboard",
+  dbName: "LEADERBOARD",
+  loadDBFirst: true,
+};
