@@ -1,5 +1,5 @@
 const backlogRedemptionSchema = require("@schemas/backlog-redemptions-schema");
-const { fetchRedemptionChannels } = require("@features/redemptions");
+const { fetchRedemptionChannels } = require("@features/features/redemptions");
 
 module.exports = {
   commands: ["setbacklog", "setredeem"],
