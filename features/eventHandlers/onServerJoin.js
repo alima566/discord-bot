@@ -141,3 +141,9 @@ module.exports = async (client) => {
     sendMessageToBotThings(client, guild, msgEmbed);
   });
 };
+
+module.exports.config = {
+  displayName: "Guild Member Join",
+  dbName: "GUILD_MEMBER_JOIN",
+  loadDBFirst: true,
+};

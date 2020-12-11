@@ -135,3 +135,9 @@ module.exports = (client) => {
     }
   });
 };
+
+module.exports.config = {
+  displayName: "Assign Roles",
+  dbName: "ASSIGN_ROLES",
+  loadDBFirst: false,
+};

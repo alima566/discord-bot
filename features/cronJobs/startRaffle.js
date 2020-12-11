@@ -56,3 +56,9 @@ const execute = async (client) => {
 
   channel.send(`A raffle has started in ${giveawayChannel}!`);
 };
+
+module.exports.config = {
+  displayName: "Start Raffle",
+  dbName: "START_RAFFLE",
+  loadDBFirst: false,
+};

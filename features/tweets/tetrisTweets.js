@@ -21,3 +21,9 @@ module.exports = (client) => {
     }
   });
 };
+
+module.exports.config = {
+  displayName: "Tetris Tweets",
+  dbName: "TETRIS_TWEETS",
+  loadDBFirst: false,
+};

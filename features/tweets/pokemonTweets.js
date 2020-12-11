@@ -21,3 +21,9 @@ module.exports = (client) => {
     }
   });
 };
+
+module.exports.config = {
+  displayName: "Pokemon Tweets",
+  dbName: "POKEMON_TWEETS",
+  loadDBFirst: false,
+};

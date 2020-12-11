@@ -87,3 +87,9 @@ const sendDMToUser = (client, role, user, type) => {
 
   client.users.cache.get(user.id).send(msgEmbed);
 };
+
+module.exports.config = {
+  displayName: "Guild Member Events",
+  dbName: "GUILD_MEMBER_EVENTS",
+  loadDBFirst: false,
+};

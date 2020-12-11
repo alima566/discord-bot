@@ -38,3 +38,9 @@ module.exports = (client) => {
     }
   );
 };
+
+module.exports.config = {
+  displayName: "Giveaways Manager",
+  dbName: "GIVEAWAYS_MANAGER",
+  loadDBFirst: false,
+};

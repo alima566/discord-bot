@@ -21,3 +21,9 @@ module.exports = (client) => {
     }
   });
 };
+
+module.exports.config = {
+  displayName: "Genshin Tweets",
+  dbName: "GENSHIN_TWEETS",
+  loadDBFirst: false,
+};

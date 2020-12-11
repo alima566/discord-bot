@@ -24,3 +24,9 @@ module.exports = (client) => {
     sendMessageToBotThings(client, msg.guild, msgEmbed);
   });
 };
+
+module.exports.config = {
+  displayName: "Message Delete",
+  dbName: "MESSAGE_DELETE",
+  loadDBFirst: false,
+};

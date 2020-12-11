@@ -101,3 +101,9 @@ const getVillagerNames = (data) => {
   }
   return villagerNames.join(" and ");
 };
+
+module.exports.config = {
+  displayName: "Villager Birthday",
+  dbName: "VILLAGER_BIRTHDAY",
+  loadDBFirst: false,
+};

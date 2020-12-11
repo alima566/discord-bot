@@ -76,3 +76,9 @@ module.exports = (client) => {
       }
     });
 };
+
+module.exports.config = {
+  displayName: "Discord Player Events",
+  dbName: "DISCORD_PLAYER_EVENTS",
+  loadDBFirst: false,
+};

@@ -93,3 +93,9 @@ const createChannelEmbed = (oldChan, newChan, description) => {
   }
   return embed;
 };
+
+module.exports.config = {
+  displayName: "Channel Events",
+  dbName: "CHANNEL_EVENTS",
+  loadDBFirst: false,
+};

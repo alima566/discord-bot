@@ -41,3 +41,9 @@ module.exports = (client) => {
     }
   });
 };
+
+module.exports.config = {
+  displayName: "Role Events",
+  dbName: "ROLE_EVENTS",
+  loadDBFirst: false,
+};

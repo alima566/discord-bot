@@ -21,3 +21,9 @@ module.exports = (client) => {
     }
   });
 };
+
+module.exports.config = {
+  displayName: "AC Tweets",
+  dbName: "AC_TWEETS",
+  loadDBFirst: false,
+};
