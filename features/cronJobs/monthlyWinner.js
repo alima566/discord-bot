@@ -71,3 +71,9 @@ const sendDM = (client, userID, month, points) => {
       console.log(err);
     });
 };
+
+module.exports.config = {
+  displayName: "Monthly Winner",
+  dbName: "MONTHLY_WINNER",
+  loadDBFirst: true,
+};

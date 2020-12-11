@@ -33,3 +33,9 @@ const execute = async (client) => {
     }
   }
 };
+
+module.exports.config = {
+  displayName: "Reset Points",
+  dbName: "RESET_POINTS",
+  loadDBFirst: true,
+};
