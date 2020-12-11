@@ -91,6 +91,34 @@
     "english": "No database connection found!",
     "spanish": "¡No se encontró conexión a la base de datos!"
   },
+  "FOUND_ANIMAL": {
+    "english": "Found one!",
+    "spanish": "¡Encontré uno!"
+  },
+  "LOOKING_FOR_BUNNY": {
+    "english": "Looking for a bunny...",
+    "spanish": "Buscando un conejito..."
+  },
+  "LOOKING_FOR_KITTY": {
+    "english": "Looking for a kitty...",
+    "spanish": "Buscando una gatita..."
+  },
+  "LOOKING_FOR_DOG": {
+    "english": "Looking for a doggo...",
+    "spanish": "Buscando un perro..."
+  },
+  "LOOKING_FOR_FOX": {
+    "english": "Looking for a fox...",
+    "spanish": "Buscando un zorro..."
+  },
+  "LOOKING_FOR_KOALA": {
+    "english": "Looking for a koala...",
+    "spanish": "Buscando una koala..."
+  },
+  "LOOKING_FOR_PANDA": {
+    "english": "Looking for a panda...",
+    "spanish": "Buscando un panda..."
+  },
   "HELP_MENU": {
     "TITLE": {
       "english": "Help Menu",

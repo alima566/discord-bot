@@ -6,8 +6,11 @@ module.exports = {
   category: "Animals",
   cooldown: "15s",
   description: "KelleeBot shows you a random picture of a bunny.",
-  callback: async (msg) => {
-    let m = await msg.channel.send(`Looking for a bunny...`);
+  callback: async (msg, args, text, client, prefix, instance) => {
+    const { guild } = msg;
+    let m = await msg.channel.send(
+      instance.messageHandler.get(guild, "LOOKING_FOR_BUNNY")
+    );
     animals
       .bunny()
       .then((url) => {
@@ -20,7 +23,7 @@ module.exports = {
           )
           .setURL(url)
           .setImage(url);
-        m.edit(`Found one!`);
+        m.edit(instance.messageHandler.get(guild, "FOUND_ANIMAL"));
         msg.channel.send(msgEmbed);
       })
       .catch((err) => {

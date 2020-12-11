@@ -6,8 +6,11 @@ module.exports = {
   cooldown: "15s",
   description:
     "KelleeBot shows you a random picture of a cat and provides you with a random cat fact.",
-  callback: async (msg) => {
-    let m = await msg.channel.send(`Looking for a kitty...`);
+  callback: async (msg, args, text, client, prefix, instance) => {
+    const { guild } = msg;
+    let m = await msg.channel.send(
+      instance.messageHandler.get(guild, "LOOKING_FOR_KITTY")
+    );
     fetch(`https://api.thecatapi.com/v1/images/search`, {
       method: "GET",
       headers: {
@@ -33,7 +36,7 @@ module.exports = {
                 value: `${fact ? fact : "-"}`,
                 inline: true,
               });
-            m.edit(`Found one!`);
+            m.edit(instance.messageHandler.get(guild, "FOUND_ANIMAL"));
             msg.channel.send(msgEmbed);
           })
           .catch((err) => {

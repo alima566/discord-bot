@@ -6,8 +6,11 @@ module.exports = {
   cooldown: "15s",
   description:
     "KelleeBot shows you a random picture of a fox and provides you with a random fox fact.",
-  callback: async (msg) => {
-    let m = await msg.channel.send(`Looking for a fox...`);
+  callback: async (msg, args, text, client, prefix, instance) => {
+    const { guild } = msg;
+    let m = await msg.channel.send(
+      instance.messageHandler.get(guild, "LOOKING_FOR_FOX")
+    );
     fetch(`https://randomfox.ca/floof`)
       .then((resp) => resp.json())
       .then((img) => {
@@ -28,7 +31,7 @@ module.exports = {
                 value: `${fact ? fact : "-"}`,
                 inline: true,
               });
-            m.edit(`Found one!`);
+            m.edit(instance.messageHandler.get(guild, "FOUND_ANIMAL"));
             msg.channel.send(msgEmbed);
           })
           .catch((err) => {
