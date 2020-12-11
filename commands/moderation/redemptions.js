@@ -3,7 +3,7 @@ const {
   redemptionCache,
 } = require("@features/features/redemptions");
 
-const { MessageEmbed, Message } = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 
 module.exports = {
   commands: ["redeem", "redemption"],
@@ -34,13 +34,13 @@ module.exports = {
       return;
     }
 
-    const channel = guild.channels.cache.guild.get(channelID);
+    const channel = guild.channels.cache.get(channelID);
     if (!channel) {
       msg.reply(`The redemption channel no longer exists.`);
       return;
     }
 
-    const targetMessage = await channel.message.fetch(messageID, false, true);
+    const targetMessage = await channel.messages.fetch(messageID, false, true);
     if (!targetMessage) {
       msg.reply(`That message no onger exists.`);
       return;
