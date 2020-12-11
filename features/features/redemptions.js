@@ -64,3 +64,9 @@ module.exports.statusMessages = statusMessages;
 module.exports.redemptionCache = () => {
   return redemptionCache;
 };
+
+module.exports.config = {
+  dsiplayName: "Redemptions",
+  dbName: "REDEMPTIONS",
+  loadDBFirst: true,
+};
