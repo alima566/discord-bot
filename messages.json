@@ -119,6 +119,34 @@
     "english": "Looking for a panda...",
     "spanish": "Buscando un panda..."
   },
+  "NO_POINTS": {
+    "english": "You don't have any points to gamble.",
+    "spanish": "No tienes puntos para apostar."
+  },
+  "ALL_IN_LOSE": {
+    "english": "{USER} went all in and lost all of their points :sob:",
+    "spanish": "{USER} fue con todo y perdió todos sus puntos."
+  },
+  "ALL_IN_WIN": {
+    "english": "{USER} went all in and won! They now have {POINTS} points!",
+    "spanish": "¡{USER} fue con todo y ganó! ¡Ahora tienen {POINTS} puntos!"
+  },
+  "VALID_POINTS": {
+    "english": "Please provide a valid number of points.",
+    "spanish": "Proporcione un número válido de puntos."
+  },
+  "ONE_POINT": {
+    "english": "You must gamble at least 1 point!",
+    "spanish": "¡Debes apostar al menos 1 punto!"
+  },
+  "DAILY_REWARDS_CLAIMED": {
+    "english": "You have claimed your daily reward of {POINTS} points!",
+    "spanish": "¡Has reclamado tu recompensa diaria de {POINTS} puntos!"
+  },
+  "ALREADY_CLAIMED": {
+    "english": "You have already claimed your daily reward. Please try again in {REMAINING}",
+    "spanish": "Ya ha reclamado su recompensa diaria. Vuelva a intentarlo en {REMAINING}"
+  },
   "HELP_MENU": {
     "TITLE": {
       "english": "Help Menu",

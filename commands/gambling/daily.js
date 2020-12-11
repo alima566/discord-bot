@@ -23,7 +23,7 @@ module.exports = {
   //cooldown: 15,
   description: "Gives users their daily reward of 1000 points.",
   requiredChannel: "gambling",
-  callback: async (msg) => {
+  callback: async (msg, args, text, client, prefix, instance) => {
     const { guild, member, channel } = msg;
     const { id } = member;
     const gamblingChannel = await gambling.getGamblingChannel(guild.id);
@@ -54,7 +54,11 @@ module.exports = {
     if (inCache) {
       console.log("Returning from cache");
       const remaining = getTimeRemaining(claimedCache[index].updatedAt);
-      msg.reply(`${alreadyClaimed} Please try again in ${remaining}`);
+      msg.reply(
+        instnace.messageHandler.get(guild, "ALREADY_CLAIMED", {
+          REMAINING: `${remaining}`,
+        })
+      );
       return;
     }
 
@@ -72,7 +76,11 @@ module.exports = {
       const remaining = getTimeRemaining(updatedAt);
       if (getHours(updatedAt) < 24) {
         claimedCache.push({ id: id, updatedAt: updatedAt });
-        msg.reply(`${alreadyClaimed} Please try again in ${remaining}`);
+        msg.reply(
+          instnace.messageHandler.get(guild, "ALREADY_CLAIMED", {
+            REMAINING: `${remaining}`,
+          })
+        );
         return;
       }
     }
@@ -84,9 +92,9 @@ module.exports = {
     claimedCache.push({ id: id, updatedAt: moment.utc() });
     const newPoints = await gambling.addPoints(guild.id, id, pointsToGive);
     msg.reply(
-      `You have claimed your daily reward of ${numeral(pointsToGive).format(
-        "0,0"
-      )} points!`
+      instance.messageHandler.get(guild, "DAILY_REWARDS_CLAIMED", {
+        POINTS: `${numeral(pointsToGive).format("0,0")}`,
+      })
     );
   },
 };

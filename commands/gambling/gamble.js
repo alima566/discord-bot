@@ -1,5 +1,6 @@
 const gambling = require("@utils/gambling");
 const numeral = require("numeral");
+
 module.exports = {
   commands: ["gamble", "roulette"],
   category: "Gambling",
@@ -9,7 +10,7 @@ module.exports = {
   expectedArgs: "<The amount you want to gamble>",
   //cooldown: 60 * 2.5,
   requiredChannel: "gambling",
-  callback: async (msg, args) => {
+  callback: async (msg, args, text, client, prefix, instance) => {
     const target = msg.author;
     const channelID = msg.channel.id;
     const guildID = msg.guild.id;
@@ -37,7 +38,7 @@ module.exports = {
     const actualPoints = await gambling.getPoints(guildID, userID);
 
     if (actualPoints === 0) {
-      msg.channel.send(`You don't have any points to gamble.`);
+      msg.channel.send(instance.messageHandler.get(msg.guild, "NO_POINTS"));
       return;
     }
 
@@ -49,7 +50,9 @@ module.exports = {
           -actualPoints
         );
         msg.channel.send(
-          `<@${userID}> went all in and lost all of their points :sob:`
+          instance.messageHandler.get(msg.guild, "ALL_IN_LOSE", {
+            USER: `<@${userID}>`,
+          })
         );
         return;
       } else {
@@ -59,17 +62,18 @@ module.exports = {
           actualPoints
         );
         msg.channel.send(
-          `<@${userID}> went all in and won! They now have ${numeral(
-            newPoints
-          ).format(",")} points!`
+          instance.messageHandler.get(msg.guild, "ALL_IN_WIN", {
+            USER: `<@${userID}>`,
+            POINTS: `${numeral(newPoints).format(",")}`,
+          })
         );
         return;
       }
     } else if (isNaN(pointsToGamble)) {
-      msg.channel.send(`Please provide a valid number of points.`);
+      msg.channel.send(instance.messageHandler.get(msg.guild, "VALID_POINTS"));
       return;
     } else if (pointsToGamble < 1) {
-      msg.channel.send(`You must gamble at least 1 point!`);
+      msg.channel.send(instance.messageHandler.get(msg.guild, "ONE_POINT"));
       return;
     } else if (pointsToGamble > actualPoints) {
       return msg.reply(
@@ -86,7 +90,9 @@ module.exports = {
         );
         if (actualPoints === parseInt(pointsToGamble)) {
           msg.channel.send(
-            `<@${userID}> went all in and lost all of their points :sob:`
+            instance.messageHandler.get(msg.guild, "ALL_IN_LOSE", {
+              USER: `<@${userID}>`,
+            })
           );
           return;
         } else {
@@ -109,9 +115,10 @@ module.exports = {
         );
         if (actualPoints === parseInt(pointsToGamble)) {
           msg.channel.send(
-            `<@${userID}> went all in and won! They now have ${numeral(
-              newPoints
-            ).format(",")} points!`
+            instance.messageHandler.get(msg.guild, "ALL_IN_WIN", {
+              USER: `<@${userID}>`,
+              POINTS: `${numeral(newPoints).format(",")}`,
+            })
           );
           return;
         } else {
