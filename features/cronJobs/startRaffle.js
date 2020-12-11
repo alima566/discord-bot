@@ -1,6 +1,8 @@
 const ms = require("ms");
 const cron = require("cron");
 const { rafflePoints, giveawayReactEmoji } = require("@root/config.json");
+const gambling = require("@utils/gambling");
+
 module.exports = async (client) => {
   const startRaffle = new cron.CronJob(
     "00 00 9-22/4 * * *",
@@ -38,7 +40,8 @@ const execute = async (client) => {
       giveawayEnded: `${giveawayReactEmoji}${giveawayReactEmoji} **RAFFLE ENDED** ${giveawayReactEmoji}${giveawayReactEmoji}`,
       timeRemaining: "Time remaining: **{duration}**!",
       inviteToParticipate: `React with ${giveawayReactEmoji} to participate!`,
-      winMessage: "Congratulations, {winners}! You won **{prize}**!",
+      winMessage:
+        "Congratulations, {winners}! You won **{prize}**! I have automatically added the points to your account!",
       embedFooter: "Raffles",
       noWinner: "Raffle cancelled, no valid participants.",
       hostedBy: "Hosted by: {user}",
@@ -55,6 +58,16 @@ const execute = async (client) => {
   });
 
   channel.send(`A raffle has started in ${giveawayChannel}!`);
+
+  client.giveawaysManager.on("giveawayEnded", async (giveaway, winners) => {
+    winners.forEach(async (guild) => {
+      await gambling.addPoints(
+        guild.guild.id,
+        guild.user.id,
+        parseInt(rafflePoints)
+      );
+    });
+  });
 };
 
 module.exports.config = {

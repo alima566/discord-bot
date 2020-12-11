@@ -1,5 +1,6 @@
 const { GiveawaysManager } = require("discord-giveaways");
 const { giveawayReactEmoji } = require("@root/config.json");
+
 module.exports = (client) => {
   client.giveawaysManager = new GiveawaysManager(client, {
     storage: "./giveaways.json",
