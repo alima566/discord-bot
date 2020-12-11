@@ -2,6 +2,7 @@ const cron = require("cron");
 const moment = require("moment");
 const numeral = require("numeral");
 const gamblingSchema = require("@schemas/gambling-schema");
+const { monthlyPrize } = require("@root/config.json");
 
 module.exports = (client) => {
   const monthlyWinner = new cron.CronJob(
@@ -33,7 +34,7 @@ const execute = async (client) => {
           points
         ).format(
           "0,0"
-        )}) for the month of ${month}! You have won a free month of Discord Nitro. Please check your DM for your gift!`
+        )}) for the month of ${month}! You have won a free month of ${monthlyPrize}. Please check your DM for your gift!`
       );
       sendDM(client, userID, month, points);
       return;

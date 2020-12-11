@@ -1,6 +1,7 @@
 const { MessageEmbed } = require("discord.js");
 const gamblingLeaderboardSchema = require("@schemas/gambling-leaderboard-schema");
 const gamblingSchema = require("@schemas/gambling-schema");
+const { monthlyPrize } = require("@root/config.json");
 const numeral = require("numeral");
 const moment = require("moment-timezone");
 
@@ -15,7 +16,7 @@ const fetchData = async (guildID) => {
     .tz("America/New_York")
     .add(1, "months")
     .format("MMMM");
-  importantData = `Person with the most points at the end of each month gets a free month of *Discord Nitro*. A winner is determined at 12AM ${timezone} on the first of every month.\n\n`;
+  importantData = `Person with the most points at the end of each month gets a free month of *${monthlyPrize}*. A winner is determined at 12AM ${timezone} on the first of every month.\n\n`;
   const results = await gamblingSchema
     .find({
       guildID,
