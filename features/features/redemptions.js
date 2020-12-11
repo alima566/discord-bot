@@ -12,7 +12,7 @@ const statusMessages = {
   },
   REJECTED: {
     text: "❌ Redemption rejected or not completed.",
-    color: 0x20808,
+    color: 0xc20808,
   },
 };
 
