@@ -18,7 +18,8 @@ client.on("ready", () => {
   client.user.setActivity("https://www.twitch.tv/kelleebot", {
     type: "WATCHING",
   });
-  new WOKCommands(client, "commands", "features", "messages.json")
+
+  const wok = new WOKCommands(client, "commands", "features", "messages.json")
     .setMongoPath(process.env.MONGO_PATH)
     .setBotOwner("464635440801251328")
     .setColor("#7289da")
@@ -28,6 +29,14 @@ client.on("ready", () => {
     .setCategoryEmoji("Misc", "🎮")
     .setCategoryEmoji("Music", "🎵")
     .setCategoryEmoji("Pokemon", "🍚");
+
+  wok.on("databaseConnected", (connection, state) => {
+    console.log("The state is", state);
+  });
+
+  wok.on("languageNotSupported", (msg, lang) => {
+    console.log("Attempted to set language to", lang);
+  });
 });
 
 client.login(process.env.DISCORD_TOKEN);
