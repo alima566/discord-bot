@@ -50,7 +50,8 @@ module.exports = {
     const newEmbed = new MessageEmbed()
       .setAuthor(oldEmbed.author.name, oldEmbed.author.iconURL)
       .setDescription(oldEmbed.description)
-      .setColor(newStatus.color);
+      .setColor(newStatus.color)
+      .setTimestamp();
 
     if (oldEmbed.fields.length === 2) {
       newEmbed.addFields(oldEmbed.fileds[0], {
