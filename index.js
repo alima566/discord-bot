@@ -18,11 +18,9 @@ client.on("ready", () => {
   client.user.setActivity("https://www.twitch.tv/kelleebot", {
     type: "WATCHING",
   });
-  new WOKCommands(client, "commands", "features")
-    .setSyntaxError(
-      "Incorrect syntax. Please use `{PREFIX}{COMMAND} {ARGUMENTS}`."
-    )
+  new WOKCommands(client, "commands", "features", "messages.json")
     .setMongoPath(process.env.MONGO_PATH)
+    .setBotOwner("464635440801251328")
     .setColor("#7289da")
     .setCategoryEmoji("AC", "🍀")
     .setCategoryEmoji("Animals", "🐱")
