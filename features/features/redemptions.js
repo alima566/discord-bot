@@ -66,7 +66,7 @@ module.exports.redemptionCache = () => {
 };
 
 module.exports.config = {
-  dsiplayName: "Redemptions",
+  displayName: "Redemptions",
   dbName: "REDEMPTIONS",
   loadDBFirst: true,
 };
