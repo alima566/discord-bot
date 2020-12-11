@@ -42,7 +42,7 @@ module.exports = {
 
     const targetMessage = await channel.messages.fetch(messageID, false, true);
     if (!targetMessage) {
-      msg.reply(`That message no onger exists.`);
+      msg.reply(`That message no longer exists.`);
       return;
     }
 
