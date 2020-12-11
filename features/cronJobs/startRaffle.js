@@ -41,7 +41,7 @@ const execute = async (client) => {
       timeRemaining: "Time remaining: **{duration}**!",
       inviteToParticipate: `React with ${giveawayReactEmoji} to participate!`,
       winMessage:
-        "Congratulations, {winners}! You won **{prize}**! I have automatically added the points to your account!",
+        "Congratulations, {winners}! You won **{prize}**! I have automatically added the points to your account. Happy gambling!",
       embedFooter: "Raffles",
       noWinner: "Raffle cancelled, no valid participants.",
       hostedBy: "Hosted by: {user}",
