@@ -55,7 +55,7 @@ module.exports = {
       console.log("Returning from cache");
       const remaining = getTimeRemaining(claimedCache[index].updatedAt);
       msg.reply(
-        instnace.messageHandler.get(guild, "ALREADY_CLAIMED", {
+        instance.messageHandler.get(guild, "ALREADY_CLAIMED", {
           REMAINING: `${remaining}`,
         })
       );
@@ -77,7 +77,7 @@ module.exports = {
       if (getHours(updatedAt) < 24) {
         claimedCache.push({ id: id, updatedAt: updatedAt });
         msg.reply(
-          instnace.messageHandler.get(guild, "ALREADY_CLAIMED", {
+          instance.messageHandler.get(guild, "ALREADY_CLAIMED", {
             REMAINING: `${remaining}`,
           })
         );

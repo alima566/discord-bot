@@ -60,11 +60,14 @@ const execute = async (client) => {
   channel.send(`A raffle has started in ${giveawayChannel}!`);
 
   client.giveawaysManager.on("giveawayEnded", async (giveaway, winners) => {
-    winners.forEach(async (guild) => {
-      await gambling.addPoints(
-        guild.guild.id,
-        guild.user.id,
+    winners.forEach(async (w) => {
+      const newPoints = await gambling.addPoints(
+        w.guild.id,
+        w.user.id,
         parseInt(rafflePoints)
+      );
+      console.log(
+        `${rafflePoints} points have been given to ${w.user.tag} and they now have ${newPoints}.`
       );
     });
   });
