@@ -20,14 +20,14 @@ client.on("ready", async () => {
   //   type: "WATCHING",
   // });
   const daysToChristmas = await getDaysToChristmas();
-
   client.user.setActivity(
-    `${daysToChristmas["Days to Christmas"]} ${
-      daysToChristmas !== 1 ? "days" : "day"
-    } until Christmas`,
-    {
-      type: "PLAYING",
-    }
+    `${
+      daysToChristmas["Days to Christmas"] == 0
+        ? daysToChristmas["Special Christmas Message"]
+        : `${daysToChristmas["Days to Christmas"]} ${
+            daysToChristmas["Days to Christmas"] !== 1 ? "days" : "day"
+          } until Christmas!`
+    }`
   );
 
   const wok = new WOKCommands(client, "commands", "features", "messages.json")
