@@ -59,7 +59,6 @@ function getRandomCatFact() {
     try {
       const body = await fetch(URL, { header });
       const result = await body.json();
-      console.log(result.data[0]);
       //const fact = result.fact;
       const fact = result.data[0];
       resolve(fact);
