@@ -24,14 +24,14 @@ module.exports = {
       }
 
       const localArr = result[0];
-      if (localArr.length == 0) {
-        return msg.channel.send(`No results were found.`);
-      }
-
       if (localArr === undefined) {
         return msg.channel.send(
           `I have failed to find weather data for ${input}.`
         );
+      }
+
+      if (localArr.length == 0) {
+        return msg.channel.send(`No results were found.`);
       }
 
       const location = localArr.location;
