@@ -15,6 +15,7 @@
     "@types/node": "^14.14.13",
     "canvas": "^2.6.1",
     "cheerio": "^1.0.0-rc.3",
+    "convert": "^1.1.1",
     "cron": "^1.8.2",
     "discord-giveaways": "^4.2.1",
     "discord-player": "^3.0.3",
@@ -36,6 +37,7 @@
     "soundcloud-scraper": "^4.0.1",
     "spotify-url-info": "2.2.0",
     "twit": "^2.2.11",
+    "weather-js": "^2.0.0",
     "wokcommands": "^1.1.5",
     "youtube-sr": "^2.0.4",
     "ytdl-core": "^4.1.4"
