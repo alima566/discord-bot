@@ -8,6 +8,7 @@ module.exports = {
   cooldown: "15s",
   minArgs: 1,
   maxArgs: -1,
+  expectedArgs: "<city>",
   description: "Gives you the current weather of the specified location.",
   callback: (msg, args) => {
     const msgEmbed = new MessageEmbed();
