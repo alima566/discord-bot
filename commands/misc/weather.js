@@ -42,7 +42,7 @@ module.exports = {
         .toFixed(1);
 
       msgEmbed
-        .setTitle(`Weather Forecast for ${location.name}`)
+        .setTitle(`Current Weather for ${location.name}`)
         .setThumbnail(current.imageUrl)
         .setColor("0xFFC334")
         .addFields(
