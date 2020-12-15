@@ -38,7 +38,7 @@ const convertToFahrenheit = (temp) => {
 const showAllCities = (query, results, msg) => {
   let menuItems = "";
   for (let i = 0; i < results.length; i++) {
-    menuItems += `${i + 1}: ${results[i].location.name}\n`;
+    menuItems += `${i + 1}. ${results[i].location.name}\n`;
   }
 
   const menuEmbed = new MessageEmbed()
@@ -52,7 +52,7 @@ const showAllCities = (query, results, msg) => {
   const collector = msg.channel.createMessageCollector(
     (m) => m.author.id === msg.author.id,
     {
-      time: 1000 * 30,
+      time: 1000 * 10,
       errors: ["time"],
     }
   );
