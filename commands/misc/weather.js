@@ -68,7 +68,9 @@ const showAllCities = (query, results, msg) => {
       collector.stop();
       showWeatherResult(city, msg, query);
     } else {
-      return msg.channel.send(`Invalid selection.`);
+      return msg.channel.send(
+        `Invalid selection. Please select a number from 1 to ${results.length}.`
+      );
     }
   });
 
@@ -78,7 +80,7 @@ const showAllCities = (query, results, msg) => {
     }
   });
 
-  msg.channel.send(menuEmbed).then();
+  msg.channel.send(menuEmbed);
 };
 
 const showWeatherResult = (city, msg, input) => {
