@@ -72,6 +72,12 @@ const showAllCities = (query, results, msg) => {
     }
   });
 
+  collector.on("end", (collected, reason) => {
+    if (reason === "time") {
+      return msg.channel.send(`You did not choose a city in time.`);
+    }
+  });
+
   msg.channel.send(menuEmbed).then();
 };
 
