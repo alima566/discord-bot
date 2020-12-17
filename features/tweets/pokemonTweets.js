@@ -1,4 +1,6 @@
 const T = require("@utils/twitterConfig");
+const { log } = require("@utils/functions");
+
 module.exports = (client) => {
   var stream = T.stream("statuses/filter", {
     follow: ["96879107", "1114253221269245952"],
@@ -15,9 +17,19 @@ module.exports = (client) => {
             channel.send(url);
           }
         })
-        .catch((err) => console.log(err));
-    } catch (err) {
-      console.log(err);
+        .catch((e) => {
+          log(
+            "ERROR",
+            "./features/tweets/pokemonTweets.js",
+            `An error has occurred: ${e.message}`
+          );
+        });
+    } catch (e) {
+      log(
+        "ERROR",
+        "./features/tweets/pokemonTweets.js",
+        `An error has occurred: ${e.message}`
+      );
     }
   });
 };
