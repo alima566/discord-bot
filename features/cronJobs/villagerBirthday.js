@@ -2,6 +2,7 @@ const fetch = require("node-fetch");
 const { MessageEmbed } = require("discord.js");
 const moment = require("moment");
 const cron = require("cron");
+const { log } = require("@utils/functions");
 
 module.exports = (client) => {
   const villagerBirthday = new cron.CronJob(
@@ -89,8 +90,12 @@ const execute = (client) => {
         channel.send(msgEmbed);
       }
     })
-    .catch((err) => {
-      console.log(err);
+    .catch((e) => {
+      log(
+        "ERROR",
+        "./features/cronJobs/villagerBirthday.js",
+        `An error has occurred: ${e.message}`
+      );
     });
 };
 

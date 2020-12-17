@@ -1,6 +1,7 @@
 const cron = require("cron");
 const gamblingSchema = require("@schemas/gambling-schema");
 const gambling = require("@utils/gambling");
+const { log } = require("@utils/functions");
 
 module.exports = (client) => {
   const resetPoints = new cron.CronJob(
@@ -27,8 +28,10 @@ const execute = async (client) => {
         const newPoints = await gambling.setPoints(guildID, userID, 0);
         console.log(userID, newPoints);
       }
-      console.log(
-        `Points have been reset back to 0 for all ${results.length} members.`
+      log(
+        "SUCCESS",
+        "./features/cronJobs/resetPoints.js",
+        `Points have successfully been reset back to 0 for all ${results.length} members.`
       );
     }
   }

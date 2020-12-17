@@ -2,6 +2,7 @@ const ms = require("ms");
 const cron = require("cron");
 const { rafflePoints, giveawayReactEmoji } = require("@root/config.json");
 const gambling = require("@utils/gambling");
+const { log } = require("@utils/functions");
 
 module.exports = async (client) => {
   const startRaffle = new cron.CronJob(
@@ -66,7 +67,9 @@ const execute = async (client) => {
         w.user.id,
         parseInt(rafflePoints)
       );
-      console.log(
+      log(
+        "SUCCESS",
+        "./features/cronJobs/startRaffle.js",
         `${rafflePoints} points have been given to ${w.user.tag} and they now have ${newPoints}.`
       );
     });

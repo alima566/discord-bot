@@ -3,6 +3,7 @@ const moment = require("moment");
 const numeral = require("numeral");
 const gamblingSchema = require("@schemas/gambling-schema");
 const { monthlyPrize } = require("@root/config.json");
+const { log } = require("@utils/functions");
 
 module.exports = (client) => {
   const monthlyWinner = new cron.CronJob(
@@ -66,10 +67,18 @@ const sendDM = (client, userID, month, points) => {
     .get(userID)
     .send(text)
     .then(() => {
-      console.log(`Message succesfully sent to ${userID}`);
+      log(
+        "SUCCESS",
+        "./features/cronJobs/monthWinner.js",
+        `Message succesfully sent to ${userID}`
+      );
     })
-    .catch((err) => {
-      console.log(err);
+    .catch((e) => {
+      log(
+        "ERROR",
+        "./features/cronJobs/monthWinner.js",
+        `There was an error with sending DM to ${userID}: ${e.message}`
+      );
     });
 };
 
