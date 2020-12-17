@@ -1,6 +1,7 @@
-const fetch = require("node-fetch");
 const animals = require("random-animals-api");
 const { MessageEmbed } = require("discord.js");
+const { log } = require("@utils/functions");
+
 module.exports = {
   commands: ["bunny", "bunbun"],
   category: "Animals",
@@ -26,8 +27,12 @@ module.exports = {
         m.edit(instance.messageHandler.get(guild, "FOUND_ANIMAL"));
         msg.channel.send(msgEmbed);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((e) => {
+        log(
+          "ERROR",
+          "./commands/animals/bunny.js",
+          `An error has occurred: ${e.message}`
+        );
       });
   },
 };

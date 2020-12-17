@@ -1,5 +1,7 @@
 const fetch = require("node-fetch");
 const { MessageEmbed } = require("discord.js");
+const { log } = require("@utils/functions");
+
 module.exports = {
   commands: "panda",
   category: "Animals",
@@ -37,11 +39,21 @@ module.exports = {
             m.edit(instance.messageHandler.get(guild, "FOUND_ANIMAL"));
             msg.channel.send(msgEmbed);
           })
-          .catch((err) => {
-            console.log(err);
+          .catch((e) => {
+            log(
+              "ERROR",
+              "./commands/animals/panda.js",
+              `An error has occurred: ${e.message}`
+            );
           });
       })
-      .catch((err) => console.log(err));
+      .catch((e) => {
+        log(
+          "ERROR",
+          "./commands/animals/panda.js",
+          `An error has occurred: ${e.message}`
+        );
+      });
   },
 };
 
@@ -57,8 +69,12 @@ function getRandomPandaFact() {
       const result = await body.json();
       const fact = result.fact;
       resolve(fact);
-    } catch (err) {
-      console.log(err);
+    } catch (e) {
+      log(
+        "ERROR",
+        "./commands/animals/panda.js",
+        `An error has occurred: ${e.message}`
+      );
       reject(`There was a problem retrieving a panda fact.`);
     }
   });

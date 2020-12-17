@@ -1,5 +1,7 @@
 const fetch = require("node-fetch");
 const { MessageEmbed } = require("discord.js");
+const { log } = require("@utils/functions");
+
 module.exports = {
   commands: ["cat", "kitty"],
   category: "Animals",
@@ -39,17 +41,25 @@ module.exports = {
             m.edit(instance.messageHandler.get(guild, "FOUND_ANIMAL"));
             msg.channel.send(msgEmbed);
           })
-          .catch((err) => {
-            console.log(err);
+          .catch((e) => {
+            log(
+              "ERROR",
+              "./commands/animals/cat.js",
+              `An error has occurred: ${e.message}`
+            );
           });
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((e) => {
+        log(
+          "ERROR",
+          "./commands/animals/cat.js",
+          `An error has occurred: ${e.message}`
+        );
       });
   },
 };
 
-function getRandomCatFact() {
+const getRandomCatFact = () => {
   return new Promise(async function (resolve, reject) {
     const URL = `https://meowfacts.herokuapp.com/`; //`https://some-random-api.ml/facts/cat`;
     const header = {
@@ -62,9 +72,13 @@ function getRandomCatFact() {
       //const fact = result.fact;
       const fact = result.data[0];
       resolve(fact);
-    } catch (err) {
-      console.log(err);
+    } catch (e) {
+      log(
+        "ERROR",
+        "./commands/animals/cat.js",
+        `An error has occurred: ${e.message}`
+      );
       reject(`There was a problem retrieving a cat fact.`);
     }
   });
-}
+};
