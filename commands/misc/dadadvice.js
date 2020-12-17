@@ -1,4 +1,6 @@
 const fetch = require("node-fetch");
+const { log } = require("@utils/functions");
+
 module.exports = {
   commands: "dadadvice",
   category: "Misc",
@@ -10,8 +12,12 @@ module.exports = {
       .then((data) => {
         msg.channel.send(`${data["slip"]["advice"]}`);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((e) => {
+        log(
+          "ERROR",
+          "./commands/misc/dadadvice.js",
+          `An error has occurred: ${e.message}`
+        );
       });
   },
 };

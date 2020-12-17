@@ -1,4 +1,6 @@
 const fetch = require("node-fetch");
+const { log } = require("@utils/functions");
+
 module.exports = {
   commands: "dadjoke",
   category: "Misc",
@@ -14,7 +16,13 @@ module.exports = {
     })
       .then((resp) => resp.json())
       .then((data) => m.edit(data.joke))
-      .catch((err) => console.log(err));
+      .catch((e) => {
+        log(
+          "ERROR",
+          "./commands/misc/dadjoke.js",
+          `An error has occurred: ${e.message}`
+        );
+      });
   },
   /*fetch(`https://dad-jokes.p.rapidapi.com/random/joke`, {
       method: "GET",
