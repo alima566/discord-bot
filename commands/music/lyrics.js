@@ -1,6 +1,8 @@
 const fetch = require("node-fetch");
 const cheerio = require("cheerio");
 const { MessageEmbed } = require("discord.js");
+const { log } = require("@utils/functions");
+
 module.exports = {
   commands: "lyrics",
   category: "Music",
@@ -60,11 +62,11 @@ module.exports = {
                   msg.channel.send(secondLyricsEmbed);
                 }
               })
-              .catch((err) => m.edit(err));
+              .catch((e) => m.edit(e));
           })
-          .catch((err) => m.edit(err));
+          .catch((e) => m.edit(e));
       })
-      .catch((err) => m.edit(err));
+      .catch((e) => m.edit(e));
     //})
     //.catch(err => msg.channel.send(err));
   },
@@ -130,7 +132,11 @@ function getSongPageURL(url) {
         resolve(result.response.song.url);
       }
     } catch (e) {
-      console.log(e);
+      log(
+        "ERROR",
+        "./commands/music/lyrics.js",
+        `An error has occurred: ${e.message}`
+      );
       reject("There was a problem finding a URL for this song");
     }
   });
@@ -159,7 +165,11 @@ function getLyrics(url) {
         //resolve(lyrics.replace(/(\[.+\])/g, ""));
       }
     } catch (e) {
-      console.log(e);
+      log(
+        "ERROR",
+        "./commands/music/lyrics.js",
+        `An error has occurred: ${e.message}`
+      );
       reject(
         "There was a problem fetching lyrics for this song, please try again"
       );
