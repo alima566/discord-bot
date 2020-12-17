@@ -45,7 +45,7 @@ client.on("ready", async () => {
   wok.on("databaseConnected", (connection, state) => {
     log(
       state === "Connected"
-        ? "SUCESS"
+        ? "SUCCESS"
         : state === "Disconnected"
         ? "ERROR"
         : "WARNING",
