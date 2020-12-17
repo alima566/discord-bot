@@ -4,6 +4,7 @@ require("dotenv").config();
 const Discord = require("discord.js");
 const WOKCommands = require("wokcommands");
 const { Player } = require("discord-player");
+const { log } = require("@utils/functions");
 const fetch = require("node-fetch");
 
 const client = new Discord.Client({
@@ -15,7 +16,7 @@ client.player = player;
 client.queue = new Map();
 
 client.on("ready", async () => {
-  console.log(`Logged in as ${client.user.tag}!`);
+  log("SUCCESS", "./index.js", `Logged in as ${client.user.tag}!`);
   // client.user.setActivity("https://www.twitch.tv/kelleebot", {
   //   type: "WATCHING",
   // });
@@ -42,11 +43,19 @@ client.on("ready", async () => {
     .setCategoryEmoji("Pokemon", "🍚");
 
   wok.on("databaseConnected", (connection, state) => {
-    console.log("The state is", state);
+    log(
+      state === "Connected"
+        ? "SUCESS"
+        : state === "Disconnected"
+        ? "ERROR"
+        : "WARNING",
+      "./index.js",
+      state
+    );
   });
 
   wok.on("languageNotSupported", (msg, lang) => {
-    console.log("Attempted to set language to", lang);
+    log("WARNING", "./index.js", `Attempted to set language to ${lang}`);
   });
 });
 
@@ -62,8 +71,8 @@ const getDaysToChristmas = () => {
       } else {
         reject("An error occured.");
       }
-    } catch (err) {
-      console.log(err);
+    } catch (e) {
+      log("ERROR", "./index/js", `There was an error: ${e.message}`);
     }
   });
 };
