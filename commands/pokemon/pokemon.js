@@ -1,5 +1,7 @@
 const fetch = require("node-fetch");
 const { MessageEmbed } = require("discord.js");
+const { log } = require("@utils/functions");
+
 module.exports = {
   commands: "pokemon",
   category: "Pokemon",
@@ -59,8 +61,13 @@ module.exports = {
           );
         msg.channel.send(msgEmbed);
       })
-      .catch((err) => {
+      .catch((e) => {
         msg.channel.send(`I couldn't find that Pokémon :sob:`);
+        log(
+          "ERROR",
+          "./commands/pokemon/pokemon.js",
+          `An error has occurred: ${e.message}`
+        );
       });
   },
 };
