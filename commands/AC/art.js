@@ -1,6 +1,8 @@
 const fetch = require("node-fetch");
 const { MessageEmbed } = require("discord.js");
 const numeral = require("numeral");
+const { log } = require("@utils/functions");
+
 module.exports = {
   commands: "art",
   category: "AC",
@@ -58,9 +60,13 @@ module.exports = {
           );
         msg.channel.send(msgEmbed);
       })
-      .catch((err) => {
+      .catch((e) => {
         msg.channel.send(`I couldn't find that artwork :sob:`);
-        console.log(err);
+        log(
+          "ERROR",
+          "./commands/AC/art.js",
+          `An error has occurred: ${e.message}`
+        );
       });
   },
 };

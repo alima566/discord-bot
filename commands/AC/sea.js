@@ -1,7 +1,12 @@
 const fetch = require("node-fetch");
 const { MessageEmbed } = require("discord.js");
 const numeral = require("numeral");
-const { getMonthsAvailable, getTimesAvailable } = require("@utils/functions");
+const {
+  getMonthsAvailable,
+  getTimesAvailable,
+  log,
+} = require("@utils/functions");
+
 module.exports = {
   commands: "sea",
   category: "AC",
@@ -71,8 +76,13 @@ module.exports = {
           );
         msg.channel.send(msgEmbed);
       })
-      .catch((err) => {
+      .catch((e) => {
         msg.channel.send(`I couldn't find that sea creature :sob:`);
+        log(
+          "ERROR",
+          "./commands/AC/sea.js",
+          `An error has occurred: ${e.message}`
+        );
       });
   },
 };

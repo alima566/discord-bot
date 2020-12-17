@@ -1,6 +1,8 @@
 const fetch = require("node-fetch");
 const { MessageEmbed } = require("discord.js");
 const moment = require("moment");
+const { log } = require("@utils/functions");
+
 module.exports = {
   commands: "villager",
   category: "AC",
@@ -80,9 +82,13 @@ module.exports = {
           );
         msg.channel.send(msgEmbed);
       })
-      .catch((err) => {
+      .catch((e) => {
         msg.channel.send(`I couldn't find that villager :sob:`);
-        console.log(err);
+        log(
+          "ERROR",
+          "./commands/AC/villager.js",
+          `An error has occurred: ${e.message}`
+        );
       });
   },
 };
