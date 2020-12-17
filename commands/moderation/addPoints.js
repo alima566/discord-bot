@@ -41,10 +41,14 @@ module.exports = {
           await gambling.addPoints(guildID, mem.user.id, parseInt(points));
         }
       });
+
+      const memberCount = msg.guild.cache.filter((mem) => !mem.user.bot).size;
       msg.channel.send(
-        `You have given ${msg.guild.memberCount} users ${numeral(
-          parseInt(points)
-        ).format(",")} ${parseInt(points) !== 1 ? "points" : "point"}.`
+        `You have given ${memberCount} user${
+          memberCount !== 1 ? "s" : ""
+        } ${numeral(parseInt(points)).format(",")} point${
+          parseInt(points) !== 1 ? "s" : ""
+        }.`
       );
       return;
     }
