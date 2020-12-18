@@ -1,7 +1,7 @@
 const gambling = require("@utils/gambling");
 const { getRandomNumber } = require("@utils/functions");
 
-const { MessageEmbed, ReactionCollector } = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 const numeral = require("numeral");
 
 const suits = ["♥️", "♠️", "♦️", "♣️"];
@@ -106,7 +106,10 @@ const playGame = (msg, pointsToGamble, guildID, userID, args) => {
       );
     };
 
-    const collector = new ReactionCollector(m, filter);
+    const collector = m.createReactionCollector(filter, {
+      time: 1000 * 10,
+      errors: ["time"],
+    });
     collector.on("collect", (reaction, user) => {
       if (reaction.emoji.name === "👍") {
         playerCards.push(getNextCard());
@@ -125,6 +128,12 @@ const playGame = (msg, pointsToGamble, guildID, userID, args) => {
         m.edit(editEmbed(msgEmbed, pointsToGamble, args));
         collector.stop();
         m.reactions.removeAll();
+      }
+    });
+
+    collector.on("end", (collected, reason) => {
+      if (reason === "time") {
+        return m.reply(`You did not react in time.`);
       }
     });
   });
