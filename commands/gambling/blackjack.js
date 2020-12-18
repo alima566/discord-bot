@@ -133,7 +133,7 @@ const playGame = (msg, pointsToGamble, guildID, userID, args) => {
 
     collector.on("end", (collected, reason) => {
       if (reason === "time") {
-        return m.reply(`You did not react in time.`);
+        return m.channel.send(`<@${userID}>, you did not react in time.`);
       }
     });
   });
