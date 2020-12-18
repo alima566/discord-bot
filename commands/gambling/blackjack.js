@@ -23,7 +23,7 @@ module.exports = {
   category: "Gambling",
   minArgs: 1,
   maxArgs: 1,
-  //cooldown: 15,
+  globalCooldown: "15s",
   description: "Play blackjack with the bot.",
   requiredChannel: "gambling",
   callback: async (msg, args, text, client, prefix, instance) => {
@@ -36,28 +36,29 @@ module.exports = {
     const channelID = channel.id;
     const gamblingChannel = await gambling.getGamblingChannel(guildID);
 
-    // if (gamblingChannel !== null) {
-    //   if (channelID !== gamblingChannel) {
-    //     msg
-    //       .reply(`Blackjack can only be played in <#${gamblingChannel}>!`)
-    //       .then((m) => {
-    //         m.delete({ timeout: 3000 });
-    //       });
-    //     msg.delete();
-    //     return;
-    //   }
-    // } else {
-    //   return msg.reply(
-    //     `A gambling channel needs to be set first in order for this command to be used.`
-    //   );
-    // }
+    if (gamblingChannel !== null) {
+      if (channelID !== gamblingChannel) {
+        msg
+          .reply(`Blackjack can only be played in <#${gamblingChannel}>!`)
+          .then((m) => {
+            m.delete({ timeout: 3000 });
+          });
+        msg.delete();
+        return;
+      }
+    } else {
+      return msg.reply(
+        `A gambling channel needs to be set first in order for this command to be used.`
+      );
+    }
 
     let pointsToGamble = args[0];
     const actualPoints = await gambling.getPoints(guild.id, userID);
 
     if (actualPoints === 0) {
-      msg.channel.send(instance.messageHandler.get(msg.guild, "NO_POINTS"));
-      return;
+      return msg.channel.send(
+        instance.messageHandler.get(msg.guild, "NO_POINTS")
+      );
     }
 
     if (pointsToGamble.toLowerCase() === "all") {
@@ -262,7 +263,7 @@ const createEmbed = (points) => {
 
 const editEmbed = (oldEmbed, pointsGambled, args) => {
   const embed = new MessageEmbed()
-    .setTitle(oldEmbed.title)
+    .setTitle(gameOver ? `Game Over` : `${oldEmbed.title}`)
     .setDescription(gameOver ? getWinMsg(pointsGambled, args) : "")
     .setFooter(oldEmbed.footer.text)
     .addFields(
