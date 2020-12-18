@@ -23,7 +23,7 @@ module.exports = {
   category: "Gambling",
   minArgs: 1,
   maxArgs: 1,
-  globalCooldown: "15s",
+  globalCooldown: "1m",
   description: "Play blackjack with the bot.",
   requiredChannel: "gambling",
   callback: async (msg, args, text, client, prefix, instance) => {
