@@ -14,9 +14,7 @@ let deck = [],
   dealerCardString = "",
   dealerPoints = 0,
   gameOver,
-  playerWon,
-  winLoseMsg = "",
-  newPoints = 0;
+  playerWon;
 
 module.exports = {
   commands: "blackjack",
@@ -25,6 +23,7 @@ module.exports = {
   maxArgs: 1,
   globalCooldown: "1m",
   description: "Play blackjack with the bot.",
+  expectedArgs: "<The amount you want to gamble>",
   requiredChannel: "gambling",
   callback: async (msg, args, text, client, prefix, instance) => {
     gameOver = false; //Reset game status back to false each time command is ran
