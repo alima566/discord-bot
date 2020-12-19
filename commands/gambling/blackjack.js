@@ -107,7 +107,7 @@ const playGame = (msg, pointsToGamble, guildID, userID, args) => {
     };
 
     const collector = m.createReactionCollector(filter, {
-      time: 1000 * 10,
+      time: 1000 * 20,
       errors: ["time"],
     });
     collector.on("collect", (reaction, user) => {
