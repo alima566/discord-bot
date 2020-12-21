@@ -6,6 +6,9 @@ const numeral = require("numeral");
 
 const suits = ["♥️", "♠️", "♦️", "♣️"];
 const values = ["A", 2, 3, 4, 5, 6, 7, 8, 9, 10, "K", "Q", "J"];
+const hit = "👍";
+const stand = "👎";
+
 let deck = [],
   playerCards = [],
   playerPoints = 0,
@@ -95,13 +98,13 @@ const playGame = (msg, pointsToGamble, guildID, userID, args) => {
 
   const msgEmbed = createEmbed(pointsToGamble);
   msg.channel.send(msgEmbed).then((m) => {
-    m.react("👍").then(() => {
-      m.react("👎");
+    m.react(hit).then(() => {
+      m.react(stand);
     });
 
     const filter = (reaction, user) => {
       return (
-        (reaction.emoji.name === "👍" || reaction.emoji.name === "👎") &&
+        (reaction.emoji.name === hit || reaction.emoji.name === stand) &&
         user.id === userID
       );
     };
@@ -111,12 +114,12 @@ const playGame = (msg, pointsToGamble, guildID, userID, args) => {
       errors: ["time"],
     });
     collector.on("collect", (reaction, user) => {
-      if (reaction.emoji.name === "👍") {
+      if (reaction.emoji.name === hit) {
         playerCards.push(getNextCard());
         checkForEndOfGame(guildID, userID, pointsToGamble);
         showStatus();
         m.edit(editEmbed(msgEmbed, pointsToGamble, args));
-        m.reactions.resolve("👍").users.remove(user);
+        m.reactions.resolve(hit).users.remove(user);
         if (gameOver) {
           collector.stop();
           m.reactions.removeAll();
@@ -207,9 +210,11 @@ const showStatus = () => {
 const getWinMsg = (pointsGambled, args) => {
   return playerWon
     ? `You won ${
-        args.toLowerCase() === "all" ? pointsGambled * 2 : pointsGambled
+        args.toLowerCase() === "all"
+          ? numeral(pointsGambled * 2).format(",")
+          : numeral(pointsGambled).format(",")
       } point${pointsGambled != 1 ? "s" : ""}!`
-    : `The dealer won and you lost ${pointsGambled} point${
+    : `The dealer won and you lost ${numeral(pointsGambled).format(",")} point${
         pointsGambled != 1 ? "s" : ""
       }!`;
 };
@@ -242,17 +247,21 @@ const checkForEndOfGame = (guildID, userID, pointsGambled) => {
 
 const addRemovePoints = async (guildID, userID, pointsToGamble) => {
   if (gameOver) {
-    return (newPoints = await gambling.addPoints(
+    return await gambling.addPoints(
       guildID,
       userID,
       playerWon ? pointsToGamble : pointsToGamble * -1
-    ));
+    );
   }
 };
 
 const createEmbed = (points) => {
   const msgEmbed = new MessageEmbed()
-    .setTitle(`Playing Blackjack for ${points} Point${points != 1 ? "s" : ""}`)
+    .setTitle(
+      `Playing Blackjack for ${numeral(points).format(",")} Point${
+        points != 1 ? "s" : ""
+      }`
+    )
     .addFields(
       {
         name: `**Your Hand**`,
@@ -265,7 +274,7 @@ const createEmbed = (points) => {
         inline: true,
       }
     )
-    .setFooter(`👍 to Hit, 👎 to Stand`);
+    .setFooter(`${hit} to Hit, ${stand} to Stand`);
   return msgEmbed;
 };
 
