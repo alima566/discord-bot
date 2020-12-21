@@ -98,10 +98,12 @@ const welcomeMessage = async (member) => {
 
   console.log("FETCHING FROM DATABASE");
   const result = await welcomeSchema.findOne({ _id: guild.id });
-  welcomeMessageCache[guild.id] = data = [
-    result.channelID,
-    result.welcomeMessage,
-  ];
+  if (result) {
+    welcomeMessageCache[guild.id] = data = [
+      result.channelID,
+      result.welcomeMessage,
+    ];
+  }
   return data;
 };
 
