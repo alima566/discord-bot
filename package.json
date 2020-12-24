@@ -37,6 +37,7 @@
     "random-animals-api": "^1.2.0",
     "soundcloud-scraper": "^4.0.1",
     "spotify-url-info": "2.2.0",
+    "twemoji-parser": "^13.0.0",
     "twit": "^2.2.11",
     "weather-js": "^2.0.0",
     "wokcommands": "^1.1.5",
