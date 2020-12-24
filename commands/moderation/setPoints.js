@@ -36,13 +36,14 @@ module.exports = {
     }
 
     if (mention === "all") {
-      msg.channel.members.cache.forEach(async (mem) => {
+      msg.guild.members.cache.forEach(async (mem) => {
         if (!mem.user.bot) {
           await gambling.setPoints(guildID, mem.user.id, parseInt(points));
         }
       });
 
-      const memberCount = msg.guild.cache.filter((mem) => !mem.user.bot).size;
+      const memberCount = msg.guild.members.cache.filter((mem) => !mem.user.bot)
+        .size;
       msg.channel.send(
         `You have set ${memberCount} user${
           memberCount !== 1 ? "s" : ""

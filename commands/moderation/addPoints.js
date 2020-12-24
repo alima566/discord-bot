@@ -42,7 +42,8 @@ module.exports = {
         }
       });
 
-      const memberCount = msg.guild.cache.filter((mem) => !mem.user.bot).size;
+      const memberCount = msg.guild.members.cache.filter((mem) => !mem.user.bot)
+        .size;
       msg.channel.send(
         `You have given ${memberCount} user${
           memberCount !== 1 ? "s" : ""
