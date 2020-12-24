@@ -45,7 +45,7 @@ module.exports = {
       const memberCount = msg.guild.members.cache.filter((mem) => !mem.user.bot)
         .size;
       msg.channel.send(
-        `You have given ${memberCount} user${
+        `You have given ${memberCount} member${
           memberCount !== 1 ? "s" : ""
         } ${numeral(parseInt(points)).format(",")} point${
           parseInt(points) !== 1 ? "s" : ""
