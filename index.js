@@ -5,7 +5,6 @@ const Discord = require("discord.js");
 const WOKCommands = require("wokcommands");
 const { Player } = require("discord-player");
 const { log } = require("@utils/functions");
-const fetch = require("node-fetch");
 
 const client = new Discord.Client({
   partials: ["MESSAGE", "CHANNEL", "REACTION", "USER", "GUILD_MEMBER"],
@@ -17,19 +16,9 @@ client.queue = new Map();
 
 client.on("ready", async () => {
   log("SUCCESS", "./index.js", `Logged in as ${client.user.tag}!`);
-  // client.user.setActivity("https://www.twitch.tv/kelleebot", {
-  //   type: "WATCHING",
-  // });
-  const daysToChristmas = await getDaysToChristmas();
-  client.user.setActivity(
-    `${
-      daysToChristmas["Days to Christmas"] == 0
-        ? daysToChristmas["Special Christmas Message"]
-        : `${daysToChristmas["Days to Christmas"]} ${
-            daysToChristmas["Days to Christmas"] !== 1 ? "days" : "day"
-          } until Christmas!`
-    }`
-  );
+  client.user.setActivity("https://www.twitch.tv/kelleebot", {
+    type: "WATCHING",
+  });
 
   const wok = new WOKCommands(client, "commands", "features", "messages.json")
     .setMongoPath(process.env.MONGO_PATH)
@@ -58,23 +47,5 @@ client.on("ready", async () => {
     log("WARNING", "./index.js", `Attempted to set language to ${lang}`);
   });
 });
-
-const getDaysToChristmas = () => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const body = await fetch(
-        "https://christmas-days.anvil.app/_/api/get_days"
-      );
-      const result = body.json();
-      if (result) {
-        resolve(result);
-      } else {
-        reject("An error occured.");
-      }
-    } catch (e) {
-      log("ERROR", "./index/js", `There was an error: ${e.message}`);
-    }
-  });
-};
 
 client.login(process.env.DISCORD_TOKEN);
