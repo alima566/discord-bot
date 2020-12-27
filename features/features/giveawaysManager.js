@@ -47,7 +47,6 @@ module.exports = (client) => {
       giveaway.messages.giveaway ==
       `${giveawayReactEmoji}${giveawayReactEmoji} **RAFFLE** ${giveawayReactEmoji}${giveawayReactEmoji}`
     ) {
-      console.log("HERE");
       winners.forEach(async (w) => {
         const newPoints = await gambling.addPoints(
           w.guild.id,
