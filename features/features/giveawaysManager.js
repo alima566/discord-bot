@@ -43,7 +43,10 @@ module.exports = (client) => {
 
   client.giveawaysManager.on("giveawayEnded", async (giveaway, winners) => {
     const botChannel = client.channels.cache.get("740349602800205844");
-    if (giveaway.prize.toLowerCase().includes(" points")) {
+    if (
+      giveaway.messages.giveaway ==
+      `${giveawayReactEmoji}${giveawayReactEmoji} **RAFFLE** ${giveawayReactEmoji}${giveawayReactEmoji}`
+    ) {
       console.log("HERE");
       winners.forEach(async (w) => {
         const newPoints = await gambling.addPoints(
