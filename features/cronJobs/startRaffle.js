@@ -1,8 +1,6 @@
 const ms = require("ms");
 const cron = require("cron");
 const { rafflePoints, giveawayReactEmoji } = require("@root/config.json");
-const gambling = require("@utils/gambling");
-const { log } = require("@utils/functions");
 
 module.exports = async (client) => {
   const startRaffle = new cron.CronJob(
@@ -19,7 +17,6 @@ module.exports = async (client) => {
 const execute = async (client) => {
   const channel = client.channels.cache.get("770695220220264448");
   const giveawayChannel = client.channels.cache.get("771608859352891392");
-  const botChannel = client.channels.cache.get("740349602800205844");
 
   if (!channel || !giveawayChannel) return;
 
@@ -60,24 +57,6 @@ const execute = async (client) => {
   });
 
   channel.send(`A raffle has started in ${giveawayChannel}!`);
-
-  client.giveawaysManager.on("giveawayEnded", async (giveaway, winners) => {
-    winners.forEach(async (w) => {
-      const newPoints = await gambling.addPoints(
-        w.guild.id,
-        w.user.id,
-        parseInt(rafflePoints)
-      );
-      botChannel.send(
-        `${rafflePoints} points have been given to ${w.user.tag} and they now have ${newPoints}.`
-      );
-      log(
-        "SUCCESS",
-        "./features/cronJobs/startRaffle.js",
-        `${rafflePoints} points have been given to ${w.user.tag} and they now have ${newPoints}.`
-      );
-    });
-  });
 };
 
 module.exports.config = {
