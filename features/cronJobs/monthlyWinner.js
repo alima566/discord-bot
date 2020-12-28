@@ -3,7 +3,7 @@ const moment = require("moment");
 const numeral = require("numeral");
 const gamblingSchema = require("@schemas/gambling-schema");
 const { monthlyPrize } = require("@root/config.json");
-const { log } = require("@utils/functions");
+const { sendMessageToBotThings, log } = require("@utils/functions");
 
 module.exports = (client) => {
   const monthlyWinner = new cron.CronJob(
@@ -37,7 +37,7 @@ const execute = async (client) => {
           "0,0"
         )}) for the month of ${month}! You have won a free month of ${monthlyPrize}. Please check your DM for your gift!`
       );
-      sendDM(client, userID, month, points);
+      sendDM(client, guild, userID, month, points);
       return;
     }
   }
@@ -55,7 +55,7 @@ const fetchWinner = async (guildID) => {
   return results[0];
 };
 
-const sendDM = (client, userID, month, points) => {
+const sendDM = (client, guild, userID, month, points) => {
   const text = `Congratulations! You have the most points for the month of ${month} with ${numeral(
     points
   ).format(
@@ -67,6 +67,11 @@ const sendDM = (client, userID, month, points) => {
     .get(userID)
     .send(text)
     .then(() => {
+      sendMessageToBotThings(
+        client,
+        guild,
+        `Message succesfully sent to ${userID}`
+      );
       log(
         "SUCCESS",
         "./features/cronJobs/monthWinner.js",

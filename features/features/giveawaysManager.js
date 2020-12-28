@@ -2,6 +2,7 @@ const { GiveawaysManager } = require("discord-giveaways");
 const { rafflePoints, giveawayReactEmoji } = require("@root/config.json");
 const gambling = require("@utils/gambling");
 const { log } = require("@utils/functions");
+const { sendMessageToBotThings } = require("@utils/functions");
 
 module.exports = (client) => {
   client.giveawaysManager = new GiveawaysManager(client, {
@@ -42,18 +43,19 @@ module.exports = (client) => {
   );
 
   client.giveawaysManager.on("giveawayEnded", async (giveaway, winners) => {
-    const botChannel = client.channels.cache.get("740349602800205844");
-    if (
-      giveaway.messages.giveaway ==
-      `${giveawayReactEmoji}${giveawayReactEmoji} **RAFFLE** ${giveawayReactEmoji}${giveawayReactEmoji}`
-    ) {
-      winners.forEach(async (w) => {
+    winners.forEach(async (w) => {
+      if (
+        giveaway.messages.giveaway ==
+        `${giveawayReactEmoji}${giveawayReactEmoji} **RAFFLE** ${giveawayReactEmoji}${giveawayReactEmoji}`
+      ) {
         const newPoints = await gambling.addPoints(
           w.guild.id,
           w.user.id,
           parseInt(rafflePoints)
         );
-        botChannel.send(
+        sendMessageToBotThings(
+          client,
+          w.guild,
           `${rafflePoints} points have been given to ${w.user.tag} and they now have ${newPoints}.`
         );
         log(
@@ -61,8 +63,8 @@ module.exports = (client) => {
           "./features/cronJobs/startRaffle.js",
           `${rafflePoints} points have been given to ${w.user.tag} and they now have ${newPoints}.`
         );
-      });
-    }
+      }
+    });
   });
 };
 
