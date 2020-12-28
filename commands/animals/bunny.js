@@ -19,7 +19,8 @@ module.exports = {
           .setColor("#006798")
           .setAuthor(
             `Bunny`,
-            `https://cdn.glitch.com/310e3061-4bbb-400e-bb4e-59c6a4084a66%2Frabbit.png?v=1603768383901`,
+            `https://www.limai.ca/img/discord-bot/bunny.png`,
+            //`https://cdn.glitch.com/310e3061-4bbb-400e-bb4e-59c6a4084a66%2Frabbit.png?v=1603768383901`,
             `${url}`
           )
           .setURL(url)

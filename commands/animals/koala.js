@@ -25,7 +25,8 @@ module.exports = {
               .setColor("#006798")
               .setAuthor(
                 `Koala`,
-                `https://cdn.glitch.com/2d031706-b85e-4c2b-8903-3af7e09dd1c4%2F310e3061-4bbb-400e-bb4e-59c6a4084a66_koala.png?v=1604426664677`,
+                `https://www.limai.ca/img/discord-bot/koala.png`,
+                //`https://cdn.glitch.com/2d031706-b85e-4c2b-8903-3af7e09dd1c4%2F310e3061-4bbb-400e-bb4e-59c6a4084a66_koala.png?v=1604426664677`,
                 `${img.link}`
               )
               //.setTitle("🐨 Koala")
