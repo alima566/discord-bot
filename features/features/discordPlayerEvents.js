@@ -20,6 +20,7 @@ module.exports = (client) => {
     .on("searchResults", (msg, query, tracks) => {
       const msgEmbed = new MessageEmbed()
         .setAuthor(`Here are your search results for ${query}:`)
+        .setColor("#1ED761")
         .setDescription(
           tracks.map((t, i) => `${i + 1}. ${t.title} (${ms(t.durationMS)})`)
         )
