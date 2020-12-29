@@ -72,7 +72,7 @@ module.exports = {
   },
 };
 
-function removeCharacters(songName) {
+const removeCharacters = (songName) => {
   // remove stuff like (Official Video)
   songName = songName.replace(/ *\([^)]*\) */g, "");
 
@@ -82,10 +82,10 @@ function removeCharacters(songName) {
     ""
   );
   return songName;
-}
+};
 
-function searchSong(query) {
-  return new Promise(async function (resolve, reject) {
+const searchSong = (query) => {
+  return new Promise(async (resolve, reject) => {
     const searchURL = `https://api.genius.com/search?q=${encodeURI(query)}`;
     const headers = {
       Authorization: `Bearer ${process.env.GENIUS_AUTH}`,
@@ -99,10 +99,10 @@ function searchSong(query) {
       reject("No song has been found for this query");
     }
   });
-}
+};
 
-function getSongTitle(query) {
-  return new Promise(async function (resolve, reject) {
+const getSongTitle = (query) => {
+  return new Promise(async (resolve, reject) => {
     const searchURL = `https://api.genius.com/search?q=${encodeURI(query)}`;
     const headers = {
       Authorization: `Bearer ${process.env.GENIUS_AUTH}`,
@@ -116,10 +116,10 @@ function getSongTitle(query) {
       reject("No song has been found for this query");
     }
   });
-}
+};
 
-function getSongPageURL(url) {
-  return new Promise(async function (resolve, reject) {
+const getSongPageURL = (url) => {
+  return new Promise(async (resolve, reject) => {
     const headers = {
       Authorization: `Bearer ${process.env.GENIUS_AUTH}`,
     };
@@ -140,10 +140,10 @@ function getSongPageURL(url) {
       reject("There was a problem finding a URL for this song");
     }
   });
-}
+};
 
-function getLyrics(url) {
-  return new Promise(async function (resolve, reject) {
+const getLyrics = (url) => {
+  return new Promise(async (resolve, reject) => {
     try {
       const response = await fetch(url);
       const text = await response.text();
@@ -175,4 +175,4 @@ function getLyrics(url) {
       );
     }
   });
-}
+};
