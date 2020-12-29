@@ -14,16 +14,16 @@ module.exports = {
   cooldown: "15s",
   callback: async (msg, args) => {
     let songName = "";
-    const serverQueue = msg.client.queue.get(msg.guild.id);
-    if (args.length === 0 && serverQueue) {
-      songName = removeCharacters(serverQueue.songs[0].title);
+    const nowPlaying = msg.client.player.nowPlaying(msg);
+    if (args.length === 0 && nowPlaying) {
+      songName = removeCharacters(nowPlaying.title);
     } else if (args.length > 0) {
       songName = args.join(" ");
     } else {
       return msg.channel.send(`Please specify song and artist.`);
     }
+
     let m = await msg.channel.send(`Searching for lyrics...`);
-    //if (!serverQueue) return msg.channel.send("There is nothing playing.");
     //getSongTitle(songName)
     //.then(songName => {
     searchSong(songName) //https://some-random-api.ml/lyrics?title=
