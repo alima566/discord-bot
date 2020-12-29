@@ -13,19 +13,24 @@ module.exports = {
   callback: (msg, args) => {
     const input = args.join(" ");
     weather.find({ search: input, degreeType: "C" }, (err, result) => {
-      console.log(result);
       if (err) {
         return console.log(err);
       }
 
       if (!result || result.length === 0) {
-        return msg.channel.send(`No results were found.`);
+        return msg.channel.send(`No results were found for "${input}".`);
+      }
+
+      if (result[0] === undefined || !result[0]) {
+        return msg.channel.send(
+          `No weather results were found for "${input}".`
+        );
       }
 
       if (result.length > 1) {
         showAllCities(input, result, msg);
       } else {
-        showWeatherResult(result[0], msg, input);
+        msg.channel.send(showWeatherResult(result[0]));
       }
     });
   },
@@ -49,46 +54,45 @@ const showAllCities = (query, results, msg) => {
       "Type the number of the city you want to show weather results for."
     );
 
-  const collector = msg.channel.createMessageCollector(
-    (m) => m.author.id === msg.author.id,
-    {
-      time: 1000 * 10,
-      errors: ["time"],
-    }
-  );
+  msg.channel.send(menuEmbed).then((message) => {
+    const collector = msg.channel.createMessageCollector(
+      (m) => m.author.id === msg.author.id,
+      {
+        time: 1000 * 10,
+        errors: ["time"],
+      }
+    );
 
-  collector.on("collect", ({ content }) => {
-    if (
-      !isNaN(content) &&
-      parseInt(content) >= 1 &&
-      parseInt(content) <= results.length
-    ) {
-      const index = parseInt(content, 10);
-      const city = results[index - 1];
-      collector.stop();
-      showWeatherResult(city, msg, query);
-    } else {
-      return msg.channel.send(
-        `Invalid selection. Please select a number from 1 to ${results.length}.`
-      );
-    }
+    collector.on("collect", (m) => {
+      if (
+        !isNaN(m.content) &&
+        parseInt(m.content) >= 1 &&
+        parseInt(m.content) <= results.length
+      ) {
+        m.delete();
+        const index = parseInt(m.content, 10);
+        const city = results[index - 1];
+        collector.stop();
+        message.edit(showWeatherResult(city));
+      } else {
+        m.delete();
+        return msg.channel
+          .send(
+            `Invalid selection. Please select a number from 1 to ${results.length}.`
+          )
+          .then((m) => m.delete({ timeout: 2000 }));
+      }
+    });
+
+    collector.on("end", (collected, reason) => {
+      if (reason === "time") {
+        return msg.channel.send(`You did not choose a city in time.`);
+      }
+    });
   });
-
-  collector.on("end", (collected, reason) => {
-    if (reason === "time") {
-      return msg.channel.send(`You did not choose a city in time.`);
-    }
-  });
-
-  msg.channel.send(menuEmbed);
 };
 
-const showWeatherResult = (city, msg, input) => {
-  const msgEmbed = new MessageEmbed();
-  if (city === undefined || !city) {
-    return msg.channel.send(`No weather results were found for ${input}.`);
-  }
-
+const showWeatherResult = (city) => {
   const location = city.location;
   const current = city.current;
   const miles = convert(current.windspeed.split(" ")[0])
@@ -96,7 +100,7 @@ const showWeatherResult = (city, msg, input) => {
     .to("miles")
     .toFixed(1);
 
-  msgEmbed
+  const msgEmbed = new MessageEmbed()
     .setTitle(`Current Weather for ${location.name}`)
     .setThumbnail(current.imageUrl)
     .setColor("0xFFC334")
@@ -137,6 +141,5 @@ const showWeatherResult = (city, msg, input) => {
       }
     )
     .setFooter(`Forecast last updated at ${current.observationtime}`);
-
-  msg.channel.send(msgEmbed);
+  return msgEmbed;
 };
