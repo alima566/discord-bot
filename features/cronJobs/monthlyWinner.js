@@ -70,7 +70,7 @@ const sendDM = (client, guild, userID, month, points) => {
       sendMessageToBotThings(
         client,
         guild,
-        `Message succesfully sent to ${userID}`
+        `Message succesfully sent to <@${userID}>`
       );
       log(
         "SUCCESS",
