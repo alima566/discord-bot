@@ -282,7 +282,7 @@ const editEmbed = (oldEmbed, pointsGambled, args) => {
   const embed = new MessageEmbed()
     .setTitle(gameOver ? `Game Over` : `${oldEmbed.title}`)
     .setDescription(gameOver ? getWinMsg(pointsGambled, args) : "")
-    .setFooter(oldEmbed.footer.text)
+    .setFooter(gameOver ? "" : `${oldEmbed.footer.text}`)
     .addFields(
       {
         name: `**Your Hand**`,
