@@ -1,6 +1,7 @@
 const { GiveawaysManager } = require("discord-giveaways");
 const { rafflePoints, giveawayReactEmoji } = require("@root/config.json");
-const gambling = require("@utils/gambling");
+const { addPoints } = require("@utils/gambling");
+const { incrementRaffleWins } = require("@utils/raffleWins");
 const { log } = require("@utils/functions");
 const { sendMessageToBotThings } = require("@utils/functions");
 
@@ -48,11 +49,14 @@ module.exports = (client) => {
         giveaway.messages.giveaway ==
         `${giveawayReactEmoji}${giveawayReactEmoji} **RAFFLE** ${giveawayReactEmoji}${giveawayReactEmoji}`
       ) {
-        const newPoints = await gambling.addPoints(
+        const newPoints = await addPoints(
           w.guild.id,
           w.user.id,
           parseInt(rafflePoints)
         );
+
+        await incrementRaffleWins(w.guild.id, w.user.id);
+
         sendMessageToBotThings(
           client,
           w.guild,
