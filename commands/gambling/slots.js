@@ -53,7 +53,7 @@ module.exports = {
     const emote2 = getEmoji(msg, slotsEmoji[slot2]);
     const emote3 = getEmoji(msg, slotsEmoji[slot3]);
 
-    const text = `<@${userID}> spun ${emote1} | ${emote2} | ${emote3}`;
+    const slotsText = `<@${userID}> spun ${emote1} | ${emote2} | ${emote3}`;
 
     if (actualPoints === 0) {
       msg.reply(instance.messageHandler.get(msg.guild, "NO_POINTS"));
@@ -68,11 +68,11 @@ module.exports = {
           actualPoints * multiplier
         );
         msg.channel.send(
-          `${text} and won ${numeral(actualPoints * multiplier).format(",")} ${
-            newPoints !== 1 ? "points" : "point"
-          }! They now have ${numeral(newPoints).format(",")} ${
-            newPoints !== 1 ? "points" : "point"
-          }.`
+          `${slotsText} and won ${numeral(actualPoints * multiplier).format(
+            ","
+          )} ${newPoints !== 1 ? "points" : "point"}! They now have ${numeral(
+            newPoints
+          ).format(",")} ${newPoints !== 1 ? "points" : "point"}.`
         );
         return;
       } else {
@@ -81,7 +81,9 @@ module.exports = {
           userID,
           actualPoints * -1
         );
-        return msg.channel.send(`${text} and lost all of their points :sob:`);
+        return msg.channel.send(
+          `${slotsText} and lost all of their points :sob:`
+        );
       }
     } else if (isNaN(pointsToGamble)) {
       return msg.reply(`Please provide a valid number of points.`);
@@ -101,7 +103,7 @@ module.exports = {
           parseInt(pointsToGamble) * multiplier
         );
         msg.channel.send(
-          `${text} and won ${numeral(pointsToGamble * multiplier).format(
+          `${slotsText} and won ${numeral(pointsToGamble * multiplier).format(
             ","
           )} ${newPoints !== 1 ? "points" : "point"}! They now have ${numeral(
             newPoints
@@ -115,7 +117,7 @@ module.exports = {
           parseInt(pointsToGamble) * -1
         );
         msg.channel.send(
-          `${text} and lost ${numeral(pointsToGamble).format(",")} ${
+          `${slotsText} and lost ${numeral(pointsToGamble).format(",")} ${
             parseInt(pointsToGamble) !== 1 ? "points" : "point"
           }! They now have ${numeral(newPoints).format(",")} ${
             newPoints !== 1 ? "points" : "point"
