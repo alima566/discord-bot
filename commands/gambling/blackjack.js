@@ -58,9 +58,7 @@ module.exports = {
     const actualPoints = await gambling.getPoints(guild.id, userID);
 
     if (actualPoints === 0) {
-      return msg.channel.send(
-        instance.messageHandler.get(msg.guild, "NO_POINTS")
-      );
+      return msg.reply(instance.messageHandler.get(msg.guild, "NO_POINTS"));
     }
 
     if (pointsToGamble.toLowerCase() === "all") {
@@ -68,13 +66,11 @@ module.exports = {
     }
 
     if (isNaN(pointsToGamble)) {
-      return msg.channel.send(
-        instance.messageHandler.get(guild, "VALID_POINTS")
-      );
+      return msg.reply(instance.messageHandler.get(guild, "VALID_POINTS"));
     }
 
     if (pointsToGamble < 1) {
-      return msg.channel.send(instance.messageHandler.get(guild, "ONE_POINT"));
+      return msg.reply(instance.messageHandler.get(guild, "ONE_POINT"));
     }
 
     if (pointsToGamble > actualPoints) {

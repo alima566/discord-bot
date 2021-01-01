@@ -18,7 +18,7 @@ module.exports = {
   expectedArgs: "<The amount you want to gamble>",
   //cooldown: 60 * 2.5,
   requiredChannel: "gambling",
-  callback: async (msg, args) => {
+  callback: async (msg, args, text, client, prefix, instance) => {
     const target = msg.author;
     const channelID = msg.channel.id;
     const guildID = msg.guild.id;
@@ -56,7 +56,7 @@ module.exports = {
     const text = `<@${userID}> spun ${emote1} | ${emote2} | ${emote3}`;
 
     if (actualPoints === 0) {
-      msg.channel.send(`You don't have any points to gamble.`);
+      msg.reply(instance.messageHandler.get(msg.guild, "NO_POINTS"));
       return;
     }
 
@@ -81,15 +81,12 @@ module.exports = {
           userID,
           actualPoints * -1
         );
-        msg.channel.send(`${text} and lost all of their points :sob:`);
-        return;
+        return msg.channel.send(`${text} and lost all of their points :sob:`);
       }
     } else if (isNaN(pointsToGamble)) {
-      msg.channel.send(`Please provide a valid number of points.`);
-      return;
+      return msg.reply(`Please provide a valid number of points.`);
     } else if (pointsToGamble < 1) {
-      msg.channel.send(`You must gamble at least 1 point!`);
-      return;
+      return msg.reply(`You must gamble at least 1 point!`);
     } else if (pointsToGamble > actualPoints) {
       return msg.reply(
         `you don't have enough points! You only have ${numeral(

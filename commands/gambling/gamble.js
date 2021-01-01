@@ -38,7 +38,7 @@ module.exports = {
     const actualPoints = await gambling.getPoints(guildID, userID);
 
     if (actualPoints === 0) {
-      msg.channel.send(instance.messageHandler.get(msg.guild, "NO_POINTS"));
+      msg.reply(instance.messageHandler.get(msg.guild, "NO_POINTS"));
       return;
     }
 
@@ -70,11 +70,9 @@ module.exports = {
         return;
       }
     } else if (isNaN(pointsToGamble)) {
-      msg.channel.send(instance.messageHandler.get(msg.guild, "VALID_POINTS"));
-      return;
+      return msg.reply(instance.messageHandler.get(msg.guild, "VALID_POINTS"));
     } else if (pointsToGamble < 1) {
-      msg.channel.send(instance.messageHandler.get(msg.guild, "ONE_POINT"));
-      return;
+      return msg.reply(instance.messageHandler.get(msg.guild, "ONE_POINT"));
     } else if (pointsToGamble > actualPoints) {
       return msg.reply(
         `you don't have enough points! You only have ${numeral(
