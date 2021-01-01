@@ -12,10 +12,10 @@
   "license": "ISC",
   "dependencies": {
     "@discordjs/opus": "^0.3.3",
-    "@types/node": "^14.14.16",
+    "@types/node": "^14.14.19",
     "canvas": "^2.6.1",
     "cheerio": "^1.0.0-rc.5",
-    "convert": "^1.2.0",
+    "convert": "^1.6.1",
     "cron": "^1.8.2",
     "discord-giveaways": "^4.4.1",
     "discord-paginationembed": "^2.1.0",
@@ -45,7 +45,7 @@
     "weather-js": "^2.0.0",
     "wokcommands": "^1.1.5",
     "youtube-sr": "^2.0.5",
-    "ytdl-core": "^4.2.1"
+    "ytdl-core": "^4.3.0"
   },
   "_moduleAliases": {
     "@root": ".",
