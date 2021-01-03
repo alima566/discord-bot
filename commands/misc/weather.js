@@ -54,8 +54,8 @@ const showAllCities = (query, results, message) => {
       "Type the number of the city you want to show weather results for."
     );
 
-  message.channel.send(menuEmbed).then((message) => {
-    const collector = message.channel.createMessageCollector(
+  message.channel.send(menuEmbed).then((msg) => {
+    const collector = msg.channel.createMessageCollector(
       (m) => m.author.id === message.author.id,
       {
         time: 1000 * 10,
@@ -73,7 +73,7 @@ const showAllCities = (query, results, message) => {
         const index = parseInt(m.content, 10);
         const city = results[index - 1];
         collector.stop();
-        message.edit(showWeatherResult(city));
+        msg.edit(showWeatherResult(city));
       } else {
         m.delete();
         return message.channel
