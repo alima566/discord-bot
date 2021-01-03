@@ -5,7 +5,7 @@ const { monthlyPrize } = require("@root/config.json");
 const numeral = require("numeral");
 const moment = require("moment-timezone");
 
-const seconds = 5;
+const seconds = 10;
 const startingCounter = 60;
 let counter = startingCounter;
 let importantData = "";
