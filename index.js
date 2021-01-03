@@ -20,16 +20,53 @@ client.on("ready", async () => {
     type: "WATCHING",
   });
 
-  const wok = new WOKCommands(client, "commands", "features", "messages.json")
+  const messagesPath = "messages.json";
+  const wok = new WOKCommands(client, {
+    commandsDir: "commands",
+    featureDir: "features",
+    messagesPath,
+    showWarns: true,
+    testServers: ["785593545187917824"],
+  })
     .setMongoPath(process.env.MONGO_PATH)
     .setBotOwner("464635440801251328")
     .setColor("#7289da")
-    .setCategoryEmoji("AC", "🍀")
-    .setCategoryEmoji("Animals", "🐱")
-    .setCategoryEmoji("Gambling", "🎰")
-    .setCategoryEmoji("Misc", "🎮")
-    .setCategoryEmoji("Music", "🎵")
-    .setCategoryEmoji("Pokemon", "🍚");
+    .setCategorySettings([
+      {
+        name: "Configuration",
+        emoji: "⚙️",
+        hidden: true,
+      },
+      {
+        name: "Help",
+        emoji: "❓",
+        hidden: true,
+      },
+      {
+        name: "AC",
+        emoji: "🍀",
+      },
+      {
+        name: "Animals",
+        emoji: "🐱",
+      },
+      {
+        name: "Gambling",
+        emoji: "🎰",
+      },
+      {
+        name: "Misc",
+        emoji: "🎮",
+      },
+      {
+        name: "Music",
+        emoji: "🎵",
+      },
+      {
+        name: "Pokemon",
+        emoji: "🍚",
+      },
+    ]);
 
   wok.on("databaseConnected", (connection, state) => {
     log(

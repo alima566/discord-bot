@@ -43,9 +43,9 @@
     "twemoji-parser": "^13.0.0",
     "twit": "^2.2.11",
     "weather-js": "^2.0.0",
-    "wokcommands": "^1.1.5",
+    "wokcommands": "^1.2.0",
     "youtube-sr": "^2.0.5",
-    "ytdl-core": "^4.3.0"
+    "ytdl-core": "^4.3.1"
   },
   "_moduleAliases": {
     "@root": ".",
