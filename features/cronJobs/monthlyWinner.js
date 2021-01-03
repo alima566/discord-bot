@@ -20,6 +20,7 @@ module.exports = (client) => {
 const execute = async (client) => {
   const guildId = "707103910686621758";
   const channelId = "724484131643457650";
+  const masterGamblerRoleID = "795356217978388511";
 
   const guild = client.guilds.cache.get(guildId);
   if (guild) {
@@ -35,9 +36,10 @@ const execute = async (client) => {
           points
         ).format(
           "0,0"
-        )}) for the month of ${month}! You have won a free month of ${monthlyPrize}. Please check your DM for your gift!`
+        )}) for the month of ${month}! You have won a free month of ${monthlyPrize} and have earned the coveted <@&${masterGamblerRoleID}> role! Please check your DM for your gift!`
       );
       sendDM(client, guild, userID, month, points);
+      addRemoveRole(masterGamblerRoleID, guild, userID);
       return;
     }
   }
@@ -85,6 +87,17 @@ const sendDM = (client, guild, userID, month, points) => {
         `There was an error with sending DM to ${userID}: ${e.message}`
       );
     });
+};
+
+const addRemoveRole = (masterGamblerRole, guild, userID) => {
+  const role = guild.roles.cache.get(masterGamblerRole);
+  const currentMember = guild.members.cache
+    .filter((member) => member.roles.cache.find((r) => r == role))
+    .map((member) => member.user); // Get current member with the Master Gambler role
+  currentMember.roles.remove(role); // Remove the Master Gambler role from the previous month's winner
+
+  const member = guild.members.cache.find((member) => member.id === userID);
+  member.roles.add(role); // Add the Master Gambler role to the new winner
 };
 
 module.exports.config = {
