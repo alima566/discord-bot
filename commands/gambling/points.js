@@ -9,26 +9,26 @@ module.exports = {
   description: "Displays how many points you or another user has.",
   //cooldown: 15,
   requiredChannel: "gambling",
-  callback: async (msg) => {
-    const target = msg.mentions.users.first() || msg.author;
-    const channelID = msg.channel.id;
-    const guildID = msg.guild.id;
+  callback: async ({ message }) => {
+    const target = message.mentions.users.first() || message.author;
+    const channelID = message.channel.id;
+    const guildID = message.guild.id;
     const userID = target.id;
 
     const gamblingChannel = await gambling.getGamblingChannel(guildID);
 
     if (gamblingChannel !== null) {
       if (channelID !== gamblingChannel) {
-        msg
+        message
           .reply(`Points can only be checked in <#${gamblingChannel}>!`)
           .then((message) => {
             message.delete({ timeout: 5000 });
           });
-        msg.delete();
+        message.delete();
         return;
       }
     } else {
-      msg.reply(
+      message.reply(
         `A gambling channel needs to be set first in order for this command to be used.`
       );
       return;
@@ -36,7 +36,7 @@ module.exports = {
 
     const points = await gambling.getPoints(guildID, userID);
     const ranking = await getRanking(guildID, userID);
-    msg.channel.send(
+    message.channel.send(
       `${target} has ${numeral(points).format(",")} ${
         points !== 1 ? "points" : "point"
       } and ranks ${ranking}!`

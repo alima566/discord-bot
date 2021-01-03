@@ -16,7 +16,7 @@ module.exports = {
   description:
     "Retrieve information about a specific fish in *Animal Crossing: New Horizons*.",
   cooldown: "15s",
-  callback: (msg, args) => {
+  callback: ({ message, args }) => {
     fetch(`https://api.nookipedia.com/nh/fish/${args[0].toLowerCase()}`, {
       method: "GET",
       headers: {
@@ -26,7 +26,7 @@ module.exports = {
     })
       .then((response) => response.json())
       .then((data) => {
-        let msgEmbed = new MessageEmbed()
+        const msgEmbed = new MessageEmbed()
           .setColor("GOLD")
           .setURL(`${data.url}`)
           .setAuthor(`${data.name}`, `${data.image_url}`, `${data.url}`)
@@ -79,10 +79,10 @@ module.exports = {
             `Powered by Nookipedia`,
             `https://nookipedia.com/wikilogo.png`
           );
-        msg.channel.send(msgEmbed);
+        message.channel.send(msgEmbed);
       })
       .catch((e) => {
-        msg.channel.send(`I couldn't find that fish :sob:`);
+        message.channel.send(`I couldn't find that fish :sob:`);
         log(
           "ERROR",
           "./commands/AC/fish.js",

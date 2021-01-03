@@ -12,18 +12,18 @@ module.exports = {
   description:
     "Shows lyrics for either what's currently playing or for what's specfied.",
   cooldown: "15s",
-  callback: async (msg, args) => {
+  callback: async ({ message, args }) => {
     let songName = "";
-    const nowPlaying = msg.client.player.nowPlaying(msg);
+    const nowPlaying = message.client.player.nowPlaying(message);
     if (args.length === 0 && nowPlaying) {
       songName = removeCharacters(nowPlaying.title);
     } else if (args.length > 0) {
       songName = args.join(" ");
     } else {
-      return msg.channel.send(`Please specify song and artist.`);
+      return message.channel.send(`Please specify song and artist.`);
     }
 
-    let m = await msg.channel.send(`Searching for lyrics...`);
+    let m = await message.channel.send(`Searching for lyrics...`);
     //getSongTitle(songName)
     //.then(songName => {
     searchSong(songName) //https://some-random-api.ml/lyrics?title=
@@ -45,7 +45,7 @@ module.exports = {
                     .setDescription(lyrics.trim())
                     .setFooter(`Lyrics provided by Genius.com`);
                   m.edit(`Here's what I found.`);
-                  return msg.channel.send(lyricsEmbed);
+                  return message.channel.send(lyricsEmbed);
                 } else {
                   // 2048 < lyrics.length < 4096
                   let firstLyricsEmbed = new MessageEmbed()
@@ -58,8 +58,8 @@ module.exports = {
                     .setDescription(lyrics.slice(2048, lyrics.length))
                     .setFooter(`Lyrics provided by Genius.com`);
                   m.edit(`Here's what I found.`);
-                  msg.channel.send(firstLyricsEmbed);
-                  msg.channel.send(secondLyricsEmbed);
+                  message.channel.send(firstLyricsEmbed);
+                  message.channel.send(secondLyricsEmbed);
                 }
               })
               .catch((e) => m.edit(e));

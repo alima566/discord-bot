@@ -10,7 +10,7 @@ module.exports = {
   maxArgs: -1,
   expectedArgs: "<city>",
   description: "Gives you the current weather of the specified location.",
-  callback: (msg, args) => {
+  callback: ({ message, args }) => {
     const input = args.join(" ");
     weather.find({ search: input, degreeType: "C" }, (err, result) => {
       if (err) {
@@ -18,19 +18,19 @@ module.exports = {
       }
 
       if (!result || result.length === 0) {
-        return msg.channel.send(`No results were found for "${input}".`);
+        return message.channel.send(`No results were found for "${input}".`);
       }
 
       if (result[0] === undefined || !result[0]) {
-        return msg.channel.send(
+        return message.channel.send(
           `No weather results were found for "${input}".`
         );
       }
 
       if (result.length > 1) {
-        showAllCities(input, result, msg);
+        showAllCities(input, result, message);
       } else {
-        msg.channel.send(showWeatherResult(result[0]));
+        message.channel.send(showWeatherResult(result[0]));
       }
     });
   },
@@ -40,7 +40,7 @@ const convertToFahrenheit = (temp) => {
   return convert(temp).from("celsius").to("fahrenheit").toFixed(1);
 };
 
-const showAllCities = (query, results, msg) => {
+const showAllCities = (query, results, message) => {
   let menuItems = "";
   for (let i = 0; i < results.length; i++) {
     menuItems += `${i + 1}. ${results[i].location.name}\n`;
@@ -54,9 +54,9 @@ const showAllCities = (query, results, msg) => {
       "Type the number of the city you want to show weather results for."
     );
 
-  msg.channel.send(menuEmbed).then((message) => {
-    const collector = msg.channel.createMessageCollector(
-      (m) => m.author.id === msg.author.id,
+  message.channel.send(menuEmbed).then((message) => {
+    const collector = message.channel.createMessageCollector(
+      (m) => m.author.id === message.author.id,
       {
         time: 1000 * 10,
         errors: ["time"],
@@ -76,7 +76,7 @@ const showAllCities = (query, results, msg) => {
         message.edit(showWeatherResult(city));
       } else {
         m.delete();
-        return msg.channel
+        return message.channel
           .send(
             `Invalid selection. Please select a number from 1 to ${results.length}.`
           )
@@ -86,7 +86,7 @@ const showAllCities = (query, results, msg) => {
 
     collector.on("end", (collected, reason) => {
       if (reason === "time") {
-        return msg.channel.send(`You did not choose a city in time.`);
+        return message.channel.send(`You did not choose a city in time.`);
       }
     });
   });

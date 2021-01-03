@@ -14,10 +14,10 @@ module.exports = {
   maxArgs: 1,
   cooldown: "15s",
   description: "Hugs another user.",
-  callback: (msg, args) => {
-    const { author } = msg;
+  callback: ({ message, args }) => {
+    const { author } = message;
     if (!args.length) {
-      msg.channel.send(
+      message.channel.send(
         `${author.username} hugs themselves because they didn't specify who to hug.`
       );
     } else {
@@ -26,14 +26,16 @@ module.exports = {
         : args[0].trim();
 
       let userID = hasNumber(user) ? user.match(/\d+/)[0] : "";
-      let emote = msg.guild.emojis.cache.find((e) => e.name === "kellee1Hug");
+      let emote = message.guild.emojis.cache.find(
+        (e) => e.name === "kellee1Hug"
+      );
 
       if (
         author.id === userID ||
         author.username.toLowerCase() === user.toLowerCase() ||
         user.toLowerCase() === "me"
       ) {
-        msg.channel.send(
+        message.channel.send(
           `${author.username} gives themselves a hug because they are lonely.`
         );
         return;
@@ -44,7 +46,7 @@ module.exports = {
           user.toLowerCase() === "aaron" ||
           userID === "464635440801251328")
       ) {
-        msg.channel.send(
+        message.channel.send(
           `${author.username} gives ${user} a great big hug. I love you ʕっ•ᴥ•ʔっ ${emote}`
         );
         return;
@@ -56,10 +58,10 @@ module.exports = {
       ) {
         var index = getRandomNumber(aaronHug.length);
         var response = aaronHug[index].replace("<username>", author.username);
-        msg.channel.send(response);
+        message.channel.send(response);
         return;
       } else {
-        msg.channel.send(
+        message.channel.send(
           `${author.username} hugs ${user}. I love you ʕっ•ᴥ•ʔっ ${emote}`
         );
         return;

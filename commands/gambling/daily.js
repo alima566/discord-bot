@@ -23,23 +23,23 @@ module.exports = {
   //cooldown: 15,
   description: "Gives users their daily reward of 1000 points.",
   requiredChannel: "gambling",
-  callback: async (msg, args, text, client, prefix, instance) => {
-    const { guild, member, channel } = msg;
+  callback: async ({ message, instance }) => {
+    const { guild, member, channel } = message;
     const { id } = member;
     const gamblingChannel = await gambling.getGamblingChannel(guild.id);
 
     if (gamblingChannel !== null) {
       if (channel.id !== gamblingChannel) {
-        msg
+        message
           .reply(`Daily can only be redeemed in <#${gamblingChannel}>!`)
           .then((message) => {
             message.delete({ timeout: 5000 });
           });
-        msg.delete();
+        message.delete();
         return;
       }
     } else {
-      msg.reply(
+      message.reply(
         `A gambling channel needs to be set first in order for this command to be used.`
       );
       return;
@@ -54,7 +54,7 @@ module.exports = {
     if (inCache) {
       console.log("Returning from cache");
       const remaining = getTimeRemaining(claimedCache[index].updatedAt);
-      msg.reply(
+      message.reply(
         instance.messageHandler.get(guild, "ALREADY_CLAIMED", {
           REMAINING: `${remaining}`,
         })
@@ -76,7 +76,7 @@ module.exports = {
       const remaining = getTimeRemaining(updatedAt);
       if (getHours(updatedAt) < 24) {
         claimedCache.push({ id: id, updatedAt: updatedAt });
-        msg.reply(
+        message.reply(
           instance.messageHandler.get(guild, "ALREADY_CLAIMED", {
             REMAINING: `${remaining}`,
           })
@@ -91,7 +91,7 @@ module.exports = {
 
     claimedCache.push({ id: id, updatedAt: moment.utc() });
     const newPoints = await gambling.addPoints(guild.id, id, pointsToGive);
-    msg.reply(
+    message.reply(
       instance.messageHandler.get(guild, "DAILY_REWARDS_CLAIMED", {
         POINTS: `${numeral(pointsToGive).format("0,0")}`,
       })

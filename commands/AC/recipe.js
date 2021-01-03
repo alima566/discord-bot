@@ -11,7 +11,7 @@ module.exports = {
   description:
     "Retrieve information about a specific recipe in *Animal Crossing: New Horizons*.",
   cooldown: "15s",
-  callback: (msg, args) => {
+  callback: ({ message, args }) => {
     fetch(`https://api.nookipedia.com/nh/recipes/${args[0].toLowerCase()}`, {
       method: "GET",
       headers: {
@@ -22,7 +22,7 @@ module.exports = {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        let msgEmbed = new MessageEmbed()
+        const msgEmbed = new MessageEmbed()
           .setColor("#8F5707")
           .setURL(`${data.url}`)
           .setAuthor(`${data.name}`, `${data.image_url}`, `${data.url}`)
@@ -55,10 +55,10 @@ module.exports = {
             `Powered by Nookipedia`,
             `https://nookipedia.com/wikilogo.png`
           );
-        msg.channel.send(msgEmbed);
+        message.channel.send(msgEmbed);
       })
       .catch((e) => {
-        msg.channel.send(`I couldn't find that DIY :sob:`);
+        message.channel.send(`I couldn't find that DIY :sob:`);
         log(
           "ERROR",
           "./commands/AC/recipe.js",

@@ -6,8 +6,8 @@ module.exports = {
   category: "Misc",
   cooldown: "15s",
   description: "KelleeBot tells you a random dad joke.",
-  callback: async (msg) => {
-    let m = await msg.channel.send(`Let me think of a dad joke...`);
+  callback: async ({ message }) => {
+    let m = await message.channel.send(`Let me think of a dad joke...`);
     fetch(`https://icanhazdadjoke.com/`, {
       method: "GET",
       headers: {

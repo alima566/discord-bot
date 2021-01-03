@@ -8,9 +8,9 @@ module.exports = {
   category: "Animals",
   cooldown: "15s",
   description: "KelleeBot shows you a random picture/gif of a bunny.",
-  callback: async (msg, args, text, client, prefix, instance) => {
-    const { guild } = msg;
-    let m = await msg.channel.send(
+  callback: async ({ message, instance }) => {
+    const { guild } = message;
+    let m = await message.channel.send(
       instance.messageHandler.get(guild, "LOOKING_FOR_BUNNY")
     );
     fetch("https://api.bunnies.io/v2/loop/random/?media=gif,png")
@@ -26,7 +26,7 @@ module.exports = {
           .setURL(`${data.media.gif}`)
           .setImage(`${data.media.gif}`);
         m.edit(instance.messageHandler.get(guild, "FOUND_ANIMAL"));
-        msg.channel.send(msgEmbed);
+        message.channel.send(msgEmbed);
       })
       .catch((e) => {
         log(

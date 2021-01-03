@@ -6,11 +6,11 @@ module.exports = {
   category: "Misc",
   cooldown: "15s",
   description: "KelleeBot gives you a random dad advice.",
-  callback: (msg) => {
+  callback: ({ message }) => {
     fetch(`https://api.adviceslip.com/advice`) //`https://api.scorpstuff.com/advice.php`)
       .then((response) => response.json())
       .then((data) => {
-        msg.channel.send(`${data["slip"]["advice"]}`);
+        message.channel.send(`${data["slip"]["advice"]}`);
       })
       .catch((e) => {
         log(

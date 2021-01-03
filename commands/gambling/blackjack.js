@@ -28,11 +28,11 @@ module.exports = {
   description: "Play blackjack with the bot.",
   expectedArgs: "<The amount you want to gamble>",
   requiredChannel: "gambling",
-  callback: async (msg, args, text, client, prefix, instance) => {
+  callback: async ({ message, args, instance }) => {
     gameOver = false; //Reset game status back to false each time command is ran
     playerWon = false; //Reset playerWon status back to false each time command is ran
 
-    const { guild, author, channel } = msg;
+    const { guild, author, channel } = message;
     const userID = author.id;
     const guildID = guild.id;
     const channelID = channel.id;
@@ -40,16 +40,16 @@ module.exports = {
 
     if (gamblingChannel !== null) {
       if (channelID !== gamblingChannel) {
-        msg
+        message
           .reply(`Blackjack can only be played in <#${gamblingChannel}>!`)
           .then((m) => {
             m.delete({ timeout: 3000 });
           });
-        msg.delete();
+        message.delete();
         return;
       }
     } else {
-      return msg.reply(
+      return message.reply(
         `A gambling channel needs to be set first in order for this command to be used.`
       );
     }
@@ -58,7 +58,9 @@ module.exports = {
     const actualPoints = await gambling.getPoints(guild.id, userID);
 
     if (actualPoints === 0) {
-      return msg.reply(instance.messageHandler.get(msg.guild, "NO_POINTS"));
+      return message.reply(
+        instance.messageHandler.get(message.guild, "NO_POINTS")
+      );
     }
 
     if (pointsToGamble.toLowerCase() === "all") {
@@ -66,26 +68,26 @@ module.exports = {
     }
 
     if (isNaN(pointsToGamble)) {
-      return msg.reply(instance.messageHandler.get(guild, "VALID_POINTS"));
+      return message.reply(instance.messageHandler.get(guild, "VALID_POINTS"));
     }
 
     if (pointsToGamble < 1) {
-      return msg.reply(instance.messageHandler.get(guild, "ONE_POINT"));
+      return message.reply(instance.messageHandler.get(guild, "ONE_POINT"));
     }
 
     if (pointsToGamble > actualPoints) {
-      return msg.reply(
+      return message.reply(
         `You don't have enough points! You only have ${numeral(
           actualPoints
         ).format(",")} point${actualPoints !== 1 ? "s" : ""}.`
       );
     }
 
-    playGame(msg, pointsToGamble, guildID, userID, args[0]);
+    playGame(message, pointsToGamble, guildID, userID, args[0]);
   },
 };
 
-const playGame = (msg, pointsToGamble, guildID, userID, args) => {
+const playGame = (message, pointsToGamble, guildID, userID, args) => {
   deck = createDeck();
   shuffleDeck(deck);
   playerCards = [getNextCard(), getNextCard()];
@@ -93,7 +95,7 @@ const playGame = (msg, pointsToGamble, guildID, userID, args) => {
   showStatus();
 
   const msgEmbed = createEmbed(pointsToGamble);
-  msg.channel.send(msgEmbed).then((m) => {
+  message.channel.send(msgEmbed).then((m) => {
     m.react(hit).then(() => {
       m.react(stand);
     });

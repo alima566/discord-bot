@@ -8,9 +8,9 @@ module.exports = {
   cooldown: "15s",
   description:
     "KelleeBot shows you a random picture of a fox and provides you with a random fox fact.",
-  callback: async (msg, args, text, client, prefix, instance) => {
-    const { guild } = msg;
-    let m = await msg.channel.send(
+  callback: async ({ message, instance }) => {
+    const { guild } = message;
+    let m = await message.channel.send(
       instance.messageHandler.get(guild, "LOOKING_FOR_FOX")
     );
     fetch(`https://randomfox.ca/floof`)
@@ -18,7 +18,7 @@ module.exports = {
       .then((img) => {
         getRandomFoxFact()
           .then((fact) => {
-            let msgEmbed = new MessageEmbed()
+            const msgEmbed = new MessageEmbed()
               .setColor("#006798")
               .setAuthor(
                 `Fox`,
@@ -34,7 +34,7 @@ module.exports = {
                 inline: true,
               });
             m.edit(instance.messageHandler.get(guild, "FOUND_ANIMAL"));
-            msg.channel.send(msgEmbed);
+            message.channel.send(msgEmbed);
           })
           .catch((e) => {
             log(

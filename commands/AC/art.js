@@ -12,7 +12,7 @@ module.exports = {
   description:
     "Retrieve information about a specific artwork in *Animal Crossing: New Horizons*.",
   cooldown: "15s",
-  callback: (msg, args) => {
+  callback: ({ message, args }) => {
     fetch(`https://api.nookipedia.com/nh/art/${args[0].toLowerCase()}`, {
       method: "GET",
       headers: {
@@ -22,7 +22,11 @@ module.exports = {
     })
       .then((response) => response.json())
       .then((data) => {
-        let msgEmbed = new MessageEmbed()
+        if (data.title === "No data was found for the given query.") {
+          return message.reply(`I couldn't find that artwork :sob:`);
+        }
+
+        const msgEmbed = new MessageEmbed()
           .setColor("DARK_RED")
           .setURL(`${data.url}`)
           .setAuthor(`${data.name}`, `${data.image_url}`, `${data.url}`)
@@ -58,10 +62,10 @@ module.exports = {
             `Powered by Nookipedia`,
             `https://nookipedia.com/wikilogo.png`
           );
-        msg.channel.send(msgEmbed);
+        message.channel.send(msgEmbed);
       })
       .catch((e) => {
-        msg.channel.send(`I couldn't find that artwork :sob:`);
+        message.channel.send(`I couldn't find that artwork :sob:`);
         log(
           "ERROR",
           "./commands/AC/art.js",

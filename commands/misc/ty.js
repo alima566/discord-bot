@@ -7,17 +7,17 @@ module.exports = {
   maxArgs: 1,
   cooldown: "15s",
   description: "KelleeBot gives you or another user a random compliment.",
-  callback: (msg, args) => {
+  callback: ({ message, args }) => {
     var index = getRandomNumber(comp.COMPLIMENTS.length);
     if (!args.length) {
-      msg.channel.send(
-        comp.COMPLIMENTS[index].replace("<user>", msg.author.username)
+      message.channel.send(
+        comp.COMPLIMENTS[index].replace("<user>", message.author.username)
       );
     } else {
       var user = args[0].startsWith("@")
         ? args[0].replace("@", "").trim()
         : args[0].trim();
-      msg.channel.send(comp.COMPLIMENTS[index].replace("<user>", user));
+      message.channel.send(comp.COMPLIMENTS[index].replace("<user>", user));
     }
   },
 };

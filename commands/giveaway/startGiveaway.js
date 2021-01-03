@@ -3,16 +3,16 @@ const ms = require("ms");
 module.exports = {
   commands: ["start-giveaway", "sgive"],
   category: "Giveaways",
-  expectedArgs: "<channel> <role> <duration> <# of winners> <prize>",
+  expectedArgs: "<channel> <duration> <# of winners> <prize>",
   minArgs: 4, //5,
   description: "Starts a giveaway.",
   requiredPermissions: ["MANAGE_MESSAGES"],
-  callback: (msg, args, text, client) => {
+  callback: ({ message, args, client }) => {
     // Giveaway channel
-    let giveawayChannel = msg.mentions.channels.first();
+    let giveawayChannel = message.mentions.channels.first();
     // If no channel is mentionned
     if (!giveawayChannel) {
-      return msg.channel.send(":x: You have to mention a valid channel!");
+      return message.channel.send(":x: You have to mention a valid channel!");
     }
 
     /*let giveawayRole = msg.mentions.roles.first();
@@ -24,14 +24,14 @@ module.exports = {
     let giveawayDuration = args[1]; //args[2];
     // If the duration isn't valid
     if (!giveawayDuration || isNaN(ms(giveawayDuration))) {
-      return msg.channel.send(":x: You have to specify a valid duration!");
+      return message.channel.send(":x: You have to specify a valid duration!");
     }
 
     // Number of winners
     let giveawayNumberWinners = args[2]; //args[3];
     // If the specified number of winners is not a number
     if (isNaN(giveawayNumberWinners) || parseInt(giveawayNumberWinners) <= 0) {
-      return msg.channel.send(
+      return message.channel.send(
         ":x: You have to specify a valid number of winners!"
       );
     }
@@ -40,7 +40,7 @@ module.exports = {
     let giveawayPrize = args.slice(3).join(" ");
     // If no prize is specified
     if (!giveawayPrize) {
-      return msg.channel.send(":x: You have to specify a valid prize!");
+      return message.channel.send(":x: You have to specify a valid prize!");
     }
 
     // Start the giveaway
@@ -52,7 +52,7 @@ module.exports = {
       // The giveaway winner count
       winnerCount: giveawayNumberWinners,
       // Who hosts this giveaway
-      hostedBy: msg.author,
+      hostedBy: message.author,
       // Messages
       messages: {
         giveaway: `${giveawayReactEmoji}${giveawayReactEmoji} **GIVEAWAY** ${giveawayReactEmoji}${giveawayReactEmoji}`,
@@ -75,7 +75,7 @@ module.exports = {
       },
     });
 
-    msg.channel.send(`Giveaway started in ${giveawayChannel}!`);
-    msg.delete();
+    message.channel.send(`Giveaway started in ${giveawayChannel}!`);
+    message.delete();
   },
 };

@@ -3,10 +3,10 @@ module.exports = {
   category: "Testing",
   description: "Restarts the bot.",
   ownerOnly: true,
-  callback: async (msg) => {
-    msg.channel.send("Restarting...").then(() => {
+  callback: async ({ message }) => {
+    message.channel.send("Restarting...").then(() => {
       process.exit(1);
     });
-    msg.delete();
+    message.delete();
   },
 };

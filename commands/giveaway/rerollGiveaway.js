@@ -6,7 +6,7 @@ module.exports = {
   maxArgs: 1,
   description: "Re-rolls a giveaway.",
   requiredPermissions: ["MANAGE_MESSAGES"],
-  callback: (msg, args, text, client) => {
+  callback: ({ message, args, client }) => {
     // try to found the giveaway with prize then with ID
     let giveaway =
       // Search with giveaway prize
@@ -18,7 +18,7 @@ module.exports = {
 
     // If no giveaway was found
     if (!giveaway) {
-      return msg.channel.send(
+      return message.channel.send(
         "Unable to find a giveaway for `" + args.join(" ") + "`."
       );
     }
@@ -28,7 +28,7 @@ module.exports = {
       .reroll(giveaway.messageID)
       .then(() => {
         // Success message
-        msg.channel.send("Giveaway rerolled!");
+        message.channel.send("Giveaway rerolled!");
       })
       .catch((e) => {
         if (
@@ -36,10 +36,10 @@ module.exports = {
             `Giveaway with message ID ${giveaway.messageID} is not ended.`
           )
         ) {
-          msg.channel.send("This giveaway has not ended!");
+          message.channel.send("This giveaway has not ended!");
         } else {
           console.error(e);
-          msg.channel.send("An error occured...");
+          message.channel.send("An error occured...");
         }
       });
   },

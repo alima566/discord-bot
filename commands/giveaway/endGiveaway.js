@@ -7,7 +7,7 @@ module.exports = {
   maxArgs: 1,
   description: "Ends a giveaway.",
   requiredPermissions: ["MANAGE_MESSAGES"],
-  callback: (msg, args, text, client) => {
+  callback: ({ message, args, client }) => {
     // try to found the giveaway with prize then with ID
     let giveaway =
       // Search with giveaway prize
@@ -19,7 +19,7 @@ module.exports = {
 
     // If no giveaway was found
     if (!giveaway) {
-      return msg.channel.send(
+      return message.channel.send(
         "Unable to find a giveaway for `" + args.join(" ") + "`."
       );
     }
@@ -32,7 +32,7 @@ module.exports = {
       // Success message
       .then(() => {
         // Success message
-        msg.channel.send(
+        message.channel.send(
           "Giveaway will end in less than " +
             client.giveawaysManager.options.updateCountdownEvery / 1000 +
             " seconds..."
@@ -44,10 +44,10 @@ module.exports = {
             `Giveaway with message ID ${giveaway.messageID} is already ended.`
           )
         ) {
-          msg.channel.send("This giveaway is already ended!");
+          message.channel.send("This giveaway is already ended!");
         } else {
           console.error(e);
-          msg.channel.send("An error occured...");
+          message.channel.send("An error occured...");
         }
       });
   },

@@ -5,13 +5,13 @@ module.exports = {
   minArgs: 1,
   maxArgs: -1,
   description: "Plays the specified song.",
-  callback: (msg, args) => {
-    const voiceChannel = msg.member.voice.channel;
+  callback: ({ message, args }) => {
+    const voiceChannel = message.member.voice.channel;
     if (!voiceChannel) {
-      return msg.reply(
+      return message.reply(
         `You need to be in a voice channel in order to play music!`
       );
     }
-    return msg.client.player.play(msg, args.join(" "));
+    return message.client.player.play(message, args.join(" "));
   },
 };

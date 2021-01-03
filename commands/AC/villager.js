@@ -12,7 +12,7 @@ module.exports = {
   description:
     "Retrieve information about a specific villager in any Animal Crossing game.",
   cooldown: "15s",
-  callback: (msg, args) => {
+  callback: ({ message, args }) => {
     fetch(
       `https://api.nookipedia.com/villagers?name=${args[0].toLowerCase()}&nhdetails=true`,
       {
@@ -25,7 +25,7 @@ module.exports = {
     )
       .then((response) => response.json())
       .then((data) => {
-        let msgEmbed = new MessageEmbed()
+        const msgEmbed = new MessageEmbed()
           .setColor("ORANGE")
           .setURL(`${data[0].url}`)
           .setAuthor(
@@ -80,10 +80,10 @@ module.exports = {
             `Powered by Nookipedia`,
             `https://nookipedia.com/wikilogo.png`
           );
-        msg.channel.send(msgEmbed);
+        message.channel.send(msgEmbed);
       })
       .catch((e) => {
-        msg.channel.send(`I couldn't find that villager :sob:`);
+        message.channel.send(`I couldn't find that villager :sob:`);
         log(
           "ERROR",
           "./commands/AC/villager.js",

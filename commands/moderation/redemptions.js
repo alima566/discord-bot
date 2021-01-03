@@ -14,16 +14,16 @@ module.exports = {
   description: "Updates the status of a redemption.",
   requiredPermissions: ["ADMINISTRATOR"],
   permissionError: "You must be an administrator to execute this command.",
-  callback: async (msg, args) => {
-    const { guild } = msg;
+  callback: async ({ message, args }) => {
+    const { guild } = message;
     const messageID = args.shift();
     const status = args.shift().toUpperCase();
 
-    msg.delete();
+    message.delete();
 
     const newStatus = statusMessages[status];
     if (!newStatus) {
-      msg.reply(
+      message.reply(
         `Unknown status "${status}". Please use ${Object.keys(statusMessages)}.`
       );
       return;
@@ -36,13 +36,13 @@ module.exports = {
 
     const channel = guild.channels.cache.get(channelID);
     if (!channel) {
-      msg.reply(`The redemption channel no longer exists.`);
+      message.reply(`The redemption channel no longer exists.`);
       return;
     }
 
     const targetMessage = await channel.messages.fetch(messageID, false, true);
     if (!targetMessage) {
-      msg.reply(`That message no longer exists.`);
+      message.reply(`That message no longer exists.`);
       return;
     }
 

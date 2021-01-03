@@ -8,9 +8,9 @@ module.exports = {
   description: "Sets the channel for all the bot logging.",
   requiredPermissions: ["ADMINISTRATOR"],
   permissionError: "You must be an administrator to execute this command.",
-  callback: async (msg) => {
-    const { guild } = msg;
-    const channel = msg.mentions.channels.first() || msg.channel;
+  callback: async ({ message }) => {
+    const { guild } = message;
+    const channel = message.mentions.channels.first() || message.channel;
     const guildID = guild.id;
 
     await botChannelSchema.findOneAndUpdate(
@@ -27,11 +27,11 @@ module.exports = {
       }
     );
 
-    msg
+    message
       .reply(`Bot logging channel has been set to <#${channel.id}>.`)
       .then((m) => {
         m.delete({ timeout: 3000 });
       });
-    msg.delete();
+    message.delete();
   },
 };

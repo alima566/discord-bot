@@ -11,17 +11,17 @@ module.exports = {
   description:
     "Retrieve information about a specific Pokémon. Command works with either the Pokémon name or its Pokédex number.",
   cooldown: "15s",
-  callback: (msg, args) => {
+  callback: ({ message, args }) => {
     fetch(`https://pokeapi.co/api/v2/pokemon/${args[0].toLowerCase()}/`)
       .then((response) => response.json())
       .then((data) => {
-        let pokeName = `${capFirstLetter(data.name)}`;
-        let image = `https://pokeres.bastionbot.org/images/pokemon/${data.id}.png`;
-        let pokedexLink = `https://www.pokemon.com/us/pokedex/${data.id}`;
-        let bulbapedia = `https://bulbapedia.bulbagarden.net/wiki/${pokeName}_(Pokémon)`;
-        let weight = data.weight / 10;
+        const pokeName = `${capFirstLetter(data.name)}`;
+        const image = `https://pokeres.bastionbot.org/images/pokemon/${data.id}.png`;
+        const pokedexLink = `https://www.pokemon.com/us/pokedex/${data.id}`;
+        const bulbapedia = `https://bulbapedia.bulbagarden.net/wiki/${pokeName}_(Pokémon)`;
+        const weight = data.weight / 10;
         //console.log(data);
-        let msgEmbed = new MessageEmbed()
+        const msgEmbed = new MessageEmbed()
           .setColor("DARK_AQUA")
           .setURL(`${pokedexLink}`)
           .setAuthor(`#${data.id} - ${pokeName}`, `${image}`, `${pokedexLink}`)
@@ -59,10 +59,10 @@ module.exports = {
               inline: true,
             }
           );
-        msg.channel.send(msgEmbed);
+        message.channel.send(msgEmbed);
       })
       .catch((e) => {
-        msg.channel.send(`I couldn't find that Pokémon :sob:`);
+        message.channel.send(`I couldn't find that Pokémon :sob:`);
         log(
           "ERROR",
           "./commands/pokemon/pokemon.js",

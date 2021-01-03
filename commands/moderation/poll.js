@@ -6,10 +6,10 @@ module.exports = {
   description: "Creates a poll.",
   requiredPermissions: ["ADMINISTRATOR"],
   permissionError: "You must be an administrator to execute this command.",
-  callback: async (msg, args) => {
+  callback: async ({ message, args }) => {
     const reactions = args;
-    await msg.delete();
-    const fetched = await msg.channel.messages.fetch({ limit: 1 });
+    await message.delete();
+    const fetched = await message.channel.messages.fetch({ limit: 1 });
     if (fetched && fetched.first()) {
       addReactions(fetched.first(), reactions);
     }

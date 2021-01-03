@@ -7,20 +7,19 @@ module.exports = {
   description: "Makes the bot say whatever you type.",
   requiredPermissions: ["ADMINISTRATOR"],
   permissionError: "You must be an administrator to execute this command.",
-  callback: async (msg, args, text) => {
-    let message = "";
-    const channel = msg.mentions.channels.first();
+  callback: async ({ message, args }) => {
+    let msg = "";
+    const channel = message.mentions.channels.first();
     if (channel) {
       if (args.length === 1) {
-        msg.channel.send(`Please provide something to say.`);
-        return;
+        return message.channel.send(`Please provide something to say.`);
       }
-      message = args.slice(1).join(" ");
-      channel.send(message);
+      msg = args.slice(1).join(" ");
+      channel.send(msg);
     } else {
-      message = args.join(" ");
-      msg.channel.send(message);
+      msg = args.join(" ");
+      message.channel.send(msg);
     }
-    msg.delete();
+    message.delete();
   },
 };

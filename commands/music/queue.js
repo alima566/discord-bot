@@ -4,10 +4,10 @@ module.exports = {
   commands: ["queue", "songs"],
   category: "Music",
   description: "Gets all the songs currently in the queue.",
-  callback: async (msg) => {
-    const queue = msg.client.player.getQueue(msg);
+  callback: async ({ message }) => {
+    const queue = message.client.player.getQueue(message);
     if (!queue) {
-      return msg.channel.send(`There are currently no songs in the queue!`);
+      return message.channel.send(`There are currently no songs in the queue!`);
     }
 
     const tracks = queue.tracks;
@@ -27,6 +27,6 @@ module.exports = {
     }
 
     embed.setDescription(text);
-    msg.channel.send(embed);
+    message.channel.send(embed);
   },
 };

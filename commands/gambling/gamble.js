@@ -10,25 +10,25 @@ module.exports = {
   expectedArgs: "<The amount you want to gamble>",
   //cooldown: 60 * 2.5,
   requiredChannel: "gambling",
-  callback: async (msg, args, text, client, prefix, instance) => {
-    const target = msg.author;
-    const channelID = msg.channel.id;
-    const guildID = msg.guild.id;
+  callback: async ({ message, args, instance }) => {
+    const target = message.author;
+    const channelID = message.channel.id;
+    const guildID = message.guild.id;
     const userID = target.id;
     const gamblingChannel = await gambling.getGamblingChannel(guildID);
 
     if (gamblingChannel !== null) {
       if (channelID !== gamblingChannel) {
-        msg
+        message
           .reply(`Gambling is only allowed in <#${gamblingChannel}>!`)
           .then((message) => {
             message.delete({ timeout: 5000 });
           });
-        msg.delete();
+        message.delete();
         return;
       }
     } else {
-      msg.reply(
+      message.reply(
         `A gambling channel needs to be set first in order for this command to be used.`
       );
       return;
@@ -38,7 +38,7 @@ module.exports = {
     const actualPoints = await gambling.getPoints(guildID, userID);
 
     if (actualPoints === 0) {
-      msg.reply(instance.messageHandler.get(msg.guild, "NO_POINTS"));
+      message.reply(instance.messageHandler.get(message.guild, "NO_POINTS"));
       return;
     }
 
@@ -49,8 +49,8 @@ module.exports = {
           userID,
           -actualPoints
         );
-        msg.channel.send(
-          instance.messageHandler.get(msg.guild, "ALL_IN_LOSE", {
+        message.channel.send(
+          instance.messageHandler.get(message.guild, "ALL_IN_LOSE", {
             USER: `<@${userID}>`,
           })
         );
@@ -61,8 +61,8 @@ module.exports = {
           userID,
           actualPoints
         );
-        msg.channel.send(
-          instance.messageHandler.get(msg.guild, "ALL_IN_WIN", {
+        message.channel.send(
+          instance.messageHandler.get(message.guild, "ALL_IN_WIN", {
             USER: `<@${userID}>`,
             POINTS: `${numeral(newPoints).format(",")}`,
           })
@@ -70,11 +70,15 @@ module.exports = {
         return;
       }
     } else if (isNaN(pointsToGamble)) {
-      return msg.reply(instance.messageHandler.get(msg.guild, "VALID_POINTS"));
+      return message.reply(
+        instance.messageHandler.get(message.guild, "VALID_POINTS")
+      );
     } else if (pointsToGamble < 1) {
-      return msg.reply(instance.messageHandler.get(msg.guild, "ONE_POINT"));
+      return message.reply(
+        instance.messageHandler.get(message.guild, "ONE_POINT")
+      );
     } else if (pointsToGamble > actualPoints) {
-      return msg.reply(
+      return message.reply(
         `you don't have enough points! You only have ${numeral(
           actualPoints
         ).format(",")} ${actualPoints !== 1 ? "points" : "point"}!`
@@ -87,14 +91,14 @@ module.exports = {
           -parseInt(pointsToGamble)
         );
         if (actualPoints === parseInt(pointsToGamble)) {
-          msg.channel.send(
-            instance.messageHandler.get(msg.guild, "ALL_IN_LOSE", {
+          message.channel.send(
+            instance.messageHandler.get(message.guild, "ALL_IN_LOSE", {
               USER: `<@${userID}>`,
             })
           );
           return;
         } else {
-          msg.channel.send(
+          message.channel.send(
             `<@${userID}> gambled ${numeral(pointsToGamble).format(
               ","
             )} and lost ${numeral(pointsToGamble).format(",")} ${
@@ -112,15 +116,15 @@ module.exports = {
           parseInt(pointsToGamble)
         );
         if (actualPoints === parseInt(pointsToGamble)) {
-          msg.channel.send(
-            instance.messageHandler.get(msg.guild, "ALL_IN_WIN", {
+          message.channel.send(
+            instance.messageHandler.get(message.guild, "ALL_IN_WIN", {
               USER: `<@${userID}>`,
               POINTS: `${numeral(newPoints).format(",")}`,
             })
           );
           return;
         } else {
-          msg.channel.send(
+          message.channel.send(
             `<@${userID}> gambled ${numeral(pointsToGamble).format(
               ","
             )} and won ${numeral(pointsToGamble).format(",")} ${

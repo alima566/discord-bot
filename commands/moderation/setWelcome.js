@@ -9,18 +9,18 @@ module.exports = {
   description: "Sets a welcome message for the server.",
   requiredPermissions: ["ADMINISTRATOR"],
   permissionError: "You must be an administrator to execute this command.",
-  callback: async (msg, args, text) => {
-    const { guild } = msg;
+  callback: async ({ message, args }) => {
+    const { guild } = message;
     let welcomeMessage = ""; //args.join(" ");
 
-    let channel = msg.mentions.channels.first();
+    let channel = message.mentions.channels.first();
     if (channel) {
       if (args.length === 1) {
-        return msg.channel.send(`Please provide a welcome message.`);
+        return message.channel.send(`Please provide a welcome message.`);
       }
       welcomeMessage = args.slice(1).join(" ");
     } else {
-      channel = msg.channel;
+      channel = message.channel;
       welcomeMessage = args.join(" ");
     }
 
@@ -40,13 +40,13 @@ module.exports = {
       }
     );
 
-    msg
+    message
       .reply(
         `Welcome has been set to <#${channel.id}> and the welcome message is ${welcomeMessage}`
       )
       .then((m) => {
         m.delete({ timeout: 3000 });
       });
-    msg.delete();
+    message.delete();
   },
 };
