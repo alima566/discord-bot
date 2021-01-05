@@ -2,22 +2,23 @@ const { getGamblingChannel, getPoints, addPoints } = require("@utils/gambling");
 const numeral = require("numeral");
 const { getRandomNumber } = require("@utils/functions");
 
-const slotsEmoji = ["kellee1Star", "kellee2Star", "kellee3Star", "kellee4Star"]; //["💰", "✨", "💩", "🔥"];
+const slotsEmoji = [
+  "750956567666491393", // kellee1Star
+  "750956642459189289", // kellee2Star
+  "750956774810583103", // kellee3Star
+  "750956822755541012", // kellee4Star
+]; //["💰", "✨", "💩", "🔥"];
 const multiplier = slotsEmoji.length;
-
-const getEmoji = (msg, emoteName) => {
-  return msg.guild.emojis.cache.find((e) => e.name === emoteName);
-};
 
 module.exports = {
   commands: ["slots", "slot"],
   category: "Gambling",
   minArgs: 1,
   maxArgs: 1,
-  description: "Users can gamble away the amount of points that they have.",
+  description: "Play the slots and test your luck.",
   expectedArgs: "<The amount you want to gamble>",
   requiredChannel: "gambling",
-  callback: async ({ message, args, instance }) => {
+  callback: async ({ message, args, client, instance }) => {
     const target = message.author;
     const channelID = message.channel.id;
     const guildID = message.guild.id;
@@ -47,9 +48,9 @@ module.exports = {
     const slot2 = getRandomNumber(slotsEmoji);
     const slot3 = getRandomNumber(slotsEmoji);
 
-    const emote1 = getEmoji(message, slotsEmoji[slot1]);
-    const emote2 = getEmoji(message, slotsEmoji[slot2]);
-    const emote3 = getEmoji(message, slotsEmoji[slot3]);
+    const emote1 = client.emojis.cache.get(slotsEmoji[slot1]);
+    const emote2 = client.emojis.cache.get(slotsEmoji[slot2]);
+    const emote3 = client.emojis.cache.get(slotsEmoji[slot3]);
 
     const slotsText = `<@${userID}> spun ${emote1} | ${emote2} | ${emote3}`;
 
