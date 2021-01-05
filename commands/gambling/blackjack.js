@@ -1,4 +1,4 @@
-const gambling = require("@utils/gambling");
+const { getGamblingChannel, getPoints, addPoints } = require("@utils/gambling");
 const { getRandomNumber } = require("@utils/functions");
 
 const { MessageEmbed } = require("discord.js");
@@ -36,14 +36,14 @@ module.exports = {
     const userID = author.id;
     const guildID = guild.id;
     const channelID = channel.id;
-    const gamblingChannel = await gambling.getGamblingChannel(guildID);
+    const gamblingChannel = await getGamblingChannel(guildID);
 
     if (gamblingChannel !== null) {
       if (channelID !== gamblingChannel) {
         message
           .reply(`Blackjack can only be played in <#${gamblingChannel}>!`)
-          .then((m) => {
-            m.delete({ timeout: 3000 });
+          .then((msg) => {
+            msg.delete({ timeout: 3000 });
           });
         message.delete();
         return;
@@ -55,7 +55,7 @@ module.exports = {
     }
 
     let pointsToGamble = args[0];
-    const actualPoints = await gambling.getPoints(guild.id, userID);
+    const actualPoints = await getPoints(guild.id, userID);
 
     if (actualPoints === 0) {
       return message.reply(
@@ -245,7 +245,7 @@ const checkForEndOfGame = (guildID, userID, pointsGambled) => {
 
 const addRemovePoints = async (guildID, userID, pointsToGamble) => {
   if (gameOver) {
-    return await gambling.addPoints(
+    return await addPoints(
       guildID,
       userID,
       playerWon ? pointsToGamble : pointsToGamble * -1

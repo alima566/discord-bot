@@ -3,7 +3,7 @@ const numeral = require("numeral");
 
 const { pointsToGive } = require("@root/config.json");
 const dailyRewardsSchema = require("@schemas/daily-rewards-schema");
-const gambling = require("@utils/gambling");
+const { getGamblingChannel, addPoints } = require("@utils/gambling");
 
 // Array of member IDs who have claimed their daily rewards in the last 24 hours
 // Resets every 10 mins
@@ -23,14 +23,14 @@ module.exports = {
   callback: async ({ message, instance }) => {
     const { guild, member, channel } = message;
     const { id } = member;
-    const gamblingChannel = await gambling.getGamblingChannel(guild.id);
+    const gamblingChannel = await getGamblingChannel(guild.id);
 
     if (gamblingChannel !== null) {
       if (channel.id !== gamblingChannel) {
         message
           .reply(`Daily can only be redeemed in <#${gamblingChannel}>!`)
-          .then((message) => {
-            message.delete({ timeout: 5000 });
+          .then((msg) => {
+            msg.delete({ timeout: 5000 });
           });
         message.delete();
         return;
@@ -91,7 +91,7 @@ module.exports = {
     });
 
     claimedCache.push({ id: id, updatedAt: moment.utc() });
-    const newPoints = await gambling.addPoints(guild.id, id, pointsToGive);
+    const newPoints = await addPoints(guild.id, id, pointsToGive);
     message.reply(
       instance.messageHandler.get(guild, "DAILY_REWARDS_CLAIMED", {
         POINTS: `${numeral(pointsToGive).format("0,0")}`,

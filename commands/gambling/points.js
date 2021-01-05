@@ -1,4 +1,4 @@
-const gambling = require("@utils/gambling");
+const { getGamblingChannel, getPoints } = require("@utils/gambling");
 const numeral = require("numeral");
 const gamblingSchema = require("@schemas/gambling-schema");
 
@@ -7,7 +7,6 @@ module.exports = {
   category: "Gambling",
   maxArgs: 1,
   description: "Displays how many points you or another user has.",
-  //cooldown: 15,
   requiredChannel: "gambling",
   callback: async ({ message }) => {
     const target = message.mentions.users.first() || message.author;
@@ -15,26 +14,25 @@ module.exports = {
     const guildID = message.guild.id;
     const userID = target.id;
 
-    const gamblingChannel = await gambling.getGamblingChannel(guildID);
+    const gamblingChannel = await getGamblingChannel(guildID);
 
     if (gamblingChannel !== null) {
       if (channelID !== gamblingChannel) {
         message
           .reply(`Points can only be checked in <#${gamblingChannel}>!`)
-          .then((message) => {
-            message.delete({ timeout: 5000 });
+          .then((msg) => {
+            msg.delete({ timeout: 5000 });
           });
         message.delete();
         return;
       }
     } else {
-      message.reply(
+      return message.reply(
         `A gambling channel needs to be set first in order for this command to be used.`
       );
-      return;
     }
 
-    const points = await gambling.getPoints(guildID, userID);
+    const points = await getPoints(guildID, userID);
     const ranking = await getRanking(guildID, userID);
     message.channel.send(
       `${target} has ${numeral(points).format(",")} ${
