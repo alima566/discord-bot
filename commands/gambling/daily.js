@@ -52,14 +52,18 @@ module.exports = {
       return cache.id === id;
     });
     if (inCache) {
-      console.log("Returning from cache");
-      const remaining = getTimeRemaining(claimedCache[index].updatedAt);
-      message.reply(
-        instance.messageHandler.get(guild, "ALREADY_CLAIMED", {
-          REMAINING: `${remaining}`,
-        })
-      );
-      return;
+      if (getHours(claimedCache[index].updatedAt) == 24) {
+        claimedCache.splice(index, 1); // Remove from cache if time expires before the cache can be cleared
+      } else {
+        console.log("Returning from cache");
+        const remaining = getTimeRemaining(claimedCache[index].updatedAt);
+        message.reply(
+          instance.messageHandler.get(guild, "ALREADY_CLAIMED", {
+            REMAINING: `${remaining}`,
+          })
+        );
+        return;
+      }
     }
 
     console.log("Fetching from mongo");
