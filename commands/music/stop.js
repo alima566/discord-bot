@@ -15,6 +15,13 @@ module.exports = {
         );
       return message.channel.send(msgEmbed);
     }
-    return message.client.player.stop(message);
+
+    const msgEmbed = new MessageEmbed()
+      .setAuthor("Music Stopped", `${msg.guild.iconURL()}`)
+      .setColor("#1ED761")
+      .setDescription(`⏹️ | Music stopped.`);
+
+    message.channel.send(msgEmbed);
+    message.client.player.stop(message);
   },
 };
