@@ -10,6 +10,7 @@ module.exports = {
       const msgEmbed = new MessageEmbed()
         .setColor("#1ED761")
         .setAuthor("No Music", `${message.guild.iconURL()}`)
+        .setColor("#1ED761")
         .setDescription(`❌ | There are currently no songs in the queue!`);
 
       return message.channel.send(msgEmbed);

@@ -9,6 +9,7 @@ module.exports = {
     if (!voiceChannel) {
       const msgEmbed = new MessageEmbed()
         .setAuthor("Not Connected", `${msg.guild.iconURL()}`)
+        .setColor("#1ED761")
         .setDescription(
           `❌ | You need to be in a voice channel in order to stop the music!`
         );
