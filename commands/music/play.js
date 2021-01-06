@@ -11,7 +11,7 @@ module.exports = {
     const voiceChannel = message.member.voice.channel;
     if (!voiceChannel) {
       const msgEmbed = new MessageEmbed()
-        .setAuthor("Not Connected", `${msg.guild.iconURL()}`)
+        .setAuthor("Not Connected", `${message.guild.iconURL()}`)
         .setDescription(
           `❌ | You need to be in a voice channel in order to play music!`
         );
