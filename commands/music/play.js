@@ -1,3 +1,5 @@
+const { MessageEmbed } = require("discord.js");
+
 module.exports = {
   commands: "play",
   category: "Music",
@@ -8,10 +10,14 @@ module.exports = {
   callback: ({ message, args }) => {
     const voiceChannel = message.member.voice.channel;
     if (!voiceChannel) {
-      return message.reply(
-        `You need to be in a voice channel in order to play music!`
-      );
+      const msgEmbed = new MessageEmbed()
+        .setAuthor("Not Connected", `${msg.guild.iconURL()}`)
+        .setDescription(
+          `❌ | You need to be in a voice channel in order to play music!`
+        );
+      return message.channel.send(msgEmbed);
     }
+
     return message.client.player.play(message, args.join(" "));
   },
 };
