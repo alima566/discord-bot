@@ -12,21 +12,23 @@ module.exports = {
 
     const tracks = queue.tracks;
     const embed = new MessageEmbed()
-      .setAuthor(
-        `There ${tracks.length != 1 ? "are" : "is"} currently ${
-          tracks.length
-        } song${tracks.length != 1 ? "s" : ""} in the queue.`
-      )
+      .setAuthor(`Music Queue`, `${message.guild.iconURL()}`)
       .setColor("#1ED761");
+    const progressBar = message.client.player.createProgressBar(message, {
+      timecodes: true,
+    });
 
     let text = "";
     for (let i = 0; i < tracks.length; i++) {
-      text += `${i + 1}. ${tracks[i].title} (${
+      text += `${i + 1}. [${tracks[i].title}](${tracks[i].url}) (${
         tracks[i].duration
-      }) - Requested by: ${tracks[i].requestedBy}\n`;
+      }) - Requested by ${tracks[i].requestedBy.tag}\n`;
+      if (i === 0) {
+        text += `${progressBar}\n`;
+      }
     }
 
-    embed.setDescription(text);
+    embed.setDescription(text).setFooter(`Total Songs: ${tracks.length}`);
     message.channel.send(embed);
   },
 };
