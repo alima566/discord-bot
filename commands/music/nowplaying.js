@@ -18,7 +18,10 @@ module.exports = {
         `[${nowPlaying.title}](${nowPlaying.url}) (${nowPlaying.duration})\n${progressBar}`
       )
       .setThumbnail(`${nowPlaying.thumbnail}`)
-      .setFooter(`Requested by ${nowPlaying.requestedBy.tag}`);
+      .setFooter(
+        `Requested by ${nowPlaying.requestedBy.tag}`,
+        `${nowPlaying.requestedBy.displayAvatarURL()}`
+      );
     return message.channel.send(msgEmbed);
   },
 };
