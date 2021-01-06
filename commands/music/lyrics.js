@@ -40,7 +40,7 @@ module.exports = {
                 }
                 if (lyrics.length < 2048) {
                   let lyricsEmbed = new MessageEmbed()
-                    .setColor("#00724E")
+                    .setColor("#1ED761")
                     .setTitle(songName)
                     .setDescription(lyrics.trim())
                     .setFooter(`Lyrics provided by Genius.com`);
@@ -49,12 +49,12 @@ module.exports = {
                 } else {
                   // 2048 < lyrics.length < 4096
                   let firstLyricsEmbed = new MessageEmbed()
-                    .setColor("#00724E")
+                    .setColor("#1ED761")
                     .setTitle(songName)
                     .setDescription(lyrics.slice(0, 2048))
                     .setFooter(`Lyrics provided by Genius.com`);
                   let secondLyricsEmbed = new MessageEmbed()
-                    .setColor("#00724E")
+                    .setColor("#1ED761")
                     .setDescription(lyrics.slice(2048, lyrics.length))
                     .setFooter(`Lyrics provided by Genius.com`);
                   m.edit(`Here's what I found.`);
