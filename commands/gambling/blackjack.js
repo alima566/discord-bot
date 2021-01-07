@@ -134,6 +134,8 @@ const playGame = (message, pointsToGamble, guildID, userID, args) => {
 
     collector.on("end", (collected, reason) => {
       if (reason === "time") {
+        gameOver = true;
+        m.reactions.removeAll();
         return m.channel.send(`<@${userID}>, you did not react in time.`);
       }
     });
