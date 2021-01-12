@@ -2,6 +2,7 @@ const cron = require("cron");
 const moment = require("moment");
 const numeral = require("numeral");
 const gamblingSchema = require("@schemas/gambling-schema");
+const { incrementMonthlyWins } = require("@utils/monthlyWins");
 const { monthlyPrize } = require("@root/config.json");
 const { sendMessageToBotThings, log } = require("@utils/functions");
 
@@ -39,6 +40,7 @@ const execute = async (client) => {
         )}) for the month of ${month}! You have won a free month of ${monthlyPrize} and have earned the coveted <@&${masterGamblerRoleID}> role! Please check your DM for your gift!`
       );
       sendDM(client, guild, userID, month, points);
+      await incrementMonthlyWins(guildId, userID);
       addRemoveRole(masterGamblerRoleID, guild, userID);
       return;
     }
