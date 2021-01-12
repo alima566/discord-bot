@@ -209,14 +209,14 @@ const showStatus = () => {
 
 const getWinMsg = (pointsGambled, args) => {
   return playerWon
-    ? `You won ${
-        args.toLowerCase() === "all"
-          ? numeral(pointsGambled * 2).format(",")
-          : numeral(pointsGambled).format(",")
-      } point${pointsGambled != 1 ? "s" : ""}!`
-    : `The dealer won and you lost ${numeral(pointsGambled).format(",")} point${
+    ? `You won ${numeral(pointsGambled).format(",")} point${
         pointsGambled != 1 ? "s" : ""
-      }!`;
+      }!`
+    : `The dealer won and you lost ${
+        args.toLowerCase() === "all"
+          ? "all your "
+          : numeral(pointsGambled).format(",")
+      } point${pointsGambled != 1 ? "s" : ""}!`;
 };
 
 const checkForEndOfGame = (guildID, userID, pointsGambled) => {
