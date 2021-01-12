@@ -38,14 +38,14 @@
     "numeral": "^2.0.6",
     "opusscript": "0.0.7",
     "random-animals-api": "^1.2.1",
-    "soundcloud-scraper": "^4.0.1",
+    "soundcloud-scraper": "^4.0.2",
     "spotify-url-info": "2.2.0",
     "twemoji-parser": "^13.0.0",
     "twit": "^2.2.11",
     "weather-js": "^2.0.0",
     "wokcommands": "^1.2.1",
     "youtube-sr": "^2.0.5",
-    "ytdl-core": "^4.4.1"
+    "ytdl-core": "^4.4.2"
   },
   "_moduleAliases": {
     "@root": ".",
