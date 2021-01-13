@@ -44,7 +44,7 @@ module.exports = {
       return message.reply("An error occurred. Please try again.");
     }
 
-    const newLine = `\n${emoji} ${displayName}`;
+    const newLine = `${emoji} ${displayName}`;
     let { content } = fetchedMessage;
 
     if (content.includes(emoji)) {
