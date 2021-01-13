@@ -11,61 +11,53 @@ module.exports = {
   commands: "hug",
   category: "Misc",
   minArgs: 0,
-  maxArgs: 1,
   cooldown: "15s",
   description: "Hugs another user.",
-  callback: ({ message, args }) => {
+  callback: ({ message, args, text }) => {
     const { author } = message;
     if (!args.length) {
-      message.channel.send(
+      return message.channel.send(
         `${author.username} hugs themselves because they didn't specify who to hug.`
       );
-    } else {
-      let user = args[0].startsWith("@")
-        ? args[0].replace("@", "").trim()
-        : args[0].trim();
+    }
+    let user = args[0].startsWith("@")
+      ? args[0].replace("@", "").trim()
+      : text.trim();
 
-      let userID = hasNumber(user) ? user.match(/\d+/)[0] : "";
-      let emote = message.guild.emojis.cache.find(
-        (e) => e.name === "kellee1Hug"
+    let userID = hasNumber(user) ? user.match(/\d+/)[0] : "";
+    let emote = message.guild.emojis.cache.find((e) => e.name === "kellee1Hug");
+
+    if (
+      author.id === userID ||
+      author.username.toLowerCase() === user.toLowerCase() ||
+      user.toLowerCase() === "me"
+    ) {
+      return message.channel.send(
+        `${author.username} gives themselves a hug because they are lonely.`
       );
-
-      if (
-        author.id === userID ||
-        author.username.toLowerCase() === user.toLowerCase() ||
-        user.toLowerCase() === "me"
-      ) {
-        message.channel.send(
-          `${author.username} gives themselves a hug because they are lonely.`
-        );
-        return;
-      } else if (
-        author.id === "423659646369267713" &&
-        (user.toLowerCase() === "iaraaron" ||
-          user.toLowerCase() === "iareaaron" ||
-          user.toLowerCase() === "aaron" ||
-          userID === "464635440801251328")
-      ) {
-        message.channel.send(
-          `${author.username} gives ${user} a great big hug. I love you ʕっ•ᴥ•ʔっ ${emote}`
-        );
-        return;
-      } else if (
-        user.toLowerCase() === "iaraaron" ||
+    } else if (
+      author.id === "423659646369267713" &&
+      (user.toLowerCase() === "iaraaron" ||
         user.toLowerCase() === "iareaaron" ||
         user.toLowerCase() === "aaron" ||
-        userID === "464635440801251328"
-      ) {
-        var index = getRandomNumber(aaronHug.length);
-        var response = aaronHug[index].replace("<username>", author.username);
-        message.channel.send(response);
-        return;
-      } else {
-        message.channel.send(
-          `${author.username} hugs ${user}. I love you ʕっ•ᴥ•ʔっ ${emote}`
-        );
-        return;
-      }
+        userID === "464635440801251328")
+    ) {
+      return message.channel.send(
+        `${author.username} gives ${user} a great big hug. I love you ʕっ•ᴥ•ʔっ ${emote}`
+      );
+    } else if (
+      user.toLowerCase() === "iaraaron" ||
+      user.toLowerCase() === "iareaaron" ||
+      user.toLowerCase() === "aaron" ||
+      userID === "464635440801251328"
+    ) {
+      var index = getRandomNumber(aaronHug.length);
+      var response = aaronHug[index].replace("<username>", author.username);
+      return message.channel.send(response);
+    } else {
+      return message.channel.send(
+        `${author.username} hugs ${user}. I love you ʕっ•ᴥ•ʔっ ${emote}`
+      );
     }
   },
 };
