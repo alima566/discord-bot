@@ -8,7 +8,6 @@ const aaronHug = [
 ];
 
 module.exports = {
-  commands: "hug",
   category: "Misc",
   minArgs: 0,
   cooldown: "15s",
@@ -20,11 +19,14 @@ module.exports = {
         `${author.username} hugs themselves because they didn't specify who to hug.`
       );
     }
-    let user = args[0].startsWith("@")
-      ? args[0].replace("@", "").trim()
+
+    let user = message.mentions.members.first()
+      ? message.mentions.members.first().user.username
       : text.trim();
 
-    let userID = hasNumber(user) ? user.match(/\d+/)[0] : "";
+    let userID = message.mentions.members.first()
+      ? message.mentions.members.first().user.id
+      : "";
     let emote = message.guild.emojis.cache.find((e) => e.name === "kellee1Hug");
 
     if (
@@ -60,8 +62,4 @@ module.exports = {
       );
     }
   },
-};
-
-const hasNumber = (user) => {
-  return /\d/.test(user);
 };
