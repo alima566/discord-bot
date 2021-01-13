@@ -16,6 +16,10 @@ const addToCache = async (guildID, message, emoji, roleID) => {
 };
 
 const handleReaction = (reaction, user, adding) => {
+  if (user.bot) {
+    return;
+  }
+
   const { message } = reaction;
   const { guild } = message;
 
