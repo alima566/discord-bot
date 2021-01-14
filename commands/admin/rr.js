@@ -4,7 +4,7 @@ const messageRolesSchema = require("@schemas/message-roles-schema");
 module.exports = {
   minArgs: 3,
   expectedArgs: "<Emoji> <Role name, tag, or ID> <Role display name>",
-  category: "Moderation",
+  category: "Admin",
   description: "Adds reaction roles to a reaction message.",
   requiredPermission: ["ADMINISTRATOR"],
   callback: async ({ message, args }) => {

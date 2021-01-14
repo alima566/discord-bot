@@ -1,6 +1,6 @@
 module.exports = {
   commands: ["poll"],
-  category: "Moderation",
+  category: "Admin",
   expectedArgs: "",
   maxArgs: -1,
   description: "Creates a poll.",

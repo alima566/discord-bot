@@ -7,7 +7,7 @@ const { MessageEmbed } = require("discord.js");
 
 module.exports = {
   commands: ["redeem", "redemption"],
-  category: "Moderation",
+  category: "Admin",
   minArgs: 2,
   maxArgs: 2,
   expectedArgs: "<Message ID> <Status>",

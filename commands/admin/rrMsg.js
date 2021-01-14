@@ -5,7 +5,7 @@ const { addToCache } = require("@features/features/reactionRoles");
 module.exports = {
   minArgs: 1,
   expectedArgs: "[Channel Tag] <Message Text>",
-  category: "Moderation",
+  category: "Admin",
   description: "Sets a reaction message for reaction roles.",
   requiredPermissions: ["ADMINISTRATOR"],
   callback: async ({ message, args }) => {

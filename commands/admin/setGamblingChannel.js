@@ -1,11 +1,11 @@
-const gamblingLeaderboardSchema = require("@schemas/gambling-leaderboard-schema");
+const gamblingChannelSchema = require("@schemas/gambling-channel-schema");
 module.exports = {
-  commands: ["setleaderboard"],
-  category: "Moderation",
-  expectedArgs: "<The leaderboard channel>",
+  commands: ["setgambling", "setgamblingchan", "setgamblingchannel"],
+  category: "Admin",
+  expectedArgs: "<The gambling channel>",
   minArgs: 0,
   maxArgs: 1,
-  description: "Sets the leaderboard channel for a server.",
+  description: "Sets the gambling channel for a server.",
   requiredPermissions: ["ADMINISTRATOR"],
   permissionError: "You must be an administrator to execute this command.",
   callback: async ({ message }) => {
@@ -13,7 +13,7 @@ module.exports = {
     const channel = message.mentions.channels.first() || message.channel;
     const guildID = guild.id;
 
-    await gamblingLeaderboardSchema.findOneAndUpdate(
+    await gamblingChannelSchema.findOneAndUpdate(
       {
         _id: guildID,
         channelID: channel.id,
@@ -27,9 +27,11 @@ module.exports = {
       }
     );
 
-    message.reply(`Leaderboard has been set to <#${channel.id}>.`).then((m) => {
-      m.delete({ timeout: 3000 });
-    });
+    message
+      .reply(`Gambling channel has been set to <#${channel.id}>.`)
+      .then((m) => {
+        m.delete({ timeout: 3000 });
+      });
     message.delete();
   },
 };

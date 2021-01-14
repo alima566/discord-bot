@@ -3,7 +3,7 @@ const { fetchRedemptionChannels } = require("@features/features/redemptions");
 
 module.exports = {
   commands: ["setbacklog", "setredeem"],
-  category: "Moderation",
+  category: "Admin",
   expectedArgs: "<The backlog redemption channel>",
   minArgs: 0,
   maxArgs: 1,

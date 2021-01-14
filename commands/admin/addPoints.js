@@ -2,7 +2,7 @@ const gambling = require("@utils/gambling");
 const numeral = require("numeral");
 module.exports = {
   commands: ["add", "addpoints", "addbal"],
-  category: "Moderation",
+  category: "Admin",
   minArgs: 2,
   maxArgs: 2,
   description: "Adds points to the specified user",

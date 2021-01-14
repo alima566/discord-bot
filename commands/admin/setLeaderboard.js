@@ -1,11 +1,11 @@
-const botChannelSchema = require("@schemas/bot-channel-schema");
+const gamblingLeaderboardSchema = require("@schemas/gambling-leaderboard-schema");
 module.exports = {
-  commands: ["setbotchan", "botchannel", "botchan"],
-  category: "Moderation",
-  expectedArgs: "<The bot logging channel>",
+  commands: ["setleaderboard"],
+  category: "Admin",
+  expectedArgs: "<The leaderboard channel>",
   minArgs: 0,
   maxArgs: 1,
-  description: "Sets the channel for all the bot logging.",
+  description: "Sets the leaderboard channel for a server.",
   requiredPermissions: ["ADMINISTRATOR"],
   permissionError: "You must be an administrator to execute this command.",
   callback: async ({ message }) => {
@@ -13,7 +13,7 @@ module.exports = {
     const channel = message.mentions.channels.first() || message.channel;
     const guildID = guild.id;
 
-    await botChannelSchema.findOneAndUpdate(
+    await gamblingLeaderboardSchema.findOneAndUpdate(
       {
         _id: guildID,
         channelID: channel.id,
@@ -27,11 +27,9 @@ module.exports = {
       }
     );
 
-    message
-      .reply(`Bot logging channel has been set to <#${channel.id}>.`)
-      .then((m) => {
-        m.delete({ timeout: 3000 });
-      });
+    message.reply(`Leaderboard has been set to <#${channel.id}>.`).then((m) => {
+      m.delete({ timeout: 3000 });
+    });
     message.delete();
   },
 };

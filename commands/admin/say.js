@@ -1,6 +1,6 @@
 module.exports = {
   commands: ["say"],
-  category: "Moderation",
+  category: "Admin",
   expectedArgs: "<OPTIONAL: The tagged channel> <The message you want to say>",
   minArgs: 1,
   maxArgs: -1,
