@@ -51,12 +51,20 @@ client.on("ready", async () => {
         emoji: "🐱",
       },
       {
+        name: "Fun",
+        emoji: "🎮",
+      },
+      {
         name: "Gambling",
         emoji: "🎰",
       },
       {
+        name: "Info",
+        emoji: "❗",
+      },
+      {
         name: "Misc",
-        emoji: "🎮",
+        emoji: "💡",
       },
       {
         name: "Music",
