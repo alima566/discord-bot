@@ -111,15 +111,15 @@ const showMovieInfo = (movie) => {
   const movieLang = movie.original_language;
   const movieTitle = movie.title;
   const moviePoster = movie.poster_path;
-  const movieReleaseDate = new Date(movie.release_date).toLocaleDateString(
-    "en-US",
-    {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    }
-  );
+  const movieReleaseDate =
+    movie.release_date !== undefined
+      ? new Date(movie.release_date).toLocaleDateString("en-US", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })
+      : "Unknown";
   const movieVoteAverage = movie.vote_average;
   const movieDescription = movie.overview;
   const msgEmbed = new MessageEmbed()
