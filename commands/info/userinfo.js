@@ -17,7 +17,7 @@ const keyPerms = {
 
 module.exports = {
   commands: ["whois"],
-  category: "Misc",
+  category: "Info",
   cooldown: "15s",
   description: "Gives information about the user.",
   callback: ({ message }) => {

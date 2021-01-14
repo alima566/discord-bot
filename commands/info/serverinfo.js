@@ -1,7 +1,7 @@
 const { MessageEmbed } = require("discord.js");
 
 module.exports = {
-  category: "Misc",
+  category: "Info",
   cooldown: "15s",
   description: "Gives information about the server.",
   callback: ({ message }) => {
