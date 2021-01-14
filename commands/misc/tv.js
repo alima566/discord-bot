@@ -113,7 +113,7 @@ const showTVInfo = (show) => {
   const showOrigName = show.original_name;
   const showPoster = show.poster_path;
   const showFirstAirDate =
-    show.first_air_date !== ""
+    show.first_air_date !== "" || show.first_air_date !== undefined
       ? new Date(show.first_air_date).toLocaleDateString("en-US", {
           weekday: "long",
           year: "numeric",
