@@ -1,5 +1,5 @@
+const { MessageEmbed } = require("discord.js");
 const { getGamblingChannel, getPoints } = require("@utils/gambling");
-const numeral = require("numeral");
 const gamblingSchema = require("@schemas/gambling-schema");
 
 module.exports = {
@@ -32,18 +32,35 @@ module.exports = {
       );
     }
 
+    if (target.bot) {
+      return message.reply(`You can't check bots points.`);
+    }
+
     const points = await getPoints(guildID, userID);
     const ranking = await getRanking(guildID, userID);
-    message.channel.send(
-      `${target} has ${numeral(points).format(",")} ${
-        points !== 1 ? "points" : "point"
-      } and ranks ${ranking}!`
-    );
+
+    const msgEmbed = new MessageEmbed()
+      .setColor("85bb65")
+      .setAuthor(target.tag, target.displayAvatarURL())
+      .addFields(
+        {
+          name: `**Points**`,
+          value: points.toLocaleString(),
+          inline: true,
+        },
+        {
+          name: `**Ranking**`,
+          value: ranking,
+          inline: true,
+        }
+      );
+
+    message.channel.send(msgEmbed);
   },
 };
 
 const getRanking = async (guildID, userID) => {
   const results = await gamblingSchema.find({ guildID }).sort({ points: -1 });
   const rank = results.findIndex((i) => i.userID === userID);
-  return `${rank + 1} out of ${results.length}`;
+  return `${rank + 1}/${results.length}`;
 };
