@@ -9,6 +9,7 @@ module.exports = {
   cooldown: "15s",
   description: "Gives you information about a movie.",
   callback: async ({ message, text }) => {
+    const { channel } = message;
     movieDB.searchMovie(
       {
         query: text.toLowerCase(),
@@ -16,7 +17,7 @@ module.exports = {
         include_adult: false,
       },
       (err, res) => {
-        if (!err) {
+        try {
           const movieID = res.results[0].id;
           const movieName = res.results[0].original_title;
           const movieLang = res.results[0].original_language;
@@ -65,11 +66,11 @@ module.exports = {
               "https://pbs.twimg.com/profile_images/1243623122089041920/gVZIvphd_400x400.jpg"
             );
           channel.send(msgEmbed);
-        } else {
+        } catch (e) {
           log(
             "ERROR",
             "./commands/misc/movie.js",
-            `An error has occurred: ${err.message}`
+            `An error has occurred: ${e.message}`
           );
           return channel.send(`I couldn't find the specified movie "${text}".`);
         }
