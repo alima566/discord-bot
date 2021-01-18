@@ -8,12 +8,15 @@ module.exports = {
   category: "AC",
   expectedArgs: "<artwork_name>",
   minArgs: 1,
-  maxArgs: 1,
+  //maxArgs: 1,
   description:
     "Retrieve information about a specific artwork in *Animal Crossing: New Horizons*.",
   cooldown: "15s",
-  callback: ({ message, args }) => {
-    fetch(`https://api.nookipedia.com/nh/art/${args[0].toLowerCase()}`, {
+  callback: ({ message, text }) => {
+    if (text.includes(" ")) {
+      text = text.replace(" ", "_");
+    }
+    fetch(`https://api.nookipedia.com/nh/art/${text.toLowerCase()}`, {
       method: "GET",
       headers: {
         "X-API-KEY": process.env.NOOK_API_KEY,

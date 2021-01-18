@@ -11,8 +11,11 @@ module.exports = {
   description:
     "Retrieve information about a specific recipe in *Animal Crossing: New Horizons*.",
   cooldown: "15s",
-  callback: ({ message, args }) => {
-    fetch(`https://api.nookipedia.com/nh/recipes/${args[0].toLowerCase()}`, {
+  callback: ({ message, text }) => {
+    if (text.includes(" ")) {
+      text = text.replace(" ", "_");
+    }
+    fetch(`https://api.nookipedia.com/nh/recipes/${text.toLowerCase()}`, {
       method: "GET",
       headers: {
         "X-API-KEY": process.env.NOOK_API_KEY,

@@ -8,13 +8,16 @@ module.exports = {
   category: "AC",
   expectedArgs: "<villager_name>",
   minArgs: 1,
-  maxArgs: 1,
+  //maxArgs: 1,
   description:
     "Retrieve information about a specific villager in any Animal Crossing game.",
   cooldown: "15s",
-  callback: ({ message, args }) => {
+  callback: ({ message, text }) => {
+    if (text.includes(" ")) {
+      text = text.replace(" ", "_");
+    }
     fetch(
-      `https://api.nookipedia.com/villagers?name=${args[0].toLowerCase()}&nhdetails=true`,
+      `https://api.nookipedia.com/villagers?name=${text.toLowerCase()}&nhdetails=true`,
       {
         method: "GET",
         headers: {
