@@ -18,7 +18,7 @@ module.exports = {
   cooldown: "15s",
   callback: ({ message, text }) => {
     if (text.includes(" ")) {
-      text = text.replace(" ", "_");
+      text = text.replace(/ +/g, "_");
     }
     fetch(`https://api.nookipedia.com/nh/sea/${text.toLowerCase()}`, {
       method: "GET",
