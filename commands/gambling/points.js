@@ -6,7 +6,8 @@ module.exports = {
   commands: ["points", "balance", "bal"],
   category: "Gambling",
   maxArgs: 1,
-  description: "Displays how many points you or another user has.",
+  description:
+    "Displays how many points you or another user has and current ranking.",
   requiredChannel: "gambling",
   callback: async ({ message }) => {
     const target = message.mentions.users.first() || message.author;
