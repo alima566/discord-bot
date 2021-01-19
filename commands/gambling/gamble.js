@@ -86,7 +86,11 @@ module.exports = {
           );
         } else {
           return message.channel.send(
-            `<@${userID}> gambled ${pointsToGamble.toLocaleString()} and lost ${pointsToGamble.toLocaleString()} ${
+            `<@${userID}> gambled ${parseInt(
+              pointsToGamble
+            ).toLocaleString()} and lost ${parseInt(
+              pointsToGamble
+            ).toLocaleString()} ${
               parseInt(pointsToGamble) !== 1 ? "points" : "point"
             }. They now have ${newPoints.toLocaleString()} ${
               newPoints !== 1 ? "points" : "point"
@@ -108,7 +112,11 @@ module.exports = {
           );
         } else {
           return message.channel.send(
-            `<@${userID}> gambled ${pointsToGamble.toLocaleString()} and won ${pointsToGamble.toLocaleString()} ${
+            `<@${userID}> gambled ${parseInt(
+              pointsToGamble
+            ).toLocaleString()} and won ${parseInt(
+              pointsToGamble
+            ).toLocaleString()} ${
               parseInt(pointsToGamble) !== 1 ? "points" : "point"
             }! They now have ${newPoints.toLocaleString()} ${
               newPoints !== 1 ? "points" : "point"

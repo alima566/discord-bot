@@ -207,13 +207,13 @@ const showStatus = () => {
 
 const getWinMsg = (pointsGambled, args) => {
   return playerWon
-    ? `You won ${pointsGambled.toLocaleString()} point${
+    ? `You won ${parseInt(pointsGambled).toLocaleString()} point${
         pointsGambled != 1 ? "s" : ""
       }!`
     : `The dealer won and you lost ${
         args.toLowerCase() === "all"
           ? "all your "
-          : pointsGambled.toLocaleString()
+          : parseInt(pointsGambled).toLocaleString()
       } point${pointsGambled != 1 ? "s" : ""}!`;
 };
 
@@ -256,7 +256,7 @@ const addRemovePoints = async (guildID, userID, pointsToGamble) => {
 const createEmbed = (points) => {
   const msgEmbed = new MessageEmbed()
     .setTitle(
-      `Playing Blackjack for ${points.toLocaleString()} Point${
+      `Playing Blackjack for ${parseInt(points).toLocaleString()} Point${
         points != 1 ? "s" : ""
       }`
     )

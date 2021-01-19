@@ -67,7 +67,7 @@ module.exports = {
           actualPoints * multiplier
         );
         return message.channel.send(
-          `${slotsText} and won ${(
+          `${slotsText} and won ${parseInt(
             actualPoints * multiplier
           ).toLocaleString()} ${
             newPoints !== 1 ? "points" : "point"
@@ -99,7 +99,7 @@ module.exports = {
           parseInt(pointsToGamble) * multiplier
         );
         return message.channel.send(
-          `${slotsText} and won ${(
+          `${slotsText} and won ${parseInt(
             pointsToGamble * multiplier
           ).toLocaleString()} ${
             newPoints !== 1 ? "points" : "point"
@@ -114,7 +114,7 @@ module.exports = {
           parseInt(pointsToGamble) * -1
         );
         return message.channel.send(
-          `${slotsText} and lost ${pointsToGamble.toLocaleString()} ${
+          `${slotsText} and lost ${parseInt(pointsToGamble).toLocaleString()} ${
             parseInt(pointsToGamble) !== 1 ? "points" : "point"
           }! They now have ${newPoints.toLocaleString()} ${
             newPoints !== 1 ? "points" : "point"
