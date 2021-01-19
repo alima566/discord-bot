@@ -4,7 +4,17 @@ module.exports = (client) => {
   client.on("messageDelete", async (msg) => {
     if (!msg.guild) return;
 
-    let msgEmbed = new MessageEmbed().setColor("RED");
+    const fetchedLogs = await msg.guild.fetchAuditLogs({
+      limit: 1,
+      type: "MESSAGE_DELETE",
+    });
+
+    const deletionLog = fetchedLogs.entries.first();
+    if (!deletionLog) return;
+
+    const { executor, target } = deletionLog;
+
+    const msgEmbed = new MessageEmbed().setColor("RED");
     if (!msg.partial) {
       if (msg.author.bot) return;
       msgEmbed
@@ -13,13 +23,18 @@ module.exports = (client) => {
           `**Message sent by ${msg.author} deleted in ${msg.channel}**\n${msg}`
         )
         .setTimestamp()
-        .setFooter(`Author: ${msg.author.id} | Message ID: ${msg.id}`);
+        .setFooter(
+          `${
+            target.id === msg.author.id ? `\nDeleted by: ${executor.tag} |` : ""
+          } Message ID: ${msg.id}`
+        );
+      //.setFooter(`Author: ${msg.author.id} | Message ID: ${msg.id}`);
     } else {
       msgEmbed
         .setAuthor(`${msg.guild.name}`, msg.guild.iconURL())
         .setDescription(`**Message deleted in ${msg.channel}**`)
         .setTimestamp()
-        .setFooter(`Author: ? | Message ID: ${msg.id}`);
+        .setFooter(`Message ID: ${msg.id}`);
     }
     sendMessageToBotThings(client, msg.guild, msgEmbed);
   });
