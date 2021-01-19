@@ -1,5 +1,4 @@
 const { getGamblingChannel, getPoints, addPoints } = require("@utils/gambling");
-const numeral = require("numeral");
 
 module.exports = {
   commands: ["gamble", "roulette"],
@@ -54,7 +53,7 @@ module.exports = {
         return message.channel.send(
           instance.messageHandler.get(message.guild, "ALL_IN_WIN", {
             USER: `<@${userID}>`,
-            POINTS: `${numeral(newPoints).format(",")}`,
+            POINTS: `${newPoints.toLocaleString()}`,
           })
         );
       }
@@ -68,9 +67,9 @@ module.exports = {
       );
     } else if (pointsToGamble > actualPoints) {
       return message.reply(
-        `you don't have enough points! You only have ${numeral(
-          actualPoints
-        ).format(",")} ${actualPoints !== 1 ? "points" : "point"}!`
+        `you don't have enough points! You only have ${actualPoints.toLocaleString()} ${
+          actualPoints !== 1 ? "points" : "point"
+        }!`
       );
     } else {
       if (coinFlip() === 0) {
@@ -87,11 +86,9 @@ module.exports = {
           );
         } else {
           return message.channel.send(
-            `<@${userID}> gambled ${numeral(pointsToGamble).format(
-              ","
-            )} and lost ${numeral(pointsToGamble).format(",")} ${
+            `<@${userID}> gambled ${pointsToGamble.toLocaleString()} and lost ${pointsToGamble.toLocaleString()} ${
               parseInt(pointsToGamble) !== 1 ? "points" : "point"
-            }. They now have ${numeral(newPoints).format(",")} ${
+            }. They now have ${newPoints.toLocaleString()} ${
               newPoints !== 1 ? "points" : "point"
             }.`
           );
@@ -106,16 +103,14 @@ module.exports = {
           return message.channel.send(
             instance.messageHandler.get(message.guild, "ALL_IN_WIN", {
               USER: `<@${userID}>`,
-              POINTS: `${numeral(newPoints).format(",")}`,
+              POINTS: `${newPoints.toLocaleString()}`,
             })
           );
         } else {
           return message.channel.send(
-            `<@${userID}> gambled ${numeral(pointsToGamble).format(
-              ","
-            )} and won ${numeral(pointsToGamble).format(",")} ${
+            `<@${userID}> gambled ${pointsToGamble.toLocaleString()} and won ${pointsToGamble.toLocaleString()} ${
               parseInt(pointsToGamble) !== 1 ? "points" : "point"
-            }! They now have ${numeral(newPoints).format(",")} ${
+            }! They now have ${newPoints.toLocaleString()} ${
               newPoints !== 1 ? "points" : "point"
             }.`
           );

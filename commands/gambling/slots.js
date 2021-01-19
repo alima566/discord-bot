@@ -1,5 +1,4 @@
 const { getGamblingChannel, getPoints, addPoints } = require("@utils/gambling");
-const numeral = require("numeral");
 const { getRandomNumber } = require("@utils/functions");
 
 const slotsEmoji = [
@@ -68,11 +67,13 @@ module.exports = {
           actualPoints * multiplier
         );
         return message.channel.send(
-          `${slotsText} and won ${numeral(actualPoints * multiplier).format(
-            ","
-          )} ${newPoints !== 1 ? "points" : "point"}! They now have ${numeral(
-            newPoints
-          ).format(",")} ${newPoints !== 1 ? "points" : "point"}.`
+          `${slotsText} and won ${(
+            actualPoints * multiplier
+          ).toLocaleString()} ${
+            newPoints !== 1 ? "points" : "point"
+          }! They now have ${newPoints.toLocaleString()} ${
+            newPoints !== 1 ? "points" : "point"
+          }.`
         );
       } else {
         const newPoints = await addPoints(guildID, userID, actualPoints * -1);
@@ -86,9 +87,9 @@ module.exports = {
       return message.reply(`You must gamble at least 1 point!`);
     } else if (pointsToGamble > actualPoints) {
       return message.reply(
-        `you don't have enough points! You only have ${numeral(
-          actualPoints
-        ).format(",")} ${actualPoints !== 1 ? "points" : "point"}!`
+        `you don't have enough points! You only have ${actualPoints.toLocaleString()} ${
+          actualPoints !== 1 ? "points" : "point"
+        }!`
       );
     } else {
       if (slot1 === slot2 && slot2 === slot3) {
@@ -98,11 +99,13 @@ module.exports = {
           parseInt(pointsToGamble) * multiplier
         );
         return message.channel.send(
-          `${slotsText} and won ${numeral(pointsToGamble * multiplier).format(
-            ","
-          )} ${newPoints !== 1 ? "points" : "point"}! They now have ${numeral(
-            newPoints
-          ).format(",")} ${newPoints !== 1 ? "points" : "point"}.`
+          `${slotsText} and won ${(
+            pointsToGamble * multiplier
+          ).toLocaleString()} ${
+            newPoints !== 1 ? "points" : "point"
+          }! They now have ${newPoints.toLocaleString()} ${
+            newPoints !== 1 ? "points" : "point"
+          }.`
         );
       } else {
         const newPoints = await addPoints(
@@ -111,9 +114,9 @@ module.exports = {
           parseInt(pointsToGamble) * -1
         );
         return message.channel.send(
-          `${slotsText} and lost ${numeral(pointsToGamble).format(",")} ${
+          `${slotsText} and lost ${pointsToGamble.toLocaleString()} ${
             parseInt(pointsToGamble) !== 1 ? "points" : "point"
-          }! They now have ${numeral(newPoints).format(",")} ${
+          }! They now have ${newPoints.toLocaleString()} ${
             newPoints !== 1 ? "points" : "point"
           }.`
         );

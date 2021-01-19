@@ -1,6 +1,4 @@
 const moment = require("moment");
-const numeral = require("numeral");
-
 const { pointsToGive } = require("@root/config.json");
 const dailyRewardsSchema = require("@schemas/daily-rewards-schema");
 const { getGamblingChannel, addPoints } = require("@utils/gambling");
@@ -94,7 +92,7 @@ module.exports = {
     const newPoints = await addPoints(guild.id, id, pointsToGive);
     message.reply(
       instance.messageHandler.get(guild, "DAILY_REWARDS_CLAIMED", {
-        POINTS: `${numeral(pointsToGive).format("0,0")}`,
+        POINTS: `${pointsToGive.toLocaleString()}`,
       })
     );
   },

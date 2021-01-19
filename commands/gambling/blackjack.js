@@ -1,8 +1,6 @@
 const { getGamblingChannel, getPoints, addPoints } = require("@utils/gambling");
 const { getRandomNumber } = require("@utils/functions");
-
 const { MessageEmbed } = require("discord.js");
-const numeral = require("numeral");
 
 const suits = ["♥️", "♠️", "♦️", "♣️"];
 const values = ["A", 2, 3, 4, 5, 6, 7, 8, 9, 10, "K", "Q", "J"];
@@ -77,9 +75,9 @@ module.exports = {
 
     if (pointsToGamble > actualPoints) {
       return message.reply(
-        `You don't have enough points! You only have ${numeral(
-          actualPoints
-        ).format(",")} point${actualPoints !== 1 ? "s" : ""}.`
+        `You don't have enough points! You only have ${actualPoints.toLocaleString()} point${
+          actualPoints !== 1 ? "s" : ""
+        }.`
       );
     }
 
@@ -209,13 +207,13 @@ const showStatus = () => {
 
 const getWinMsg = (pointsGambled, args) => {
   return playerWon
-    ? `You won ${numeral(pointsGambled).format(",")} point${
+    ? `You won ${pointsGambled.toLocaleString()} point${
         pointsGambled != 1 ? "s" : ""
       }!`
     : `The dealer won and you lost ${
         args.toLowerCase() === "all"
           ? "all your "
-          : numeral(pointsGambled).format(",")
+          : pointsGambled.toLocaleString()
       } point${pointsGambled != 1 ? "s" : ""}!`;
 };
 
@@ -258,7 +256,7 @@ const addRemovePoints = async (guildID, userID, pointsToGamble) => {
 const createEmbed = (points) => {
   const msgEmbed = new MessageEmbed()
     .setTitle(
-      `Playing Blackjack for ${numeral(points).format(",")} Point${
+      `Playing Blackjack for ${points.toLocaleString()} Point${
         points != 1 ? "s" : ""
       }`
     )
