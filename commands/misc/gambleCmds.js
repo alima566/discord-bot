@@ -1,27 +1,35 @@
 const { MessageEmbed } = require("discord.js");
 
 module.exports = {
-  commands: ["gambleCmd"],
   description: "List out all the gambling commands",
   ownerOnly: true,
   permissionError: "You must be the bot owner to execute this command.",
   callback: ({ message, prefix, instance }) => {
-    let description = "";
+    message.delete();
+    let description = ">>> "; // Put description in multi-line block quote
     const embed = new MessageEmbed()
       .setTitle(`Gambling Commands`)
-      .setColor("#7289da");
+      .setColor("#85bb65");
     instance.commandHandler.commands.forEach((command) => {
       if (command.category === "Gambling") {
-        description += `Command: ${prefix}${command.names[0]}\n`;
+        description += `**Command:** ${prefix}${command.names[0]}\n`;
         if (command.names.length > 1) {
-          for (const alias of command.names) {
-            description += `Alias: ${alias}`;
-          }
+          description += `**Aliases:** ${command.names
+            .slice(1)
+            .map((t) => `${prefix}${t}`)
+            .join(", ")}\n`;
         }
-        console.log(command);
+        description +=
+          command.syntax !== ""
+            ? `**Syntax:** \`${prefix}${command.names[0]} ${command.syntax}\`\n`
+            : "";
+
+        description += `**Description:** ${command.description}\n\n`;
       }
     });
-    embed.setDescription(description);
-    message.channel.send(embed);
+    embed.setDescription(
+      `Below is a list of gambling commands that you can use:\n\n ${description}`
+    );
+    message.channel.send(embed).then((msg) => msg.pin());
   },
 };
