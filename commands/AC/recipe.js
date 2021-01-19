@@ -7,7 +7,7 @@ module.exports = {
   category: "AC",
   expectedArgs: "<diy_name>",
   minArgs: 1,
-  maxArgs: 1,
+  //maxArgs: 1,
   description:
     "Retrieve information about a specific recipe in *Animal Crossing: New Horizons*.",
   cooldown: "15s",
