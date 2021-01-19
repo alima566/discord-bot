@@ -16,7 +16,7 @@ clearCache();
 module.exports = {
   commands: "daily",
   category: "Gambling",
-  description: "Gives users their daily reward of 1000 points.",
+  description: `Gives users their daily reward of ${pointsToGive.toLocaleString()} points.`,
   requiredChannel: "gambling",
   callback: async ({ message, instance }) => {
     const { guild, member, channel } = message;
