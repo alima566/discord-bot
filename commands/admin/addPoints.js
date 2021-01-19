@@ -1,5 +1,5 @@
 const gambling = require("@utils/gambling");
-const numeral = require("numeral");
+
 module.exports = {
   commands: ["add", "addpoints", "addbal"],
   category: "Admin",
@@ -44,7 +44,7 @@ module.exports = {
       message.channel.send(
         `You have given ${memberCount} member${
           memberCount !== 1 ? "s" : ""
-        } ${numeral(parseInt(points)).format(",")} point${
+        } ${parseInt(points).toLocaleString()} point${
           parseInt(points) !== 1 ? "s" : ""
         }.`
       );
@@ -57,9 +57,9 @@ module.exports = {
       parseInt(points)
     );
     message.channel.send(
-      `You have given <@${userID}> ${numeral(parseInt(points)).format(",")} ${
+      `You have given <@${userID}> ${parseInt(points).toLocaleString()} ${
         parseInt(points) !== 1 ? "points" : "point"
-      }. They now have ${numeral(newPoints).format(",")} ${
+      }. They now have ${newPoints.toLocaleString()} ${
         newPoints !== 1 ? "points" : "point"
       }.`
     );
