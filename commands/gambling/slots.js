@@ -14,7 +14,7 @@ module.exports = {
   category: "Gambling",
   minArgs: 1,
   maxArgs: 1,
-  description: `Play the slots and test your luck. Each slot win gives you ${mulitplier} times the amount you bet.`,
+  description: `Play the slots and test your luck. Each slot win gives you ${multiplier} times the amount you bet.`,
   expectedArgs: "<The amount you want to gamble>",
   requiredChannel: "gambling",
   callback: async ({ message, args, client, instance }) => {
