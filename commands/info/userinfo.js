@@ -1,5 +1,4 @@
 const { MessageEmbed } = require("discord.js");
-const moment = require("moment");
 const { utcToZonedTime, format } = require("date-fns-tz");
 
 const keyPerms = {
