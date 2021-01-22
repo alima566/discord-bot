@@ -1,5 +1,6 @@
 const { MessageEmbed } = require("discord.js");
 const moment = require("moment");
+const { utcToZonedTime, format } = require("date-fns-tz");
 
 const keyPerms = {
   ADMINISTRATOR: "Administrator",
@@ -24,6 +25,14 @@ module.exports = {
     const member = message.mentions.members.first() || message.member;
     const { channel, guild } = message;
 
+    const timeFormat = "EEE, MMM d, yyyy h:mm a zzz";
+    const timeZone = "America/New_York";
+    const joinedAtEasternDate = utcToZonedTime(member.joinedAt, timeZone);
+    const createdAtEasternDate = utcToZonedTime(
+      member.user.createdAt,
+      timeZone
+    );
+
     const msgEmbed = new MessageEmbed()
       .setDescription(member)
       .setColor(member.displayHexColor)
@@ -32,16 +41,14 @@ module.exports = {
       .addFields(
         {
           name: "**Joined**",
-          value: moment(member.joinedAt)
-            .tz("America/New_York")
-            .format("ddd, MMM D, YYYY h:mm A z"),
+          value: format(joinedAtEasternDate, timeFormat, {
+            timeZone,
+          }),
           inline: true,
         },
         {
           name: "**Registered**",
-          value: moment(member.user.createdAt)
-            .tz("America/New_York")
-            .format("ddd, MMM D, YYYY h:mm A z"),
+          value: format(createdAtEasternDate, timeFormat, { timeZone }),
           inline: true,
         },
         {
