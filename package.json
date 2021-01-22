@@ -17,6 +17,8 @@
     "cheerio": "^1.0.0-rc.5",
     "convert": "^1.6.2",
     "cron": "^1.8.2",
+    "date-fns": "^2.16.1",
+    "date-fns-tz": "^1.0.12",
     "discord-giveaways": "^4.4.3",
     "discord-paginationembed": "^2.1.0",
     "discord-player": "^3.2.1",
