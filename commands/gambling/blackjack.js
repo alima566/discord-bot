@@ -18,7 +18,6 @@ let deck = [],
   playerWon;
 
 module.exports = {
-  commands: "blackjack",
   category: "Gambling",
   minArgs: 1,
   maxArgs: 1,
@@ -212,7 +211,7 @@ const getWinMsg = (pointsGambled, args) => {
       }!`
     : `The dealer won and you lost ${
         args.toLowerCase() === "all"
-          ? "all your "
+          ? "all your"
           : parseInt(pointsGambled).toLocaleString()
       } point${pointsGambled != 1 ? "s" : ""}!`;
 };
