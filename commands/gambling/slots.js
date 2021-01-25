@@ -81,9 +81,13 @@ module.exports = {
         );
       }
     } else if (isNaN(pointsToGamble)) {
-      return message.reply(`Please provide a valid number of points.`);
+      return message.reply(
+        instance.messageHandler.get(message.guild, "VALID_POINTS")
+      );
     } else if (pointsToGamble < 1) {
-      return message.reply(`You must gamble at least 1 point!`);
+      return message.reply(
+        instance.messageHandler.get(message.guild, "ONE_POINT")
+      );
     } else if (pointsToGamble > actualPoints) {
       return message.reply(
         `you don't have enough points! You only have ${actualPoints.toLocaleString()} ${
