@@ -1,6 +1,5 @@
 const fetch = require("node-fetch");
 const { MessageEmbed } = require("discord.js");
-const moment = require("moment");
 const { log } = require("@utils/functions");
 
 module.exports = {
@@ -17,7 +16,9 @@ module.exports = {
       text = text.replace(/ +/g, "_");
     }
     fetch(
-      `https://api.nookipedia.com/villagers?name=${text.toLowerCase()}&nhdetails=true`,
+      `https://api.nookipedia.com/villagers?name=${encodeURIComponent(
+        text.toLowerCase()
+      )}&nhdetails=true`,
       {
         method: "GET",
         headers: {
@@ -68,9 +69,9 @@ module.exports = {
               value:
                 data[0].birthday_month === "" || data[0].birthday_day === ""
                   ? "-"
-                  : `${data[0].birthday_month} ${moment
-                      .localeData()
-                      .ordinal(data[0].birthday_day)}`,
+                  : `${data[0].birthday_month} ${
+                      data[0].birthday_day
+                    }${getOrdinal(parseInt(data[0].birthday_day))}`,
               inline: true,
             },
             {
@@ -94,4 +95,8 @@ module.exports = {
         );
       });
   },
+};
+
+const getOrdinal = (n) => {
+  return ["st", "nd", "rd"][((((n + 90) % 100) - 10) % 10) - 1] || "th";
 };
