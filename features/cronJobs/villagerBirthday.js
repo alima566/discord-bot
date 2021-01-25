@@ -1,8 +1,8 @@
 const fetch = require("node-fetch");
 const { MessageEmbed } = require("discord.js");
-const moment = require("moment");
 const cron = require("cron");
 const { log } = require("@utils/functions");
+const { getDate, getMonth } = require("date-fns");
 
 module.exports = (client) => {
   const villagerBirthday = new cron.CronJob(
@@ -17,11 +17,13 @@ module.exports = (client) => {
 };
 
 const execute = (client) => {
-  let month = parseInt(moment().format("M"));
-  let day = moment().date();
-  let channel = client.channels.cache.get("754196934985646171");
+  const month = getMonth(new Date()) === 0 ? 1 : getMonth(new Date()) + 1;
+  const day = getDate(new Date());
+  const channel = client.channels.cache.get("754196934985646171");
   fetch(
-    `https://api.nookipedia.com/villagers?birthmonth=${month}&birthday=${day}&nhdetails=true`,
+    `https://api.nookipedia.com/villagers?birthmonth=${encodeURIComponent(
+      month
+    )}&birthday=${encodeURIComponent(day)}&nhdetails=true`,
     {
       method: "GET",
       headers: {
@@ -72,9 +74,9 @@ const execute = (client) => {
             },
             {
               name: `**Birthday**`,
-              value: `${data[i].birthday_month} ${moment
-                .localeData()
-                .ordinal(data[i].birthday_day)}`,
+              value: `${data[i].birthday_month} ${
+                data[i].birthday_day
+              }${getOrdinal(parseInt(data[i].birthday_day))}`,
               inline: true,
             },
             {
@@ -105,6 +107,10 @@ const getVillagerNames = (data) => {
     villagerNames.push(data[i].name);
   }
   return villagerNames.join(" and ");
+};
+
+const getOrdinal = (n) => {
+  return ["st", "nd", "rd"][((((n + 90) % 100) - 10) % 10) - 1] || "th";
 };
 
 module.exports.config = {
