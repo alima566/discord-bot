@@ -16,7 +16,6 @@ module.exports = {
   maxArgs: 1,
   description: `Play the slots and test your luck. Each slot win gives you ${multiplier} times the amount you bet.`,
   expectedArgs: "<The amount you want to gamble>",
-  requiredChannel: "gambling",
   callback: async ({ message, args, client, instance }) => {
     const target = message.author;
     const channelID = message.channel.id;

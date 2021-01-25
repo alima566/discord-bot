@@ -24,7 +24,6 @@ module.exports = {
   globalCooldown: "1m",
   description: "Play blackjack with the bot.",
   expectedArgs: "<The amount you want to gamble>",
-  requiredChannel: "gambling",
   callback: async ({ message, args, instance }) => {
     gameOver = false; //Reset game status back to false each time command is ran
     playerWon = false; //Reset playerWon status back to false each time command is ran

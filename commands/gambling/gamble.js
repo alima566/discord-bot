@@ -7,7 +7,6 @@ module.exports = {
   maxArgs: 1,
   description: "Users can gamble away the amount of points that they have.",
   expectedArgs: "<The amount you want to gamble>",
-  requiredChannel: "gambling",
   callback: async ({ message, args, instance }) => {
     const target = message.author;
     const channelID = message.channel.id;
@@ -76,7 +75,7 @@ module.exports = {
         const newPoints = await addPoints(
           guildID,
           userID,
-          -parseInt(pointsToGamble)
+          parseInt(pointsToGamble) * -1
         );
         if (actualPoints === parseInt(pointsToGamble)) {
           return message.channel.send(

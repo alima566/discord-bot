@@ -8,7 +8,6 @@ module.exports = {
   maxArgs: 1,
   description:
     "Displays how many points you or another user has and current ranking.",
-  requiredChannel: "gambling",
   callback: async ({ message }) => {
     const target = message.mentions.users.first() || message.author;
     const channelID = message.channel.id;
