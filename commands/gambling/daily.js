@@ -14,7 +14,6 @@ const clearCache = () => {
 clearCache();
 
 module.exports = {
-  commands: "daily",
   category: "Gambling",
   description: `Gives users their daily reward of ${pointsToGive.toLocaleString()} points.`,
   callback: async ({ message, instance }) => {
@@ -51,8 +50,9 @@ module.exports = {
       } else {
         console.log("Returning from cache");
         const remaining = getTimeRemaining(claimedCache[index].updatedAt);
-        message.reply(
+        message.channel.send(
           instance.messageHandler.get(guild, "ALREADY_CLAIMED", {
+            USER: `<@${id}>`,
             REMAINING: `${remaining}`,
           })
         );
@@ -74,8 +74,9 @@ module.exports = {
       const remaining = getTimeRemaining(updatedAt);
       if (getHours(updatedAt) < 24) {
         claimedCache.push({ id: id, updatedAt: updatedAt });
-        message.reply(
+        message.channel.send(
           instance.messageHandler.get(guild, "ALREADY_CLAIMED", {
+            USER: `<@${id}>`,
             REMAINING: `${remaining}`,
           })
         );
@@ -89,8 +90,9 @@ module.exports = {
 
     claimedCache.push({ id: id, updatedAt: moment.utc() });
     const newPoints = await addPoints(guild.id, id, pointsToGive);
-    message.reply(
+    message.channel.send(
       instance.messageHandler.get(guild, "DAILY_REWARDS_CLAIMED", {
+        USER: `<@${id}>`,
         POINTS: `${pointsToGive.toLocaleString()}`,
       })
     );

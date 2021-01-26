@@ -140,12 +140,12 @@
     "spanish": "¡Debes apostar al menos 1 punto!"
   },
   "DAILY_REWARDS_CLAIMED": {
-    "english": "You have claimed your daily reward of {POINTS} points!",
-    "spanish": "¡Has reclamado tu recompensa diaria de {POINTS} puntos!"
+    "english": "✅ | {USER}, you have claimed your daily reward of {POINTS} points!",
+    "spanish": "✅ | {USER}, ¡has reclamado tu recompensa diaria de {POINTS} puntos!"
   },
   "ALREADY_CLAIMED": {
-    "english": "You have already claimed your daily reward. Please try again in {REMAINING}",
-    "spanish": "Ya ha reclamado su recompensa diaria. Vuelva a intentarlo en {REMAINING}"
+    "english": "❌ | {USER}, you have already claimed your daily reward. Please try again in {REMAINING}",
+    "spanish": "❌ | {USER}, ya has reclamado su recompensa diaria. Vuelva a intentarlo en {REMAINING}"
   },
   "HELP_MENU": {
     "TITLE": {
