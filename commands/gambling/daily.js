@@ -39,10 +39,10 @@ module.exports = {
     }
 
     const inCache = claimedCache.find((cache) => {
-      return cache.id === id;
+      return cache.userID === id && cache.guildID === guild.id;
     });
     const index = claimedCache.findIndex((cache) => {
-      return cache.id === id;
+      return cache.userID === id && cache.guildID === guild.id;
     });
     if (inCache) {
       if (getHours(claimedCache[index].updatedAt) == 24) {
@@ -73,7 +73,11 @@ module.exports = {
     if (results) {
       const remaining = getTimeRemaining(updatedAt);
       if (getHours(updatedAt) < 24) {
-        claimedCache.push({ id: id, updatedAt: updatedAt });
+        claimedCache.push({
+          guildID: guild.id,
+          userID: id,
+          updatedAt: updatedAt,
+        });
         message.channel.send(
           instance.messageHandler.get(guild, "ALREADY_CLAIMED", {
             USER: `<@${id}>`,
@@ -88,7 +92,11 @@ module.exports = {
       upsert: true,
     });
 
-    claimedCache.push({ id: id, updatedAt: moment.utc() });
+    claimedCache.push({
+      guildID: guild.id,
+      userID: id,
+      updatedAt: moment.utc(),
+    });
     const newPoints = await addPoints(guild.id, id, pointsToGive);
     message.channel.send(
       instance.messageHandler.get(guild, "DAILY_REWARDS_CLAIMED", {
