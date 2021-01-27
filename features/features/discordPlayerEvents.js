@@ -1,6 +1,6 @@
 const { MessageEmbed } = require("discord.js");
 const ms = require("ms");
-const { getNumberOfItemsPerPage, paginateEmbed } = require("@utils/functions");
+const { paginateEmbed } = require("@utils/functions");
 
 module.exports = (client) => {
   client.player
@@ -38,42 +38,28 @@ module.exports = (client) => {
       );
     })
     .on("searchResults", (msg, query, tracks) => {
-      // const embedArray = [];
-      // let tracksArray = chunkArray(tracks, 10);
-      // for (let i = 0; i < tracksArray.length; i++) {
-      //   let text = "";
-      //   const embed = new MessageEmbed()
-      //     .setColor("#1ED761")
-      //     .setAuthor(
-      //       `Here are your search results for ${query}:`,
-      //       `${msg.guild.iconURL()}`
-      //     )
-      //     .setFooter(`Type the number of the song you want to play!`);
-      //   for (let j = 0; j < tracksArray[i].length; j++) {
-      //     text += `${j + 1}. [${tracksArray[i][j].title}](${
-      //       tracksArray[i][j].url
-      //     }) (${tracksArray[i][j].duration})\n`;
-      //   }
-      //   embed.setDescription(text);
-      //   embedArray.push(embed);
-      // }
-
-      const msgEmbed = new MessageEmbed()
-        .setColor("#1ED761")
-        .setAuthor(
-          `Here are your search results for ${query}:`,
-          `${msg.guild.iconURL()}`
-        )
-        .setDescription(
-          //`${i + 1}. ${tracksArray[i].title} (${tracksArray[i].duration})`
-          tracks.map(
-            (t, i) => `${i + 1}. [${t.title}](${t.url}) (${t.duration})`
+      const embedArray = [];
+      let tracksArray = chunkArray(tracks, 10);
+      for (let i = 0; i < tracksArray.length; i++) {
+        let text = `Page ${i + 1} of ${tracksArray.length}\n\n`;
+        const embed = new MessageEmbed()
+          .setColor("#1ED761")
+          .setAuthor(
+            `Here are your search results for ${query}:`,
+            `${msg.guild.iconURL()}`
           )
-        )
-        .setFooter(`Type the number of the song you want to play!`);
-      // embedArray.push(msgEmbed);
-      //paginateEmbed(msg, embedArray, { time: 60000 });
-      msg.channel.send(msgEmbed);
+          .setFooter(`Type the number of the song you want to play!`);
+        let counter = i == 1 ? 10 : 0;
+        for (let j = 0; j < tracksArray[i].length; j++) {
+          text += `${counter + 1}. [${tracksArray[i][j].title}](${
+            tracksArray[i][j].url
+          }) (${tracksArray[i][j].duration})\n`;
+          counter++;
+        }
+        embed.setDescription(text);
+        embedArray.push(embed);
+      }
+      paginateEmbed(msg, embedArray, { time: 60000 });
     })
     .on("searchInvalidResponse", (msg, query, tracks, content, collector) => {
       const msgEmbed = new MessageEmbed()
@@ -162,22 +148,14 @@ module.exports = (client) => {
     });
 };
 
+const chunkArray = (arr, size) => {
+  arr.length > size
+    ? [arr.slice(0, size), ...chunkArray(arr.slice(size), size)]
+    : [arr];
+};
+
 module.exports.config = {
   displayName: "Discord Player Events",
   dbName: "DISCORD_PLAYER_EVENTS",
   loadDBFirst: false,
-};
-
-const chunkArray = (arr, size) =>
-  arr.length > size
-    ? [arr.slice(0, size), ...chunkArray(arr.slice(size), size)]
-    : [arr];
-
-const splitBy = (size, list) => {
-  return list.reduce((acc, curr, i, self) => {
-    if (!(i % size)) {
-      return [...acc, self.slice(i, i + size)];
-    }
-    return acc;
-  }, []);
 };
