@@ -37,7 +37,7 @@ module.exports.sendMessageToBotThings = async (client, guild, msg) => {
   }
 };
 
-module.exports.paginateEmbed = async (msg, embeds, options) => {
+const paginateEmbed = async (msg, embeds, options) => {
   const pageMsg = await msg.channel.send({ embed: embeds[0] });
 
   let stop = false;
@@ -91,8 +91,20 @@ module.exports.paginateEmbed = async (msg, embeds, options) => {
   });
 };
 
-module.exports.log = (type, path, text) => {
+const chunkArray = (arr, size) => {
+  return arr.length > size
+    ? [arr.slice(0, size), ...chunkArray(arr.slice(size), size)]
+    : [arr];
+};
+
+const log = (type, path, text) => {
   console.log(
     `\u001b[36;1m<KelleeBot>\u001b[0m\u001b[34m [${path}]\u001b[0m - ${consoleColors[type]}${text}\u001b[0m`
   );
+};
+
+module.exports = {
+  chunkArray,
+  log,
+  paginateEmbed,
 };

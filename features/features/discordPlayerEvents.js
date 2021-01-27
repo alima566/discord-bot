@@ -1,6 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-const ms = require("ms");
-const { paginateEmbed } = require("@utils/functions");
+const { paginateEmbed, chunkArray } = require("@utils/functions");
 
 module.exports = (client) => {
   client.player
@@ -146,12 +145,6 @@ module.exports = (client) => {
           break;
       }
     });
-};
-
-const chunkArray = (arr, size) => {
-  arr.length > size
-    ? [arr.slice(0, size), ...chunkArray(arr.slice(size), size)]
-    : [arr];
 };
 
 module.exports.config = {
