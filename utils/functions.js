@@ -7,11 +7,10 @@ const consoleColors = {
   ERROR: "\u001b[31m",
 };
 
-module.exports.getRandomNumber = (array) => {
+const getRandomNumber = (array) => {
   return Math.floor(Math.random() * array.length);
 };
-
-module.exports.getMonthsAvailable = (hemisphere) => {
+const getMonthsAvailable = (hemisphere) => {
   let avail = "";
   hemisphere.availability_array.forEach((hem) => {
     avail += hem.months + "\n";
@@ -19,7 +18,7 @@ module.exports.getMonthsAvailable = (hemisphere) => {
   return avail;
 };
 
-module.exports.getTimesAvailable = (hemisphere) => {
+const getTimesAvailable = (hemisphere) => {
   let avail = "";
   hemisphere.availability_array.forEach((hem) => {
     avail += hem.time + "\n";
@@ -27,7 +26,7 @@ module.exports.getTimesAvailable = (hemisphere) => {
   return avail;
 };
 
-module.exports.sendMessageToBotThings = async (client, guild, msg) => {
+const sendMessageToBotThings = async (client, guild, msg) => {
   const result = await botChannelSchema.findOne({ _id: guild.id });
   if (result) {
     const channel = client.channels.cache.get(result.channelID);
@@ -104,6 +103,10 @@ const log = (type, path, text) => {
 };
 
 module.exports = {
+  getRandomNumber,
+  getMonthsAvailable,
+  getTimesAvailable,
+  sendMessageToBotThings,
   chunkArray,
   log,
   paginateEmbed,
