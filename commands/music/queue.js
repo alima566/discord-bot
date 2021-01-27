@@ -1,4 +1,5 @@
 const { MessageEmbed } = require("discord.js");
+const { chunkArray, paginateEmbed } = require("@utils/functions");
 
 module.exports = {
   commands: ["queue", "songs"],
@@ -16,24 +17,55 @@ module.exports = {
     }
 
     const tracks = queue.tracks;
-    const embed = new MessageEmbed()
-      .setAuthor(`Music Queue`, `${message.guild.iconURL()}`)
-      .setColor("#1ED761");
+    let tracksArray = chunkArray(tracks, 10);
     const progressBar = message.client.player.createProgressBar(message, {
       timecodes: true,
     });
 
-    let text = "";
-    for (let i = 0; i < tracks.length; i++) {
-      text += `${i + 1}. [${tracks[i].title}](${tracks[i].url}) (${
-        tracks[i].duration
-      }) - Requested by ${tracks[i].requestedBy.tag}\n`;
-      if (i === 0) {
-        text += `${progressBar}\n`;
+    if (tracksArray.length == 1) {
+      const embed = new MessageEmbed()
+        .setAuthor("Music Queue", message.guild.iconURL())
+        .setColor("#1ED761");
+
+      let text = "";
+      for (let i = 0; i < tracks.length; i++) {
+        text += `${i + 1}. [${tracks[i].title}](${tracks[i].url}) (${
+          tracks[i].duration
+        }) - Requested by ${tracks[i].requestedBy.tag}\n`;
+        if (i === 0) {
+          text += `${progressBar}\n`;
+        }
       }
+
+      embed.setDescription(text).setFooter(`Total Songs: ${tracks.length}`);
+      return message.channel.send(embed);
     }
 
-    embed.setDescription(text).setFooter(`Total Songs: ${tracks.length}`);
-    message.channel.send(embed);
+    const embedArray = [];
+    for (let i = 0; i < tracksArray.length; i++) {
+      let text = "";
+      let footerText = `Total Songs: ${tracks.length} | Page ${i + 1} of ${
+        tracksArray.length
+      }`;
+      const embed = new MessageEmbed()
+        .setAuthor("Music Queue", message.guild.iconURL())
+        .setColor("#1ED761");
+
+      let counter = i == 1 ? 10 : 0;
+      for (let j = 0; j < tracksArray[i].length; j++) {
+        text += `${counter + 1}. [${tracksArray[i][j].title}](${
+          tracksArray[i][j].url
+        }) (${tracksArray[i][j].duration}) - Requested by ${
+          tracksArray[i][j].requestedBy.tag
+        }\n`;
+        if (counter === 0) {
+          text += `${progressBar}\n`;
+        }
+        counter++;
+      }
+      embed.setDescription(text).setFooter(footerText);
+      embedArray.push(embed);
+    }
+    paginateEmbed(message, embedArray, { time: 1000 * 30 });
   },
 };
