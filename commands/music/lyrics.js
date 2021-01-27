@@ -1,10 +1,9 @@
 const fetch = require("node-fetch");
 const cheerio = require("cheerio");
 const { MessageEmbed } = require("discord.js");
-const { log } = require("@utils/functions");
+const { log, paginateEmbed } = require("@utils/functions");
 
 module.exports = {
-  commands: "lyrics",
   category: "Music",
   expectedArgs: "<song_title> - <artist>",
   minArgs: 0,
@@ -14,9 +13,10 @@ module.exports = {
   cooldown: "15s",
   callback: async ({ message, args }) => {
     let songName = "";
-    const nowPlaying = message.client.player.nowPlaying(message);
-    if (args.length === 0 && nowPlaying) {
-      songName = removeCharacters(nowPlaying.title);
+    const isPlaying = message.client.player.isPlaying(message);
+    if (args.length === 0 && isPlaying) {
+      const currentSong = message.client.player.nowPlaying(message);
+      songName = removeCharacters(currentSong.title);
     } else if (args.length > 0) {
       songName = args.join(" ");
     } else {
@@ -32,35 +32,33 @@ module.exports = {
           .then((url) => {
             getLyrics(url)
               .then((lyrics) => {
-                if (lyrics.length > 4095) {
-                  m.edit(
-                    `Lyrics are too long to be returned in a message embed.`
-                  );
-                  return;
-                }
-                if (lyrics.length < 2048) {
-                  let lyricsEmbed = new MessageEmbed()
+                const embedArray = [];
+                let lyricsArray = splitLyrics(lyrics);
+                if (lyricsArray.length == 1) {
+                  const lyricsEmbed = new MessageEmbed()
                     .setColor("#1ED761")
                     .setTitle(songName)
                     .setDescription(lyrics.trim())
                     .setFooter(`Lyrics provided by Genius.com`);
                   m.edit(`Here's what I found.`);
                   return message.channel.send(lyricsEmbed);
-                } else {
-                  // 2048 < lyrics.length < 4096
-                  let firstLyricsEmbed = new MessageEmbed()
+                }
+                for (let i = 0; i < lyricsArray.length; i++) {
+                  let text = "";
+                  const lyricsEmbed = new MessageEmbed()
                     .setColor("#1ED761")
                     .setTitle(songName)
-                    .setDescription(lyrics.slice(0, 2048))
-                    .setFooter(`Lyrics provided by Genius.com`);
-                  let secondLyricsEmbed = new MessageEmbed()
-                    .setColor("#1ED761")
-                    .setDescription(lyrics.slice(2048, lyrics.length))
-                    .setFooter(`Lyrics provided by Genius.com`);
-                  m.edit(`Here's what I found.`);
-                  message.channel.send(firstLyricsEmbed);
-                  message.channel.send(secondLyricsEmbed);
+                    .setFooter(
+                      `Lyrics provided by Genius.com | Page ${i + 1} of ${
+                        lyricsArray.length
+                      }`
+                    );
+                  text += lyricsArray[i];
+                  lyricsEmbed.setDescription(text.trim());
+                  embedArray.push(lyricsEmbed);
                 }
+                m.edit(`Here's what I found.`);
+                paginateEmbed(message, embedArray, { time: 1000 * 60 * 10 });
               })
               .catch((e) => m.edit(e));
           })
@@ -175,4 +173,12 @@ const getLyrics = (url) => {
       );
     }
   });
+};
+
+const splitLyrics = (string) => {
+  let chunks = [];
+  for (let i = 0; i < string.length; i += 2047) {
+    chunks.push(string.substring(i, i + 2047));
+  }
+  return chunks;
 };
