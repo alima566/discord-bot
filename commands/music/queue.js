@@ -28,22 +28,31 @@ module.exports = {
         .setColor("#1ED761");
 
       let text = "";
+      let duration = 0;
       for (let i = 0; i < tracks.length; i++) {
         text += `${i + 1}. [${tracks[i].title}](${tracks[i].url}) (${
           tracks[i].duration
         }) - Requested by ${tracks[i].requestedBy.tag}\n`;
+        duration += tracks[i].durationMS;
         if (i === 0) {
           text += `${progressBar}\n`;
         }
       }
 
-      embed.setDescription(text).setFooter(`Total Songs: ${tracks.length}`);
+      embed
+        .setDescription(text)
+        .setFooter(
+          `Total Songs: ${tracks.length} | Total Duration: ${msToTime(
+            duration
+          )}`
+        );
       return message.channel.send(embed);
     }
 
     const embedArray = [];
     for (let i = 0; i < tracksArray.length; i++) {
       let text = "";
+      let duration = 0;
       const embed = new MessageEmbed()
         .setAuthor("Music Queue", message.guild.iconURL())
         .setColor("#1ED761");
@@ -55,6 +64,7 @@ module.exports = {
         }) (${tracksArray[i][j].duration}) - Requested by ${
           tracksArray[i][j].requestedBy.tag
         }\n`;
+        duration += tracksArray[i][j].durationMS;
         if (counter === 0) {
           text += `${progressBar}\n`;
         }
@@ -63,12 +73,19 @@ module.exports = {
       embed
         .setDescription(text)
         .setFooter(
-          `Total Songs: ${tracks.length} | Page ${i + 1} of ${
-            tracksArray.length
-          }`
+          `Total Songs: ${tracks.length} | Total Duration: ${msToTime(
+            duration
+          )} | Page ${i + 1} of ${tracksArray.length}`
         );
       embedArray.push(embed);
     }
     paginateEmbed(message, embedArray, { time: 1000 * 30 });
   },
+};
+
+const msToTime = (ms) => {
+  const duration = new Date(ms).toISOString().slice(11, -5);
+  return duration.charAt(0) === "0" && duration.charAt(1) === "0"
+    ? duration.slice(3)
+    : duration;
 };
