@@ -44,9 +44,6 @@ module.exports = {
     const embedArray = [];
     for (let i = 0; i < tracksArray.length; i++) {
       let text = "";
-      let footerText = `Total Songs: ${tracks.length} | Page ${i + 1} of ${
-        tracksArray.length
-      }`;
       const embed = new MessageEmbed()
         .setAuthor("Music Queue", message.guild.iconURL())
         .setColor("#1ED761");
@@ -63,7 +60,13 @@ module.exports = {
         }
         counter++;
       }
-      embed.setDescription(text).setFooter(footerText);
+      embed
+        .setDescription(text)
+        .setFooter(
+          `Total Songs: ${tracks.length} | Page ${i + 1} of ${
+            tracksArray.length
+          }`
+        );
       embedArray.push(embed);
     }
     paginateEmbed(message, embedArray, { time: 1000 * 30 });
