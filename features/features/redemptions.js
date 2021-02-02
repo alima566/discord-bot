@@ -36,6 +36,8 @@ module.exports = (client) => {
   fetchRedemptionChannels();
 
   client.on("message", (msg) => {
+    if (!msg.guild) return;
+
     const { guild, channel, content, member } = msg;
     const cachedChannelID = redemptionCache[guild.id];
     if (cachedChannelID && cachedChannelID === channel.id && !member.user.bot) {
