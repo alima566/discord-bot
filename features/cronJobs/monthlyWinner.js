@@ -78,14 +78,14 @@ const sendDM = (client, guild, userID, month, points) => {
       );
       log(
         "SUCCESS",
-        "./features/cronJobs/monthWinner.js",
+        "./features/cronJobs/monthlyWinner.js",
         `Message succesfully sent to ${userID}`
       );
     })
     .catch((e) => {
       log(
         "ERROR",
-        "./features/cronJobs/monthWinner.js",
+        "./features/cronJobs/monthlyWinner.js",
         `There was an error with sending DM to ${userID}: ${e.message}`
       );
     });
@@ -93,10 +93,10 @@ const sendDM = (client, guild, userID, month, points) => {
 
 const addRemoveRole = (masterGamblerRole, guild, userID) => {
   const role = guild.roles.cache.get(masterGamblerRole);
-  const currentMember = guild.members.cache
-    .filter((member) => member.roles.cache.find((r) => r == role))
-    .map((member) => member.user); // Get current member with the Master Gambler role
-  currentMember.roles.remove(role); // Remove the Master Gambler role from the previous month's winner
+  const currentMember = guild.members.cache.filter((member) =>
+    member.roles.cache.find((r) => r == role)
+  ); // Get current member with the Master Gambler role
+  currentMember.first().roles.remove(role); // Remove the Master Gambler role from the previous month's winner
 
   const member = guild.members.cache.find((member) => member.id === userID);
   member.roles.add(role); // Add the Master Gambler role to the new winner
