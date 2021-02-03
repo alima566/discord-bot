@@ -50,7 +50,7 @@ module.exports = {
       );
     }
 
-    let pointsToGamble = args[0];
+    let pointsToGamble = args[0].trim();
     const actualPoints = await getPoints(guild.id, userID);
 
     if (actualPoints === 0) {

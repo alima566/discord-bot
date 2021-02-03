@@ -39,7 +39,7 @@ module.exports = {
       );
     }
 
-    const pointsToGamble = args[0];
+    const pointsToGamble = args[0].trim();
     const actualPoints = await getPoints(guildID, userID);
 
     const slot1 = getRandomNumber(slotsEmoji);
