@@ -1,6 +1,5 @@
 const cron = require("cron");
 const moment = require("moment");
-const numeral = require("numeral");
 const { MessageEmbed } = require("discord.js");
 const gamblingSchema = require("@schemas/gambling-schema");
 const { incrementMonthlyWins } = require("@utils/monthlyWins");
