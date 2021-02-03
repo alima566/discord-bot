@@ -9,6 +9,7 @@ module.exports = {
     "Retrieve information about a special character from Animal Crossing.",
   cooldown: "15s",
   callback: ({ message, text }) => {
+    text = text.trim();
     if (text.includes(" ")) {
       text = text.replace(/ +/g, "_");
     }

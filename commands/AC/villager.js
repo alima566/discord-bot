@@ -12,6 +12,7 @@ module.exports = {
     "Retrieve information about a specific villager in any Animal Crossing game.",
   cooldown: "15s",
   callback: ({ message, text }) => {
+    text = text.trim();
     if (text.includes(" ")) {
       text = text.replace(/ +/g, "_");
     }
