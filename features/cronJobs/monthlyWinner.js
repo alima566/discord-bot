@@ -1,6 +1,7 @@
 const cron = require("cron");
 const moment = require("moment");
 const numeral = require("numeral");
+const { MessageEmbed } = require("discord.js");
 const gamblingSchema = require("@schemas/gambling-schema");
 const { incrementMonthlyWins } = require("@utils/monthlyWins");
 const { monthlyPrize } = require("@root/config.json");
@@ -33,11 +34,7 @@ const execute = async (client) => {
         .subtract(1, "months")
         .format("MMMM");
       channel.send(
-        `Congrats to <@${userID}> for having the most points (${numeral(
-          points
-        ).format(
-          "0,0"
-        )}) for the month of ${month}! You have won a free month of ${monthlyPrize} and have earned the coveted <@&${masterGamblerRoleID}> role! Please check your DM for your gift!`
+        `Congrats to <@${userID}> for having the most points (${points.toLocaleString()}) for the month of ${month}! You have won a free month of ${monthlyPrize} and have earned the coveted <@&${masterGamblerRoleID}> role! Please check your DM for your gift!`
       );
       sendDM(client, guild, userID, month, points);
       await incrementMonthlyWins(guildId, userID);
@@ -60,16 +57,29 @@ const fetchWinner = async (guildID) => {
 };
 
 const sendDM = (client, guild, userID, month, points) => {
-  const text = `Congratulations! You have the most points for the month of ${month} with ${numeral(
-    points
-  ).format(
-    "0,0"
-  )} points and have won a free month of Discord Nitro!\n\nTo claim it, please click on this link: ${
-    process.env.DISCORD_NITRO_GIFT_LINK
-  }.\n\nPlease contact <@464635440801251328> if you encounter any problems.\n\nEnjoy the Nitro!\n\nFun fact: With Discord Nitro, you have two free server boosts to any server you like.\n\n*Please do no reply to this DM as this is not monitored.*`;
+  const embed = new MessageEmbed()
+    .setColor("#7289da")
+    .setTitle("Congratulations!")
+    .setDescription(
+      `Congratulations! You have the most points for the month of ${month} with ${points.toLocaleString()} points and have won a free month of Discord Nitro!
+      
+      To claim it, please click [here](${process.env.DISCORD_NITRO_GIFT_LINK}).
+
+      Please contact <@464635440801251328> if you encounter any problems.
+
+      Fun fact: With Discord Nitro, you have two free server boosts to any server you like.
+
+      Enjoy the Nitro!`
+    )
+    .setThumbnail(
+      "https://www.howtogeek.com/wp-content/uploads/2020/04/Discord-Nitro-Banner-Image.jpg"
+    )
+    .setFooter("Please do no reply to this DM as this is not monitored.")
+    .setTimestamp();
+
   client.users.cache
     .get(userID)
-    .send(text)
+    .send(embed)
     .then(() => {
       sendMessageToBotThings(
         client,
