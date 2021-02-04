@@ -128,11 +128,16 @@ const playGame = (message, pointsToGamble, guildID, userID, args) => {
       }
     });
 
-    collector.on("end", (collected, reason) => {
+    collector.on("end", async (collected, reason) => {
       if (reason === "time") {
         gameOver = true;
         m.reactions.removeAll();
-        return m.channel.send(`<@${userID}>, you did not react in time.`);
+        await addPoints(guildID, userID, pointsToGamble * -1);
+        return m.channel.send(
+          `<@${userID}>, you did not react in time and have forfeited ${pointsToGamble} point${
+            pointsToGamble != 1 ? "s" : ""
+          }.`
+        );
       }
     });
   });
