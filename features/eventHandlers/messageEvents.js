@@ -49,8 +49,8 @@ module.exports = (client) => {
     )
       return;
 
-    if (oldMsg.content !== newMsg.content) {
-      if (!oldMsg.partial && !newMsg.partial) {
+    if (!oldMsg.partial && !newMsg.partial) {
+      if (oldMsg.content !== newMsg.content) {
         if (newMsg.author.bot) return;
         const msgEmbed = new MessageEmbed()
           .setColor("RED")
