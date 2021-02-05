@@ -40,7 +40,7 @@ module.exports = (client) => {
     sendMessageToBotThings(client, msg.guild, msgEmbed);
   });
 
-  client.on("messageUpdate", (oldMsg, newMsg) => {
+  client.on("messageUpdate", async (oldMsg, newMsg) => {
     if (!oldMsg.guild || !newMsg.guild) return;
 
     if (
@@ -75,6 +75,33 @@ module.exports = (client) => {
 
         sendMessageToBotThings(client, newMsg.guild, msgEmbed);
       }
+    } else {
+      const newM = await newMsg.fetch();
+
+      if (newM.author.bot) return;
+
+      const msgEmbed = new MessageEmbed()
+        .setColor("RED")
+        .setAuthor(newM.author.tag, newM.author.displayAvatarURL())
+        .setDescription(
+          `Message sent by ${newM.author} was edited in ${newM.channel}:`
+        )
+        .addFields(
+          {
+            name: "**Old Message**",
+            value: "Unknown",
+            inline: true,
+          },
+          {
+            name: "**New Message**",
+            value: newM.content,
+            inline: true,
+          }
+        )
+        .setFooter(`Message ID: ${newM.id}`)
+        .setTimestamp();
+
+      sendMessageToBotThings(client, newM.guild, msgEmbed);
     }
   });
 };
