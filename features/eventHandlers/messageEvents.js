@@ -43,15 +43,10 @@ module.exports = (client) => {
   client.on("messageUpdate", async (oldMsg, newMsg) => {
     if (!oldMsg.guild || !newMsg.guild) return;
 
-    if (
-      oldMsg.channel.id === "771015880883699732" || //rules-and-reactions channel
-      oldMsg.channel.id === "732786545169399838" //leaderboard channel
-    )
-      return;
-
     if (!oldMsg.partial && !newMsg.partial) {
       if (oldMsg.content !== newMsg.content) {
         if (newMsg.author.bot) return;
+
         const msgEmbed = new MessageEmbed()
           .setColor("RED")
           .setAuthor(newMsg.author.tag, newMsg.author.displayAvatarURL())
@@ -77,7 +72,6 @@ module.exports = (client) => {
       }
     } else {
       const newM = await newMsg.fetch();
-
       if (newM.author.bot) return;
 
       const msgEmbed = new MessageEmbed()
