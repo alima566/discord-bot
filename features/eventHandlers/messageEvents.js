@@ -57,7 +57,7 @@ module.exports = (client) => {
           .setColor("RED")
           .setAuthor(newMsg.author.tag, newMsg.author.displayAvatarURL())
           .setDescription(
-            `Message sent by ${newMsg.author} was edited in ${newMsg.channel}:`
+            `[Message](${newMsg.url}) sent by ${newMsg.author} was edited in ${newMsg.channel}:`
           )
           .addFields(
             {
@@ -84,7 +84,7 @@ module.exports = (client) => {
         .setColor("RED")
         .setAuthor(newM.author.tag, newM.author.displayAvatarURL())
         .setDescription(
-          `Message sent by ${newM.author} was edited in ${newM.channel}:`
+          `[Message](${newMsg.url}) sent by ${newM.author} was edited in ${newM.channel}:`
         )
         .addFields(
           {
