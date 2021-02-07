@@ -1,11 +1,14 @@
 const { MessageEmbed } = require("discord.js");
-const { sendMessageToBotThings } = require("@utils/functions");
+const { sendMessageToBotThings, fetchAuditLog } = require("@utils/functions");
+const gamblingSchema = require("@schemas/gambling-schema");
+
 module.exports = (client) => {
   client.on("guildMemberUpdate", async (oldMem, newMem) => {
     if (oldMem.nickname !== newMem.nickname) {
       let oldNick = oldMem.nickname === null ? "None" : oldMem.nickname;
       let newNick = newMem.nickname === null ? "None" : newMem.nickname;
-      let msgEmbed = new MessageEmbed()
+
+      const msgEmbed = new MessageEmbed()
         .setColor("PURPLE")
         .setAuthor(`${newMem.guild.name}`, newMem.guild.iconURL())
         .setDescription(`**${newMem.user} nickname changed**`)
@@ -17,6 +20,7 @@ module.exports = (client) => {
         .setFooter(`ID: ${newMem.id}`);
       sendMessageToBotThings(client, newMem.guild, msgEmbed);
     }
+
     if (oldMem.roles.cache.size !== newMem.roles.cache.size) {
       let removedRoles = oldMem.roles.cache.filter(
         (role) => !newMem.roles.cache.has(role.id)
@@ -24,9 +28,10 @@ module.exports = (client) => {
       let addedRoles = newMem.roles.cache.filter(
         (role) => !oldMem.roles.cache.has(role.id)
       );
+
       if (removedRoles.size > 0) {
         let roleID = removedRoles.map((r) => r.id);
-        for (var i = 0; i < roleID.length; i++) {
+        for (let i = 0; i < roleID.length; i++) {
           roleUpdatedLog(
             client,
             removedRoles.get(roleID[i]),
@@ -35,9 +40,10 @@ module.exports = (client) => {
           );
         }
       }
+
       if (addedRoles.size > 0) {
         let roleID = addedRoles.map((r) => r.id);
-        for (var i = 0; i < roleID.length; i++) {
+        for (let i = 0; i < roleID.length; i++) {
           roleUpdatedLog(
             client,
             addedRoles.get(roleID[i]),
@@ -47,6 +53,42 @@ module.exports = (client) => {
         }
       }
     }
+  });
+
+  client.on("guildMemberRemove", async (member) => {
+    const { guild, user } = member;
+    const msgEmbed = new MessageEmbed().setColor("PURPLE");
+
+    await gamblingSchema.deleteOne({
+      guildID: guild.id,
+      userID: user.id,
+    }); // Delete gambling points from database
+
+    const fetchedLogs = await fetchAuditLog(member.guild, "MEMBER_KICK");
+
+    const kickLog = fetchedLogs.entries.first();
+    if (!kickLog) {
+      msgEmbed
+        .setAuthor(member.user.tag, member.user.displayAvatarURL())
+        .setDescription(`**${member.user} has left the server**`)
+        .setTimestamp()
+        .setFooter(`ID: ${member.user.id}`);
+      return sendMessageToBotThings(client, member.guild, msgEmbed);
+    }
+
+    const { executor, target } = kickLog;
+    msgEmbed
+      .setAuthor(member.user.tag, member.user.displayAvatarURL())
+      .setDescription(
+        `${
+          target.id === member.id
+            ? `**${member.user} was kicked from the guild by ${executor}**`
+            : `**${member.user} has left the server**`
+        }`
+      )
+      .setTimestamp()
+      .setFooter(`ID: ${member.user.id}`);
+    sendMessageToBotThings(client, member.guild, msgEmbed);
   });
 };
 
