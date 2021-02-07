@@ -1,27 +1,33 @@
-const { sendMessageToBotThings } = require("@utils/functions");
+const { sendMessageToBotThings, fetchAuditLog } = require("@utils/functions");
 const { MessageEmbed } = require("discord.js");
 
 module.exports = (client) => {
   client.on("messageDelete", async (msg) => {
     if (!msg.guild) return;
 
-    const fetchedLogs = await msg.guild.fetchAuditLogs({
-      limit: 1,
-      type: "MESSAGE_DELETE",
-    });
+    const msgEmbed = new MessageEmbed().setColor("RED");
+    const fetchedLogs = await fetchAuditLog(msg.guild, "MESSAGE_DELETE");
 
     const deletionLog = fetchedLogs.entries.first();
-    if (!deletionLog) return;
+    if (!deletionLog) {
+      msgEmbed
+        .setAuthor(`${msg.guild.name}`, msg.guild.iconURL())
+        .setDescription(
+          `**Message sent by ${msg.author} was deleted in ${msg.channel}**`
+        )
+        .setTimestamp()
+        .setFooter(`Message ID: ${msg.id}`);
+      return sendMessageToBotThings(client, msg.guild, msgEmbed);
+    }
 
     const { executor, target } = deletionLog;
 
-    const msgEmbed = new MessageEmbed().setColor("RED");
     if (!msg.partial) {
       if (msg.author.bot) return;
       msgEmbed
         .setAuthor(`${msg.author.tag}`, msg.author.displayAvatarURL())
         .setDescription(
-          `**Message sent by ${msg.author} deleted in ${msg.channel}**\n${msg}`
+          `**Message sent by ${msg.author} deleted in ${msg.channel}:**\n>>> ${msg}`
         )
         .setTimestamp()
         .setFooter(
