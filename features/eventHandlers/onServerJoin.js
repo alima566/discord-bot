@@ -37,7 +37,7 @@ const createCanvas = async (guild, member) => {
   ctx.strokeRect(0, 0, canvas.width, canvas.height);
 
   // Slightly smaller text placed above the member's display name
-  ctx.font = "28px sans-serif";
+  ctx.font = "24px sans-serif";
   ctx.strokeStyle = "black";
   ctx.lineWidth = 8;
   ctx.strokeText(
