@@ -102,6 +102,13 @@ const log = (type, path, text) => {
   );
 };
 
+const fetchAuditLog = async (guild, auditLogAction) => {
+  return await guild.fetchAuditLogs({
+    limit: 1,
+    type: auditLogAction,
+  });
+};
+
 module.exports = {
   getRandomNumber,
   getMonthsAvailable,
@@ -110,4 +117,5 @@ module.exports = {
   chunkArray,
   log,
   paginateEmbed,
+  fetchAuditLog,
 };
