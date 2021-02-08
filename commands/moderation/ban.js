@@ -32,7 +32,7 @@ module.exports = {
         channel.send(`Successfully banned ${mem.user.tag} from the server.`);
 
         const msgEmbed = new MessageEmbed()
-          .setColor("PURPLE")
+          .setColor("#CC0202")
           .setAuthor(author.tag, author.displayAvatarURL())
           .setThumbnail(mem.user.displayAvatarURL())
           .setDescription(
