@@ -5,12 +5,13 @@ module.exports = {
   category: "Moderation",
   minArgs: 1,
   description: "Kicks a member from the server",
-  expectedArgs: "<The target's @> [Reason]",
+  expectedArgs: "<The target's @ OR ID number> [Reason]",
   requiredPermissions: ["KICK_MEMBERS", "BAN_MEMBERS"],
   callback: ({ message, args, client }) => {
-    const member = message.mentions.members.first();
-    const reason = args.slice(1).join(" ");
     const { guild, author, channel } = message;
+    const member =
+      message.mentions.members.first() || guild.members.cache.get(args[0]);
+    const reason = args.slice(1).join(" ");
 
     if (!member) {
       return message.reply("Please specify a member to kick.");
@@ -25,7 +26,7 @@ module.exports = {
     member
       .kick(reason)
       .then((mem) => {
-        channel.send(`${mem} was successfully kicked from the server.`);
+        channel.send(`Successfully kicked ${mem.user.tag} from the server.`);
 
         const msgEmbed = new MessageEmbed()
           .setColor("PURPLE")
