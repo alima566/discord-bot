@@ -14,8 +14,8 @@ module.exports = (client) => {
         .setDescription(
           `${
             target.id === user.id
-              ? `${user.tag} has been banned from the server by ${executor}.`
-              : `${user.tag} has been banned from the server.`
+              ? `**${user.tag} has been banned from the server by ${executor}**`
+              : `**${user.tag} has been banned from the server**`
           }`
         )
         .setTimestamp()
@@ -24,7 +24,7 @@ module.exports = (client) => {
     } else {
       msgEmbed
         .setAuthor(guild.name, guild.iconURL())
-        .setDescription(`${user.tag} has been banned from the server.`)
+        .setDescription(`**${user.tag} has been banned from the server**`)
         .setTimestamp()
         .setFooter(`ID: ${user.id}`);
       return sendMessageToBotLog(client, guild, msgEmbed);
@@ -43,8 +43,8 @@ module.exports = (client) => {
         .setDescription(
           `${
             target.id === user.id
-              ? `${executor} removed ban from ${user.tag}.`
-              : `Removed ban from ${user.tag}.`
+              ? `**${executor} removed ban from ${user.tag}**`
+              : `**Removed ban from ${user.tag}**`
           }`
         )
         .setTimestamp()
@@ -53,7 +53,7 @@ module.exports = (client) => {
     } else {
       msgEmbed
         .setAuthor(guild.name, guild.iconURL())
-        .setDescription(`Removed ban from ${user.tag}.`)
+        .setDescription(`**Removed ban from ${user.tag}**`)
         .setTimestamp()
         .setFooter(`ID: ${user.id}`);
       return sendMessageToBotLog(client, guild, msgEmbed);
