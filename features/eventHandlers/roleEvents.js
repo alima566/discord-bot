@@ -1,25 +1,25 @@
 const { MessageEmbed } = require("discord.js");
 const { sendMessageToBotThings } = require("@utils/functions");
-const msgEmbed = new MessageEmbed().setColor("YELLOW");
+
 module.exports = (client) => {
   client.on("roleCreate", async (role) => {
-    msgEmbed
+    const msgEmbed = new MessageEmbed()
+      .setColor("YELLOW")
       .setDescription(`**Role Created: ${role.name}**`)
       .setAuthor(`${role.guild.name}`, role.guild.iconURL())
       .setTimestamp()
       .setFooter(`ID: ${role.id}`);
     sendMessageToBotThings(client, role.guild, msgEmbed);
-    console.log("ROLE CREATED");
   });
 
   client.on("roleDelete", async (role) => {
-    msgEmbed
+    const msgEmbed = new MessageEmbed()
+      .setColor("YELLOW")
       .setDescription(`**Role Deleted: ${role.name}**`)
       .setAuthor(`${role.guild.name}`, role.guild.iconURL())
       .setTimestamp()
       .setFooter(`ID: ${role.id}`);
     sendMessageToBotThings(client, role.guild, msgEmbed);
-    console.log("ROLE DELETED");
   });
 
   client.on("roleUpdate", async (oldRole, newRole) => {
@@ -27,7 +27,8 @@ module.exports = (client) => {
       oldRole.name !== newRole.name &&
       (!oldRole.deleted || !newRole.deleted)
     ) {
-      msgEmbed
+      const msgEmbed = new MessageEmbed()
+        .setColor("YELLOW")
         .setDescription(`**Role Name Changed**`)
         .addFields(
           { name: `**Before**`, value: `${oldRole.name}`, inline: true },
@@ -37,7 +38,6 @@ module.exports = (client) => {
         .setTimestamp()
         .setFooter(`ID: ${newRole.id}`);
       sendMessageToBotThings(client, newRole.guild, msgEmbed);
-      console.log("ROLE UPDATED");
     }
   });
 };

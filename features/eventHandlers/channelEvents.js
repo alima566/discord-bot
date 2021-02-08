@@ -1,8 +1,9 @@
 const { MessageEmbed } = require("discord.js");
 const { sendMessageToBotThings } = require("@utils/functions");
-let embed = null;
+
 module.exports = (client) => {
   client.on("channelCreate", async (channel) => {
+    let embed = null;
     if (channel.type.toLowerCase() === "dm") return;
     if (channel.type.toLowerCase() === "category") {
       embed = createChannelEmbed(
@@ -27,6 +28,7 @@ module.exports = (client) => {
   });
 
   client.on("channelDelete", async (channel) => {
+    let embed = null;
     if (channel.type.toLowerCase() === "category") {
       embed = createChannelEmbed(
         channel,
@@ -50,6 +52,7 @@ module.exports = (client) => {
   });
 
   client.on("channelUpdate", async (oldChan, newChan) => {
+    let embed = null;
     if (oldChan.name !== newChan.name) {
       if (newChan.type.toLowerCase() === "category") {
         embed = createChannelEmbed(
@@ -76,7 +79,7 @@ module.exports = (client) => {
 };
 
 const createChannelEmbed = (oldChan, newChan, description) => {
-  let embed = new MessageEmbed()
+  const embed = new MessageEmbed()
     .setColor("GREEN")
     .setDescription(description)
     .setAuthor(`${oldChan.guild.name}`, oldChan.guild.iconURL())
