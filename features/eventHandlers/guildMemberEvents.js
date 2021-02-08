@@ -18,6 +18,21 @@ module.exports = (client) => {
         )
         .setTimestamp()
         .setFooter(`ID: ${newMem.id}`);
+
+      const fetchedLogs = await fetchAuditLog(newMem.guild, "MEMBER_UPDATE");
+      const memberUpdateLog = fetchedLogs.entries.first();
+      if (memberUpdateLog) {
+        const { executor } = memberUpdateLog;
+        if (executor.id !== newMem.id) {
+          //Only show "Changed By" field if a mod changes member nickname
+          msgEmbed.addFields({
+            name: `**Changed By**`,
+            value: executor,
+            inline: true,
+          });
+        }
+      }
+
       sendMessageToBotLog(client, newMem.guild, msgEmbed);
     }
 
