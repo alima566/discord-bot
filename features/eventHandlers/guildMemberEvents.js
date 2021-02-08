@@ -107,15 +107,25 @@ module.exports = (client) => {
   });
 };
 
-const roleUpdatedLog = (client, role, user, type) => {
+const roleUpdatedLog = async (client, role, user, type) => {
   let description = `**${user} was ${type}`;
   if (type === "given") {
     description += ` the `;
   } else if (type === "removed") {
     description += ` from the `;
   }
-  description += `\`${role.name}\` role**`;
-  let msgEmbed = new MessageEmbed()
+  description += `\`${role.name}\` role`;
+
+  const fetchedLogs = await fetchAuditLog(role.guild, "MEMBER_ROLE_UPDATE");
+  const roleUpdateLog = fetchedLogs.entries.first();
+  if (roleUpdateLog) {
+    const { executor } = roleUpdateLog;
+    description += ` by ${executor}**`;
+  } else {
+    description += `**`;
+  }
+
+  const msgEmbed = new MessageEmbed()
     .setColor("BLUE")
     .setAuthor(`${user.tag}`, user.displayAvatarURL())
     .setDescription(description)
