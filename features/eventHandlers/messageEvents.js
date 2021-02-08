@@ -24,6 +24,7 @@ module.exports = (client) => {
 
     if (!msg.partial) {
       if (msg.author.bot) return;
+
       msgEmbed
         .setAuthor(`${msg.author.tag}`, msg.author.displayAvatarURL())
         .setDescription(
@@ -35,7 +36,6 @@ module.exports = (client) => {
             target.id === msg.author.id ? `\nDeleted by: ${executor.tag} |` : ""
           } Message ID: ${msg.id}`
         );
-      //.setFooter(`Author: ${msg.author.id} | Message ID: ${msg.id}`);
     } else {
       msgEmbed
         .setAuthor(`${msg.guild.name}`, msg.guild.iconURL())
@@ -49,12 +49,13 @@ module.exports = (client) => {
   client.on("messageUpdate", async (oldMsg, newMsg) => {
     if (!oldMsg.guild || !newMsg.guild) return;
 
+    const msgEmbed = new MessageEmbed().setColor("RED").setTimestamp();
+
     if (!oldMsg.partial && !newMsg.partial) {
       if (oldMsg.content !== newMsg.content) {
         if (newMsg.author.bot) return;
 
-        const msgEmbed = new MessageEmbed()
-          .setColor("RED")
+        msgEmbed
           .setAuthor(newMsg.author.tag, newMsg.author.displayAvatarURL())
           .setDescription(
             `[Message](${newMsg.url}) sent by ${newMsg.author} was edited in ${newMsg.channel}:`
@@ -71,8 +72,7 @@ module.exports = (client) => {
               inline: true,
             }
           )
-          .setFooter(`Message ID: ${newMsg.id}`)
-          .setTimestamp();
+          .setFooter(`Message ID: ${newMsg.id}`);
 
         sendMessageToBotThings(client, newMsg.guild, msgEmbed);
       }
@@ -80,8 +80,7 @@ module.exports = (client) => {
       const newM = await newMsg.fetch();
       if (newM.author.bot) return;
 
-      const msgEmbed = new MessageEmbed()
-        .setColor("RED")
+      msgEmbed
         .setAuthor(newM.author.tag, newM.author.displayAvatarURL())
         .setDescription(
           `[Message](${newMsg.url}) sent by ${newM.author} was edited in ${newM.channel}:`
@@ -98,8 +97,7 @@ module.exports = (client) => {
             inline: true,
           }
         )
-        .setFooter(`Message ID: ${newM.id}`)
-        .setTimestamp();
+        .setFooter(`Message ID: ${newM.id}`);
 
       sendMessageToBotThings(client, newM.guild, msgEmbed);
     }
