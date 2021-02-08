@@ -97,7 +97,7 @@ module.exports = (client) => {
       .setDescription(
         `${
           target.id === member.id
-            ? `**${member.user} was kicked from the guild by ${executor}**`
+            ? `**${member.user} was kicked from the server by ${executor}**`
             : `**${member.user} has left the server**`
         }`
       )
