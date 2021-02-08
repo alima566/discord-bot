@@ -1,4 +1,6 @@
 const { MessageEmbed } = require("discord.js");
+const { utcToZonedTime, format } = require("date-fns-tz");
+const { formatDistance } = require("date-fns");
 
 module.exports = {
   category: "Info",
@@ -17,6 +19,10 @@ module.exports = {
       (c) => c.type === "voice"
     ).size;
 
+    const timeFormat = "EEE, MMM d, yyyy h:mm a zzz";
+    const timeZone = "America/New_York";
+    const createdAtEasternDate = utcToZonedTime(createdAt, timeZone);
+
     const msgEmbed = new MessageEmbed()
       .setColor("#DFBCF5")
       .setAuthor(name, guild.iconURL())
@@ -30,6 +36,15 @@ module.exports = {
         {
           name: "**Region**",
           value: region,
+          inline: true,
+        },
+        {
+          name: "**Server Created**",
+          value: `${format(createdAtEasternDate, timeFormat, {
+            timeZone,
+          })} (${formatDistance(createdAt, new Date(), {
+            addSuffix: true,
+          })})`,
           inline: true,
         },
         {
@@ -55,16 +70,16 @@ module.exports = {
         {
           name: "**Roles**",
           value: guild.roles.cache.size,
-          inline: false,
+          inline: true,
         },
         {
           name: "**Role List**",
           value: getRoleList(guild),
-          inline: true,
+          inline: false,
         }
       )
-      .setFooter(`ID: ${guild.id} | Server Created`)
-      .setTimestamp(createdAt);
+      .setFooter(`ID: ${guild.id}`)
+      .setTimestamp();
     channel.send(msgEmbed);
   },
 };

@@ -1,5 +1,6 @@
 const { MessageEmbed } = require("discord.js");
 const { utcToZonedTime, format } = require("date-fns-tz");
+const { formatDistance } = require("date-fns");
 
 const keyPerms = {
   ADMINISTRATOR: "Administrator",
@@ -40,14 +41,20 @@ module.exports = {
       .addFields(
         {
           name: "**Joined**",
-          value: format(joinedAtEasternDate, timeFormat, {
+          value: `${format(joinedAtEasternDate, timeFormat, {
             timeZone,
-          }),
+          })} (${formatDistance(member.joinedAt, new Date(), {
+            addSuffix: true,
+          })})`,
           inline: true,
         },
         {
           name: "**Registered**",
-          value: format(createdAtEasternDate, timeFormat, { timeZone }),
+          value: `${format(createdAtEasternDate, timeFormat, {
+            timeZone,
+          })} (${formatDistance(member.user.createdAt, new Date(), {
+            addSuffix: true,
+          })})`,
           inline: true,
         },
         {
