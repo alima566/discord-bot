@@ -95,7 +95,7 @@ module.exports = (client) => {
         embed = await createChannelEmbed(
           oldChan,
           newChan,
-          `**Voice Category Name Changed**`
+          `**Voice Channel Name Changed**`
         );
       }
       sendMessageToBotLog(client, newChan.guild, embed);
