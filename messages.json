@@ -1,15 +1,15 @@
 {
   "LANGUAGE_NOT_SUPPORTED": {
-    "english": "This bot does not have support for {LANGUAGE} at this time.",
-    "spanish": "Este bot no es compatible con {LANGUAGE} en este momento."
+    "english": "This bot does not have support for `{LANGUAGE}` at this time.",
+    "spanish": "Este bot no es compatible con `{LANGUAGE}` en este momento."
   },
   "CURRENT_LANGUAGE": {
-    "english": "The current langauge is set to {LANGUAGE}.",
-    "spanish": "El idioma actual está establecido en {LANGUAGE}."
+    "english": "The current langauge is set to `{LANGUAGE}`.",
+    "spanish": "El idioma actual está establecido en `{LANGUAGE}`."
   },
   "NEW_LANGUAGE": {
-    "english": "Language set to {LANGUAGE}.",
-    "spanish": "Idioma configurado en {LANGUAGE}."
+    "english": "Language set to `{LANGUAGE}`.",
+    "spanish": "Idioma configurado en `{LANGUAGE}`."
   },
   "BOT_OWNERS_ONLY": {
     "english": "Only the bot owner can run this command.",
@@ -20,8 +20,8 @@
     "spanish": "Ese comando está actualmente deshabilitado en este servidor."
   },
   "MISSING_PERMISSION": {
-    "english": "You must have the {PERM} permission in order to use this command.",
-    "spanish": "Debe tener el permiso {PERM} para poder utilizar este comando."
+    "english": "You must have the `{PERM}` permission in order to use this command.",
+    "spanish": "Debe tener el permiso `{PERM}` para poder utilizar este comando."
   },
   "MISSING_ROLES": {
     "english": "You do not have the required roles to use this command!",
@@ -48,24 +48,24 @@
     "spanish": "¡Ese comando ya está desactivado!"
   },
   "COMMAND_NOW_ENABLED": {
-    "english": "{COMMAND} is now enabled!",
-    "spanish": "¡{COMMAND} ahora está habilitado!"
+    "english": "`{COMMAND}` is now enabled!",
+    "spanish": "¡`{COMMAND}` ahora está habilitado!"
   },
   "COMMAND_NOW_DISABLED": {
-    "english": "{COMMAND} is now disabled!",
-    "spanish": "¡{COMMAND} ahora está deshabilitada!"
+    "english": "`{COMMAND}` is now disabled!",
+    "spanish": "¡`{COMMAND}` ahora está deshabilitada!"
   },
   "UNKNOWN_COMMAND": {
-    "english": "Could not find command {COMMAND}!",
-    "spanish": "¡No se pudo encontrar el comando {COMMAND}!"
+    "english": "Could not find command `{COMMAND}`!",
+    "spanish": "¡No se pudo encontrar el comando `{COMMAND}`!"
   },
   "CURRENT_PREFIX": {
-    "english": "The current prefix is {PREFIX}.",
-    "spanish": "El prefijo actual es {PREFIX}."
+    "english": "The current prefix is `{PREFIX}`.",
+    "spanish": "El prefijo actual es `{PREFIX}`."
   },
   "SET_PREFIX": {
-    "english": "Set the command prefix to {PREFIX}.",
-    "spanish": "Establezca el prefijo del comando en {PREFIX}."
+    "english": "Set the command prefix to `{PREFIX}`.",
+    "spanish": "Establezca el prefijo del comando en `{PREFIX}`."
   },
   "CANNOT_SET_PREFIX_IN_DMS": {
     "english": "You cannot set a prefix in a private message.",
@@ -76,12 +76,12 @@
     "spanish": "No puede cambiar los roles requeridos en los mensajes privados."
   },
   "REMOVED_ALL_REQUIRED_ROLES": {
-    "english": "Removed all required roles from command {COMMAND}.",
-    "spanish": "Se eliminaron todos los roles requeridos del comando {COMMAND}."
+    "english": "Removed all required roles from command `{COMMAND}`.",
+    "spanish": "Se eliminaron todos los roles requeridos del comando `{COMMAND}`."
   },
   "ADDED_REQUIRED_ROLE": {
-    "english": "Added role {ROLE} to command {COMMAND}.",
-    "spanish": "Se agregó el rol {ROLE} al comando {COMMAND}."
+    "english": "Added role `{ROLE}` to command `{COMMAND}`.",
+    "spanish": "Se agregó el rol `{ROLE}` al comando `{COMMAND}`."
   },
   "SYNTAX_ERROR": {
     "english": "Incorrect usage! Please use `{PREFIX}{COMMAND} {ARGUMENTS}`",
