@@ -17,7 +17,10 @@ module.exports = {
       return message.reply("Please specify a member to kick.");
     }
 
-    if (!guild.me.hasPermission("KICK_MEMBERS")) {
+    if (
+      !guild.me.hasPermission("KICK_MEMBERS") ||
+      !guild.me.hasPermission("BAN_MEMBERS")
+    ) {
       return message.reply(
         "I do not have `Kick Members` or `Ban Members` permission."
       );
