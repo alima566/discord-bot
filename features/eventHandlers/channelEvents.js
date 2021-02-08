@@ -51,7 +51,7 @@ module.exports = (client) => {
         embed = await createChannelEmbed(
           channel,
           null,
-          `**Category Deleted:** ${channel.name}\n**Deleted By:** ${executor}`
+          `**Category Deleted:** \`${channel.name}\`\n**Deleted By:** ${executor}`
         );
       }
     } else if (channel.type.toLowerCase() === "text") {
@@ -60,7 +60,7 @@ module.exports = (client) => {
         embed = await createChannelEmbed(
           channel,
           null,
-          `**Channel Deleted:** #${channel.name}\n**Deleted By:** ${executor}`
+          `**Channel Deleted:** \`#${channel.name}\`\n**Deleted By:** ${executor}`
         );
       }
     } else if (channel.type.toLowerCase() === "voice") {
@@ -69,7 +69,7 @@ module.exports = (client) => {
         embed = await createChannelEmbed(
           channel,
           null,
-          `**Voice Channel Deleted:** ${channel.name}\n**Deleted By:** ${executor}`
+          `**Voice Channel Deleted:** \`${channel.name}\`\n**Deleted By:** ${executor}`
         );
       }
     }
@@ -123,11 +123,20 @@ const createChannelEmbed = async (oldChan, newChan, description) => {
       embed.addFields(
         {
           name: `**Before**`,
-          value: oldChan.name,
+          value: `\`${oldChan.name}\``,
           inline: true,
         },
-        { name: `**After**`, value: newChan.name, inline: true },
+        { name: `**After**`, value: newChan, inline: true },
         { name: `**Updated By**`, value: executor, inline: true }
+      );
+    } else {
+      embed.addFields(
+        {
+          name: `**Before**`,
+          value: `\`${oldChan.name}\``,
+          inline: true,
+        },
+        { name: `**After**`, value: newChan, inline: true }
       );
     }
   }
