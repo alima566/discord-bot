@@ -52,7 +52,7 @@ module.exports = {
         },
         {
           name: `**Roles [${member.roles.cache.size - 1}]**`,
-          value: getAllRoles(member),
+          value: getAllRoles(member) === "" ? "None" : getAllRoles(member),
           inline: false,
         }
       )
