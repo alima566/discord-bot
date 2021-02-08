@@ -1,5 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-const { sendMessageToBotThings, fetchAuditLog } = require("@utils/functions");
+const { sendMessageToBotLog, fetchAuditLog } = require("@utils/functions");
 const messageEvents = require("./messageEvents");
 
 module.exports = (client) => {
@@ -20,7 +20,7 @@ module.exports = (client) => {
         `**Role Created:** \`${role.name}\`\n**Role Created By:** ${executor}`
       );
     }
-    sendMessageToBotThings(client, role.guild, msgEmbed);
+    sendMessageToBotLog(client, role.guild, msgEmbed);
   });
 
   client.on("roleDelete", async (role) => {
@@ -40,7 +40,7 @@ module.exports = (client) => {
         `**Role Deleted:** \`${role.name}\`\n**Role Deleted By:** ${executor}`
       );
     }
-    sendMessageToBotThings(client, role.guild, msgEmbed);
+    sendMessageToBotLog(client, role.guild, msgEmbed);
   });
 
   client.on("roleUpdate", async (oldRole, newRole) => {
@@ -82,7 +82,7 @@ module.exports = (client) => {
           }
         );
       }
-      sendMessageToBotThings(client, newRole.guild, msgEmbed);
+      sendMessageToBotLog(client, newRole.guild, msgEmbed);
     }
   });
 };

@@ -1,4 +1,4 @@
-const { sendMessageToBotThings, fetchAuditLog } = require("@utils/functions");
+const { sendMessageToBotLog, fetchAuditLog } = require("@utils/functions");
 const { MessageEmbed } = require("discord.js");
 
 module.exports = (client) => {
@@ -17,7 +17,7 @@ module.exports = (client) => {
         )
         .setTimestamp()
         .setFooter(`Message ID: ${msg.id}`);
-      return sendMessageToBotThings(client, msg.guild, msgEmbed);
+      return sendMessageToBotLog(client, msg.guild, msgEmbed);
     }
 
     const { executor, target } = deletionLog;
@@ -43,7 +43,7 @@ module.exports = (client) => {
         .setTimestamp()
         .setFooter(`Message ID: ${msg.id}`);
     }
-    sendMessageToBotThings(client, msg.guild, msgEmbed);
+    sendMessageToBotLog(client, msg.guild, msgEmbed);
   });
 
   client.on("messageUpdate", async (oldMsg, newMsg) => {
@@ -74,7 +74,7 @@ module.exports = (client) => {
           )
           .setFooter(`Message ID: ${newMsg.id}`);
 
-        sendMessageToBotThings(client, newMsg.guild, msgEmbed);
+        sendMessageToBotLog(client, newMsg.guild, msgEmbed);
       }
     } else {
       const newM = await newMsg.fetch();
@@ -99,7 +99,7 @@ module.exports = (client) => {
         )
         .setFooter(`Message ID: ${newM.id}`);
 
-      sendMessageToBotThings(client, newM.guild, msgEmbed);
+      sendMessageToBotLog(client, newM.guild, msgEmbed);
     }
   });
 };

@@ -26,7 +26,7 @@ const getTimesAvailable = (hemisphere) => {
   return avail;
 };
 
-const sendMessageToBotThings = async (client, guild, msg) => {
+const sendMessageToBotLog = async (client, guild, msg) => {
   const result = await botChannelSchema.findOne({ _id: guild.id });
   if (result) {
     const channel = client.channels.cache.get(result.channelID);
@@ -113,7 +113,7 @@ module.exports = {
   getRandomNumber,
   getMonthsAvailable,
   getTimesAvailable,
-  sendMessageToBotThings,
+  sendMessageToBotLog,
   chunkArray,
   log,
   paginateEmbed,

@@ -1,5 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-const { sendMessageToBotThings, fetchAuditLog } = require("@utils/functions");
+const { sendMessageToBotLog, fetchAuditLog } = require("@utils/functions");
 const gamblingSchema = require("@schemas/gambling-schema");
 
 module.exports = (client) => {
@@ -18,7 +18,7 @@ module.exports = (client) => {
         )
         .setTimestamp()
         .setFooter(`ID: ${newMem.id}`);
-      sendMessageToBotThings(client, newMem.guild, msgEmbed);
+      sendMessageToBotLog(client, newMem.guild, msgEmbed);
     }
 
     if (oldMem.roles.cache.size !== newMem.roles.cache.size) {
@@ -73,7 +73,7 @@ module.exports = (client) => {
         .setDescription(`**${member.user} has left the server**`)
         .setTimestamp()
         .setFooter(`ID: ${member.user.id}`);
-      return sendMessageToBotThings(client, member.guild, msgEmbed);
+      return sendMessageToBotLog(client, member.guild, msgEmbed);
     }
 
     const { executor, target } = kickLog;
@@ -88,7 +88,7 @@ module.exports = (client) => {
       )
       .setTimestamp()
       .setFooter(`ID: ${member.user.id}`);
-    sendMessageToBotThings(client, member.guild, msgEmbed);
+    sendMessageToBotLog(client, member.guild, msgEmbed);
   });
 };
 
@@ -107,7 +107,7 @@ const roleUpdatedLog = (client, role, user, type) => {
     .setTimestamp()
     .setFooter(`ID: ${user.id}`);
 
-  sendMessageToBotThings(client, role.guild, msgEmbed);
+  sendMessageToBotLog(client, role.guild, msgEmbed);
   //sendDMToUser(client, role, user, type);
 };
 

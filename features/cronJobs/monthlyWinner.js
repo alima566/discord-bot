@@ -4,7 +4,7 @@ const { MessageEmbed } = require("discord.js");
 const gamblingSchema = require("@schemas/gambling-schema");
 const { incrementMonthlyWins } = require("@utils/monthlyWins");
 const { monthlyPrize } = require("@root/config.json");
-const { sendMessageToBotThings, log } = require("@utils/functions");
+const { sendMessageToBotLog, log } = require("@utils/functions");
 
 module.exports = (client) => {
   const monthlyWinner = new cron.CronJob(
@@ -80,7 +80,7 @@ const sendDM = (client, guild, userID, month, points) => {
     .get(userID)
     .send(embed)
     .then(() => {
-      sendMessageToBotThings(
+      sendMessageToBotLog(
         client,
         guild,
         `Message succesfully sent to <@${userID}>`

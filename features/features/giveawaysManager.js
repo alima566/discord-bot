@@ -3,7 +3,7 @@ const { rafflePoints, giveawayReactEmoji } = require("@root/config.json");
 const { addPoints } = require("@utils/gambling");
 const { incrementRaffleWins } = require("@utils/raffleWins");
 const { log } = require("@utils/functions");
-const { sendMessageToBotThings } = require("@utils/functions");
+const { sendMessageToBotLog } = require("@utils/functions");
 
 module.exports = (client) => {
   client.giveawaysManager = new GiveawaysManager(client, {
@@ -57,7 +57,7 @@ module.exports = (client) => {
 
         await incrementRaffleWins(w.guild.id, w.user.id);
 
-        sendMessageToBotThings(
+        sendMessageToBotLog(
           client,
           w.guild,
           `${rafflePoints} points have been given to ${w.user.tag} and they now have ${newPoints}.`
