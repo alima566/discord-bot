@@ -17,6 +17,10 @@ module.exports = {
       return message.reply("Please specify a member to ban.");
     }
 
+    if (member.id === author.id) {
+      return message.reply(`Nice try, but you can't ban yourself.`);
+    }
+
     if (
       !guild.me.hasPermission("KICK_MEMBERS") ||
       !guild.me.hasPermission("BAN_MEMBERS")
