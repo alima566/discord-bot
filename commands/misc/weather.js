@@ -1,9 +1,10 @@
 const { MessageEmbed, MessageCollector } = require("discord.js");
 const weather = require("weather-js");
 const { convert } = require("convert");
+const geoTz = require("geo-tz");
+const { utcToZonedTime, format } = require("date-fns-tz");
 
 module.exports = {
-  commands: "weather",
   category: "Misc",
   cooldown: "15s",
   minArgs: 1,
@@ -99,6 +100,11 @@ const showWeatherResult = (city) => {
     .from("kilometers")
     .to("miles")
     .toFixed(1);
+  const timezone = getTimezone(current, location);
+  const lastUpdatedAt = current.observationtime.substring(
+    0,
+    current.observationtime.length - 3 // Remove ":00" from time
+  );
 
   const msgEmbed = new MessageEmbed()
     .setTitle(`Current Weather for ${location.name}`)
@@ -140,6 +146,18 @@ const showWeatherResult = (city) => {
         inline: true,
       }
     )
-    .setFooter(`Forecast last updated at ${current.observationtime}`);
+    .setFooter(`Forecast last updated at ${lastUpdatedAt} ${timezone}`);
   return msgEmbed;
+};
+
+const getTimezone = (current, location) => {
+  const lat = location.lat;
+  const long = location.long;
+
+  const timeFormat = "zzz";
+  const date = current.date;
+  const time = current.observationtime;
+  const timeZone = geoTz(+lat, +long)[0];
+  const lastUpdated = utcToZonedTime(`${date} ${time}`, timeZone);
+  return format(lastUpdated, timeFormat, { timeZone });
 };
