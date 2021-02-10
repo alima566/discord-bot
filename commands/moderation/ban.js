@@ -54,7 +54,6 @@ module.exports = {
             case "Y":
               collector.stop();
               ban(member, message, client, reason);
-              channel.send(`Successfully banned **${member.user.tag}**`);
               break;
             case "N":
               collector.stop();
