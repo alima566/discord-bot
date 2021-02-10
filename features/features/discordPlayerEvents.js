@@ -47,7 +47,9 @@ module.exports = (client) => {
             `Here are your search results for ${query}:`,
             `${msg.guild.iconURL()}`
           )
-          .setFooter(`Type the number of the song you want to play!`);
+          .setFooter(
+            `Type the number of the song you want to play! Type "cancel" to cancel.`
+          );
         let counter = i == 1 ? 10 : 0;
         for (let j = 0; j < tracksArray[i].length; j++) {
           text += `${counter + 1}. [${tracksArray[i][j].title}](${
@@ -61,13 +63,23 @@ module.exports = (client) => {
       paginateEmbed(msg, embedArray, { time: 60000 });
     })
     .on("searchInvalidResponse", (msg, query, tracks, content, collector) => {
+      if (content.toLowerCase() === "cancel") {
+        collector.stop();
+        const msgEmbed = new MessageEmbed()
+          .setColor("#1ED761")
+          .setAuthor("Search Canceled", `${msg.guild.iconURL()}`)
+          .setDescription(`❌ | You have canceled the search for "${query}".`);
+        return msg.channel.send(msgEmbed);
+      }
       const msgEmbed = new MessageEmbed()
         .setColor("#1ED761")
         .setAuthor("Invalid Response", `${msg.guild.iconURL()}`)
         .setDescription(
           `❌ | You must type a valid number between 1 and ${tracks.length}!`
         )
-        .setFooter(`Type the number of the song you want to play!`);
+        .setFooter(
+          `Type the number of the song you want to play! Type "cancel" to cancel.`
+        );
       msg.channel.send(msgEmbed);
     })
     .on("searchCancel", (msg, query, tracks) => {
