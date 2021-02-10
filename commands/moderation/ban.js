@@ -21,6 +21,10 @@ module.exports = {
       return message.reply(`Nice try, but you can't ban yourself.`);
     }
 
+    if (!member.bannable) {
+      message.reply(`I do not have the permissions to ban that member.`);
+    }
+
     if (
       !guild.me.hasPermission("KICK_MEMBERS") ||
       !guild.me.hasPermission("BAN_MEMBERS")
@@ -30,29 +34,75 @@ module.exports = {
       );
     }
 
-    member
-      .ban({ days: 7, reason })
-      .then((mem) => {
-        channel.send(`Successfully banned ${mem.user.tag} from the server.`);
+    channel
+      .send(
+        `Are you sure you want to ban **${member.user.tag}**${
+          reason ? ` for ${reason}` : ""
+        }? (Y/N)`
+      )
+      .then((msg) => {
+        const collector = msg.channel.createMessageCollector(
+          (m) => m.author.id === author.id,
+          {
+            time: 1000 * 10,
+            errors: ["time"],
+          }
+        );
 
-        const msgEmbed = new MessageEmbed()
-          .setColor("#CC0202")
-          .setAuthor(author.tag, author.displayAvatarURL())
-          .setThumbnail(mem.user.displayAvatarURL())
-          .setDescription(
-            `**Member:** ${mem.user.tag}\n**Action:** Ban${
-              reason !== "" ? `\n**Reason:** ${reason}` : ""
-            }`
-          )
-          .setTimestamp()
-          .setFooter(`ID: ${mem.id}`);
-        sendMessageToBotLog(client, guild, msgEmbed);
-      })
-      .catch((e) => {
-        if (!member.bannable) {
-          message.reply(`I do not have the permissions to ban that member.`);
-        }
-        return console.log(e.message);
+        collector.on("collect", (m) => {
+          switch (m.content.charAt(0).toUpperCase()) {
+            case "Y":
+              collector.stop();
+              ban(member, message, client, reason);
+              channel.send(`Successfully banned **${member.user.tag}**`);
+              break;
+            case "N":
+              collector.stop();
+              channel.send(`**${member.user.tag}** was not banned.`);
+              break;
+            default:
+              m.delete();
+              channel
+                .send(
+                  `Invalid selection. Please type either Y (Yes) or N (No).`
+                )
+                .then((m) => m.delete({ timeout: 1000 * 2 }));
+              break;
+          }
+        });
+
+        collector.on("end", (collected, reason) => {
+          if (reason === "time") {
+            return channel.send(
+              `You did not choose a response in time. **${member.user.tag}** was not banned.`
+            );
+          }
+        });
       });
   },
+};
+
+const ban = (member, message, client, reason) => {
+  member
+    .ban({ days: 7, reason })
+    .then((mem) => {
+      message.channel.send(`Successfully banned **${member.user.tag}**`);
+
+      const msgEmbed = new MessageEmbed()
+        .setColor("#CC0202")
+        .setAuthor(message.author.tag, message.author.displayAvatarURL())
+        .setThumbnail(mem.user.displayAvatarURL())
+        .setDescription(
+          `**Member:** ${mem.user.tag}\n**Action:** Ban${
+            reason !== "" ? `\n**Reason:** ${reason}` : ""
+          }`
+        )
+        .setTimestamp()
+        .setFooter(`ID: ${mem.id}`);
+
+      sendMessageToBotLog(client, message.guild, msgEmbed);
+    })
+    .catch((e) => {
+      return console.log(e.message);
+    });
 };
