@@ -118,7 +118,10 @@ const roleUpdatedLog = async (client, role, user, type) => {
 
   const fetchedLogs = await fetchAuditLog(role.guild, "MEMBER_ROLE_UPDATE");
   const roleUpdateLog = fetchedLogs.entries.first();
-  if (roleUpdateLog) {
+  if (
+    roleUpdateLog &&
+    (!role.name.startsWith("Sub ") || !role.name === "Special Babies")
+  ) {
     const { executor } = roleUpdateLog;
     description += ` by ${executor}**`;
   } else {
