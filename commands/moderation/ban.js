@@ -124,6 +124,12 @@ const ban = (member, message, client, reason) => {
               messageLink: message.url,
               bannedDate: new Date(),
             },
+            kicks: {
+              kickedBy: message.author.id,
+              reason: "Kicked due to being banned from server.",
+              messageLink: message.url,
+              kickedDate: new Date(),
+            },
           },
         },
         {
