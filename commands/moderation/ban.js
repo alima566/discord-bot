@@ -1,13 +1,15 @@
 const { MessageEmbed } = require("discord.js");
 const { sendMessageToBotLog } = require("@utils/functions");
+const memberInfoSchema = require("@schemas/member-info-schema");
 
 module.exports = {
+  commands: ["b"],
   category: "Moderation",
   minArgs: 1,
   description: "Bans a member from the server",
   expectedArgs: "<The target's @ OR ID number> [Reason]",
   requiredPermissions: ["KICK_MEMBERS", "BAN_MEMBERS"],
-  callback: ({ message, args, client }) => {
+  callback: async ({ message, args, client }) => {
     const { guild, author, channel } = message;
     const member =
       message.mentions.members.first() || guild.members.cache.get(args[0]);
@@ -22,7 +24,7 @@ module.exports = {
     }
 
     if (!member.bannable) {
-      message.reply(`I do not have the permissions to ban that member.`);
+      return message.reply(`I do not have the permissions to ban that member.`);
     }
 
     if (
@@ -34,11 +36,25 @@ module.exports = {
       );
     }
 
+    const memberInfo = await fetchMemberInfo(guild, member);
+    const memberInfoEmbed = new MessageEmbed()
+      .setColor("#CC0202")
+      .setAuthor(member.user.tag, member.user.displayAvatarURL());
+    if (memberInfo !== null) {
+      const { bans, warns, kicks, unbans } = memberInfo;
+      memberInfoEmbed.setFooter(
+        `Bans: ${bans.length} | Warns: ${warns.length} | Kicks: ${kicks.length} | Unbans: ${unbans.length}`
+      );
+    } else {
+      memberInfoEmbed.setFooter(`Bans: 0 | Warns: 0 | Kicks: 0 | Unbans: 0`);
+    }
+
     channel
       .send(
         `Are you sure you want to ban **${member.user.tag}**${
           reason ? ` for ${reason}` : ""
-        }? (Y/N)`
+        }? (Y/N)`,
+        { embed: memberInfoEmbed }
       )
       .then((msg) => {
         const collector = msg.channel.createMessageCollector(
@@ -81,16 +97,48 @@ module.exports = {
   },
 };
 
+const fetchMemberInfo = async (guild, member) => {
+  const result = await memberInfoSchema.findOne({
+    guildID: guild.id,
+    userID: member.id,
+  });
+  return result ? result : null;
+};
+
 const ban = (member, message, client, reason) => {
   member
     .ban({ days: 7, reason })
-    .then((mem) => {
-      message.channel.send(`Successfully banned **${member.user.tag}**`);
+    .then(async (mem) => {
+      const memberObj = {
+        guildID: message.guild.id,
+        userID: mem.user.id,
+      };
 
+      await memberInfoSchema.findOneAndUpdate(
+        memberObj,
+        {
+          ...memberObj,
+          $addToSet: {
+            bans: {
+              bannedBy: message.author.id,
+              reason,
+              bannedDate: new Date(),
+            },
+          },
+        },
+        {
+          upsert: true,
+        }
+      );
+
+      message.channel.send(`Successfully banned **${mem.user.tag}**`);
       const msgEmbed = new MessageEmbed()
         .setColor("#CC0202")
-        .setAuthor(message.author.tag, message.author.displayAvatarURL())
-        .setThumbnail(mem.user.displayAvatarURL())
+        .setAuthor(
+          message.author.tag,
+          message.author.displayAvatarURL({ dynamic: true })
+        )
+        .setThumbnail(mem.user.displayAvatarURL({ dynamic: true }))
         .setDescription(
           `**Member:** ${mem.user.tag}\n**Action:** Ban${
             reason !== "" ? `\n**Reason:** ${reason}` : ""
