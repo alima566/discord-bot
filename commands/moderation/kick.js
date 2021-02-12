@@ -22,7 +22,9 @@ module.exports = {
     }
 
     if (!member.kickable) {
-      message.reply(`I do not have the permissions to kick that member.`);
+      return message.reply(
+        `I do not have the permissions to kick that member.`
+      );
     }
 
     if (
@@ -91,8 +93,11 @@ const kick = (member, message, client, reason) => {
 
       const msgEmbed = new MessageEmbed()
         .setColor("PURPLE")
-        .setAuthor(message.author.tag, message.author.displayAvatarURL())
-        .setThumbnail(mem.user.displayAvatarURL())
+        .setAuthor(
+          message.author.tag,
+          message.author.displayAvatarURL({ dynamic: true })
+        )
+        .setThumbnail(mem.user.displayAvatarURL({ dynamic: true }))
         .setDescription(
           `**Member:** ${mem.user.tag}\n**Action:** Kick${
             reason !== "" ? `\n**Reason:** ${reason}` : ""
