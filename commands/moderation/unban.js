@@ -1,5 +1,6 @@
 const { MessageEmbed } = require("discord.js");
 const { sendMessageToBotLog } = require("@utils/functions");
+const memberInfoSchema = require("@schemas/member-info-schema");
 
 module.exports = {
   category: "Moderation",
@@ -25,7 +26,7 @@ module.exports = {
       );
     }
 
-    guild.fetchBans().then((bans) => {
+    guild.fetchBans().then(async (bans) => {
       if (bans.size == 0) {
         return message.reply(`This server doesn't have any banned members.`);
       }
@@ -35,29 +36,126 @@ module.exports = {
         return message.reply(`I could not find that member.`);
       }
 
-      guild.members
-        .unban(bannedUser.user, reason)
-        .then((user) => {
-          channel.send(`Successfully unbanned ${user.tag} from the server.`);
-          const msgEmbed = new MessageEmbed()
-            .setColor("#33a532")
-            .setAuthor(author.tag, author.displayAvatarURL())
-            .setThumbnail(user.displayAvatarURL())
-            .setDescription(
-              `**Member:** ${user.tag}\n**Action:** Unban${
-                reason !== "" ? `\n**Reason:** ${reason}` : ""
-              }`
-            )
-            .setTimestamp()
-            .setFooter(`ID: ${user.id}`);
-          sendMessageToBotLog(client, guild, msgEmbed);
-        })
-        .catch((e) => {
-          message.reply(
-            "An error occurred. Could not unban user. Please try again."
+      const memberInfo = await fetchMemberInfo(guild, bannedUser.user);
+      const memberInfoEmbed = new MessageEmbed()
+        .setColor("#33a532")
+        .setAuthor(bannedUser.user.tag, bannedUser.user.displayAvatarURL());
+      if (memberInfo !== null) {
+        const { bans, warns, kicks, unbans } = memberInfo;
+        memberInfoEmbed.setFooter(
+          `Bans: ${bans.length} | Warns: ${warns.length} | Kicks: ${kicks.length} | Unbans: ${unbans.length}`
+        );
+      } else {
+        memberInfoEmbed.setFooter(`Bans: 0 | Warns: 0 | Kicks: 0 | Unbans: 0`);
+      }
+
+      channel
+        .send(
+          `Are you sure you want to unban **${bannedUser.user.tag}**? (Y/N)`,
+          {
+            embed: memberInfoEmbed,
+          }
+        )
+        .then((msg) => {
+          const collector = msg.channel.createMessageCollector(
+            (m) => m.author.id === author.id,
+            {
+              time: 1000 * 10,
+              errors: ["time"],
+            }
           );
-          return console.log(e.message);
+
+          collector.on("collect", (m) => {
+            switch (m.content.charAt(0).toUpperCase()) {
+              case "Y":
+                collector.stop();
+                unban(bannedUser, guild, message, client, reason);
+                break;
+              case "N":
+                collector.stop();
+                channel.send(`**${member.user.tag}** was not unbanned.`);
+                break;
+              default:
+                m.delete();
+                channel
+                  .send(
+                    `Invalid selection. Please type either Y (Yes) or N (No).`
+                  )
+                  .then((m) => m.delete({ timeout: 1000 * 2 }));
+                break;
+            }
+          });
+
+          collector.on("end", (collected, reason) => {
+            if (reason === "time") {
+              return channel.send(
+                `You did not choose a response in time. **${member.user.tag}** was not banned.`
+              );
+            }
+          });
         });
     });
   },
+};
+
+const fetchMemberInfo = async (guild, member) => {
+  const result = await memberInfoSchema.findOne({
+    guildID: guild.id,
+    userID: member.id,
+  });
+  return result ? result : null;
+};
+
+const unban = (bannedUser, guild, message, client, reason) => {
+  guild.members
+    .unban(bannedUser.user, reason)
+    .then(async (user) => {
+      const memberObj = {
+        guildID: guild.id,
+        userID: user.id,
+      };
+
+      await memberInfoSchema.findOneAndUpdate(
+        memberObj,
+        {
+          ...memberObj,
+          $addToSet: {
+            unbans: {
+              unbannedBy: message.author.id,
+              reason,
+              messageLink: message.url,
+              unbannedDate: new Date(),
+            },
+          },
+        },
+        {
+          upsert: true,
+        }
+      );
+
+      message.channel.send(
+        `Successfully unbanned **${user.tag}** from the server.`
+      );
+      const msgEmbed = new MessageEmbed()
+        .setColor("#33a532")
+        .setAuthor(
+          message.author.tag,
+          message.author.displayAvatarURL({ dynamic: true })
+        )
+        .setThumbnail(user.displayAvatarURL({ dynamic: true }))
+        .setDescription(
+          `**Member:** ${user.tag}\n**Action:** Unban${
+            reason !== "" ? `\n**Reason:** ${reason}` : ""
+          }`
+        )
+        .setTimestamp()
+        .setFooter(`ID: ${user.id}`);
+      sendMessageToBotLog(client, guild, msgEmbed);
+    })
+    .catch((e) => {
+      message.reply(
+        "An error occurred. Could not unban user. Please try again."
+      );
+      return console.log(e.message);
+    });
 };
