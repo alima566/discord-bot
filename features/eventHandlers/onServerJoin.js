@@ -134,9 +134,12 @@ module.exports = async (client) => {
     channel.send(text.replace(/<@>/g, `<@${member.id}>`));
     channel.send(attachment);
 
-    let msgEmbed = new MessageEmbed()
+    const msgEmbed = new MessageEmbed()
       .setColor("#FF69B4")
-      .setAuthor(`${member.user.tag}`, member.user.displayAvatarURL())
+      .setAuthor(
+        member.user.tag,
+        member.user.displayAvatarURL({ dynamic: true })
+      )
       .setDescription(`**${member.user} has joined the server**`)
       .setTimestamp()
       .setFooter(`ID: ${member.user.id}`);

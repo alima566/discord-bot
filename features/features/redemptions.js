@@ -46,7 +46,10 @@ module.exports = (client) => {
       const status = statusMessages.WAITING;
       const msgEmbed = new MessageEmbed()
         .setColor(status.color)
-        .setAuthor(member.displayName, member.user.displayAvatarURL())
+        .setAuthor(
+          member.displayName,
+          member.user.displayAvatarURL({ dynamic: true })
+        )
         .setDescription(content)
         .addFields({
           name: "**Status**",

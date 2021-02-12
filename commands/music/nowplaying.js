@@ -20,7 +20,7 @@ module.exports = {
       .setThumbnail(`${nowPlaying.thumbnail}`)
       .setFooter(
         `Requested by ${nowPlaying.requestedBy.tag}`,
-        `${nowPlaying.requestedBy.displayAvatarURL()}`
+        `${nowPlaying.requestedBy.displayAvatarURL({ dynamic: true })}`
       );
     return message.channel.send(msgEmbed);
   },

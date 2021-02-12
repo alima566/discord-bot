@@ -26,7 +26,10 @@ module.exports = (client) => {
       if (msg.author.bot) return;
 
       msgEmbed
-        .setAuthor(`${msg.author.tag}`, msg.author.displayAvatarURL())
+        .setAuthor(
+          `${msg.author.tag}`,
+          msg.author.displayAvatarURL({ dynamic: true })
+        )
         .setDescription(
           `**Message sent by ${msg.author} deleted in ${msg.channel}:**\n>>> ${msg}`
         )
@@ -56,7 +59,10 @@ module.exports = (client) => {
         if (newMsg.author.bot) return;
 
         msgEmbed
-          .setAuthor(newMsg.author.tag, newMsg.author.displayAvatarURL())
+          .setAuthor(
+            newMsg.author.tag,
+            newMsg.author.displayAvatarURL({ dynamic: true })
+          )
           .setDescription(
             `[Message](${newMsg.url}) sent by ${newMsg.author} was edited in ${newMsg.channel}:`
           )
@@ -81,7 +87,10 @@ module.exports = (client) => {
       if (newM.author.bot) return;
 
       msgEmbed
-        .setAuthor(newM.author.tag, newM.author.displayAvatarURL())
+        .setAuthor(
+          newM.author.tag,
+          newM.author.displayAvatarURL({ dynamic: true })
+        )
         .setDescription(
           `[Message](${newMsg.url}) sent by ${newM.author} was edited in ${newM.channel}:`
         )

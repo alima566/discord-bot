@@ -36,8 +36,11 @@ module.exports = {
     const msgEmbed = new MessageEmbed()
       .setDescription(member)
       .setColor(member.displayHexColor)
-      .setAuthor(member.user.tag, member.user.displayAvatarURL())
-      .setThumbnail(member.user.displayAvatarURL())
+      .setAuthor(
+        member.user.tag,
+        member.user.displayAvatarURL({ dynamic: true })
+      )
+      .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
       .addFields(
         {
           name: "**Joined**",

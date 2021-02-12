@@ -84,7 +84,10 @@ module.exports = (client) => {
     const kickLog = fetchedLogs.entries.first();
     if (!kickLog) {
       msgEmbed
-        .setAuthor(member.user.tag, member.user.displayAvatarURL())
+        .setAuthor(
+          member.user.tag,
+          member.user.displayAvatarURL({ dynamic: true })
+        )
         .setDescription(`**${member.user} has left the server**`)
         .setTimestamp()
         .setFooter(`ID: ${member.user.id}`);
@@ -93,7 +96,10 @@ module.exports = (client) => {
 
     const { executor, target } = kickLog;
     msgEmbed
-      .setAuthor(member.user.tag, member.user.displayAvatarURL())
+      .setAuthor(
+        member.user.tag,
+        member.user.displayAvatarURL({ dynamic: true })
+      )
       .setDescription(
         `${
           target.id === member.id
@@ -130,7 +136,7 @@ const roleUpdatedLog = async (client, role, user, type) => {
 
   const msgEmbed = new MessageEmbed()
     .setColor("BLUE")
-    .setAuthor(`${user.tag}`, user.displayAvatarURL())
+    .setAuthor(`${user.tag}`, user.displayAvatarURL({ dynamic: true }))
     .setDescription(description)
     .setTimestamp()
     .setFooter(`ID: ${user.id}`);

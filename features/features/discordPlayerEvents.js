@@ -10,7 +10,7 @@ module.exports = (client) => {
         .setDescription(`[${track.title}](${track.url}) (${track.duration})`)
         .setFooter(
           `Requested by ${track.requestedBy.tag}`,
-          `${track.requestedBy.displayAvatarURL()}`
+          `${track.requestedBy.displayAvatarURL({ dynamic: true })}`
         )
         .setThumbnail(`${track.thumbnail}`);
       msg.channel.send(msgEmbed);
@@ -24,7 +24,7 @@ module.exports = (client) => {
         )
         .setFooter(
           `Added by ${track.requestedBy.tag}`,
-          `${track.requestedBy.displayAvatarURL()}`
+          `${track.requestedBy.displayAvatarURL({ dynamic: true })}`
         )
         .setThumbnail(`${track.thumbnail}`);
       msg.channel.send(msgEmbed);

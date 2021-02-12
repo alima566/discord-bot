@@ -41,7 +41,7 @@ module.exports = {
 
     const msgEmbed = new MessageEmbed()
       .setColor("85bb65")
-      .setAuthor(target.tag, target.displayAvatarURL())
+      .setAuthor(target.tag, target.displayAvatarURL({ dynamic: true }))
       .addFields(
         {
           name: `**Points**`,
