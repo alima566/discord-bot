@@ -121,6 +121,7 @@ const ban = (member, message, client, reason) => {
             bans: {
               bannedBy: message.author.id,
               reason,
+              messageLink: message.url,
               bannedDate: new Date(),
             },
           },
