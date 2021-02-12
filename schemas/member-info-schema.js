@@ -13,6 +13,7 @@ const memberInfoSchema = mongoose.Schema({
       reason: {
         type: String,
       },
+      messageLink: reqString,
       warnedDate: {
         type: Date,
         required: true,
@@ -25,6 +26,7 @@ const memberInfoSchema = mongoose.Schema({
       reason: {
         type: String,
       },
+      messageLink: reqString,
       kickedDate: {
         type: Date,
         required: true,
@@ -37,6 +39,7 @@ const memberInfoSchema = mongoose.Schema({
       reason: {
         type: String,
       },
+      messageLink: reqString,
       bannedDate: {
         type: Date,
         required: true,
@@ -49,6 +52,7 @@ const memberInfoSchema = mongoose.Schema({
       reason: {
         type: String,
       },
+      messageLink: reqString,
       unbannedDate: {
         type: Date,
         required: true,
