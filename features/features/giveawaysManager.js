@@ -11,7 +11,7 @@ module.exports = (client) => {
     updateCountdownEvery: 5000,
     default: {
       botsCanWin: false,
-      exemptPermissions: ["MANAGE_MESSAGES", "ADMINISTRATOR"],
+      exemptPermissions: ["ADMINISTRATOR"],
       embedColor: "#FF0000",
       reaction: `${giveawayReactEmoji}`,
     },
