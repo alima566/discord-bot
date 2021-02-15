@@ -2,6 +2,22 @@ const { MessageEmbed } = require("discord.js");
 const { utcToZonedTime, format } = require("date-fns-tz");
 const { formatDistance } = require("date-fns");
 
+const regionFlags = {
+  brazil: "🇧🇷 Brazil",
+  europe: "🇪🇺 Europe",
+  hongkong: "🇭🇰 Hong Kong",
+  india: "🇮🇳 India",
+  japan: "🇯🇵 Japan",
+  russia: "🇷🇺 Russia",
+  singapore: "🇸🇬 Singapore",
+  southafrica: "🇿🇦 South Africa",
+  sydney: "🇦🇺 Sydney",
+  "us-central": "🇺🇸 US Central",
+  "us-east": "🇺🇸 US East",
+  "us-south": "🇺🇸 US South",
+  "us-west": "🇺🇸 US West",
+};
+
 module.exports = {
   category: "Info",
   cooldown: "15s",
@@ -35,7 +51,7 @@ module.exports = {
         },
         {
           name: "**Region**",
-          value: region,
+          value: regionFlags[region],
           inline: true,
         },
         {
