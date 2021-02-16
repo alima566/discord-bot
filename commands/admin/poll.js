@@ -37,12 +37,17 @@ module.exports = {
   requiredPermissions: ["ADMINISTRATOR"],
   permissionError: "You must be an administrator to execute this command.",
   callback: async ({ message, text }) => {
+    message.delete();
     const regex = text.match(/"[^"]+"|[\\S]+"[^"]+/g);
 
     if (!regex) {
-      return message.reply(
-        `In order for polls to work correctly, please surround your text with double quotes (i.e.,) !p "Poll Question" "Poll Option 1" "Poll Option 2" etc...`
-      );
+      return message
+        .reply(
+          `In order for polls to work correctly, please surround your text with double quotes (i.e.,) !p "Poll Question" "Poll Option 1" "Poll Option 2" etc...`
+        )
+        .then((msg) => {
+          msg.delete({ timeout: 1000 * 3 });
+        });
     }
 
     const pollQuestion = regex.shift().replace(/"/g, "");
@@ -82,7 +87,6 @@ module.exports = {
     for (let i = 0; i < regex.length; i++) {
       msg.react(pollOptions[i]);
     }
-    message.delete();
   },
 };
 
