@@ -26,6 +26,18 @@ module.exports = {
       return message.reply("You can't warn bots.");
     }
 
+    if (
+      message.member.roles.highest.comparePositionTo(target.roles.highest) < 0 // Can't warn members with a higher role
+    ) {
+      return message.reply(
+        "You can't warn a member with a higher role than you."
+      );
+    }
+
+    if (target.id === guild.ownerID) {
+      return message.reply("You can't warn the server owner.");
+    }
+
     const warning = {
       warnedBy: author.id,
       timestamp: new Date().getTime(),
@@ -54,9 +66,7 @@ module.exports = {
       .setAuthor(author.tag, author.displayAvatarURL({ dynamic: true }))
       .setThumbnail(target.user.displayAvatarURL({ dynamic: true }))
       .setDescription(
-        `**Member:** ${target.user.tag}\n**Action:** Warn${
-          reason !== "" ? `\n**Reason:** ${reason}` : ""
-        }`
+        `**Member:** ${target.user.tag}\n**Action:** Warn\n**Reason:** ${reason}`
       )
       .setTimestamp()
       .setFooter(`ID: ${target.id}`);
