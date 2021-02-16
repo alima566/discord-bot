@@ -1,5 +1,6 @@
 const { MessageEmbed } = require("discord.js");
 const { sendMessageToBotLog } = require("@utils/functions");
+const memberInfoSchema = require("@schemas/member-info-schema");
 
 module.exports = {
   category: "Moderation",
@@ -7,7 +8,7 @@ module.exports = {
   description: "Kicks a member from the server",
   expectedArgs: "<The target's @ OR ID number> [Reason]",
   requiredPermissions: ["KICK_MEMBERS", "BAN_MEMBERS"],
-  callback: ({ message, args, client }) => {
+  callback: async ({ message, args, client }) => {
     const { guild, author, channel } = message;
     const member =
       message.mentions.members.first() || guild.members.cache.get(args[0]);
@@ -36,11 +37,27 @@ module.exports = {
       );
     }
 
+    const memberInfo = await fetchMemberInfo(guild, member);
+    const memberInfoEmbed = new MessageEmbed()
+      .setColor("#CC0202")
+      .setAuthor(member.user.tag, member.user.displayAvatarURL());
+    if (memberInfo !== null) {
+      const { bans, warnings, kicks, unbans } = memberInfo;
+      memberInfoEmbed.setFooter(
+        `Bans: ${bans.length} | Warns: ${warnings.length} | Kicks: ${kicks.length} | Unbans: ${unbans.length}`
+      );
+    } else {
+      memberInfoEmbed.setFooter(`Bans: 0 | Warns: 0 | Kicks: 0 | Unbans: 0`);
+    }
+
     channel
       .send(
         `Are you sure you want to kick **${member.user.tag}**${
           reason ? ` for ${reason}` : ""
-        }? (Y/N)`
+        }? (Y/N)`,
+        {
+          embed: memberInfoEmbed,
+        }
       )
       .then((msg) => {
         const collector = msg.channel.createMessageCollector(
@@ -86,7 +103,32 @@ module.exports = {
 const kick = (member, message, client, reason) => {
   member
     .kick(reason)
-    .then((mem) => {
+    .then(async (mem) => {
+      const memberObj = {
+        guildID: message.guild.id,
+        userID: mem.user.id,
+      };
+
+      const kick = {
+        kickedBy: message.author.id,
+        timestamp: new Date().getTime(),
+        reason,
+        messageLink: message.url,
+      };
+
+      await memberInfoSchema.findOneAndUpdate(
+        memberObj,
+        {
+          ...memberObj,
+          $push: {
+            kicks: kick,
+          },
+        },
+        {
+          upsert: true,
+        }
+      );
+
       message.channel.send(
         `Successfully kicked **${mem.user.tag}** from the server.`
       );
@@ -110,4 +152,12 @@ const kick = (member, message, client, reason) => {
     .catch((e) => {
       return console.log(e.message);
     });
+};
+
+const fetchMemberInfo = async (guild, member) => {
+  const result = await memberInfoSchema.findOne({
+    guildID: guild.id,
+    userID: member.id,
+  });
+  return result ? result : null;
 };
