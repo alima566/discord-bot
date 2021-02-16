@@ -40,9 +40,9 @@ module.exports = {
       .setColor("#CC0202")
       .setAuthor(member.user.tag, member.user.displayAvatarURL());
     if (memberInfo !== null) {
-      const { bans, warns, kicks, unbans } = memberInfo;
+      const { bans, warnings, kicks, unbans } = memberInfo;
       memberInfoEmbed.setFooter(
-        `Bans: ${bans.length} | Warns: ${warns.length} | Kicks: ${kicks.length} | Unbans: ${unbans.length}`
+        `Bans: ${bans.length} | Warns: ${warnings.length} | Kicks: ${kicks.length} | Unbans: ${unbans.length}`
       );
     } else {
       memberInfoEmbed.setFooter(`Bans: 0 | Warns: 0 | Kicks: 0 | Unbans: 0`);
@@ -113,23 +113,27 @@ const ban = (member, message, client, reason) => {
         userID: mem.user.id,
       };
 
+      const ban = {
+        bannedBy: message.author.id,
+        timestamp: new Date().getTime(),
+        reason,
+        messageLink: message.url,
+      };
+
+      const kick = {
+        kickedBy: message.author.id,
+        timestamp: new Date().getTime(),
+        reason: "Kicked due to being banned from server.",
+        messageLink: message.url,
+      };
+
       await memberInfoSchema.findOneAndUpdate(
         memberObj,
         {
           ...memberObj,
-          $addToSet: {
-            bans: {
-              bannedBy: message.author.id,
-              reason,
-              messageLink: message.url,
-              bannedDate: new Date(),
-            },
-            kicks: {
-              kickedBy: message.author.id,
-              reason: "Kicked due to being banned from server.",
-              messageLink: message.url,
-              kickedDate: new Date(),
-            },
+          $push: {
+            bans: ban,
+            kicks: kick,
           },
         },
         {
