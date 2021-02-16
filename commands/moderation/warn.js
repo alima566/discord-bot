@@ -1,7 +1,6 @@
 const { MessageEmbed } = require("discord.js");
 const { sendMessageToBotLog } = require("@utils/functions");
 const memberInfoSchema = require("@schemas/member-info-schema");
-const { default: messageHandler } = require("wokcommands/dist/message-handler");
 
 module.exports = {
   category: "Moderation",
