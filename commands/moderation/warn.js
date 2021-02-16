@@ -8,7 +8,7 @@ module.exports = {
   minArgs: 2,
   description: "Warns a member from the server",
   expectedArgs: "<The target's @ OR ID number> <Reason>",
-  requiredPermissions: ["MANAGE_SERVER"],
+  requiredPermissions: ["MANAGE_GUILD"],
   callback: async ({ message, args, client }) => {
     const { guild, member } = message;
 
