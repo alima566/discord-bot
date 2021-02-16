@@ -19,7 +19,11 @@ module.exports = {
     }
 
     if (target.id === author.id) {
-      return message.reply(`Nice try, but you can't warn yourself.`);
+      return message.reply("Nice try, but you can't warn yourself.");
+    }
+
+    if (target.user.bot) {
+      return message.reply("You can't warn bots.");
     }
 
     const warning = {
