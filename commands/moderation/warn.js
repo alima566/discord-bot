@@ -9,27 +9,21 @@ module.exports = {
   expectedArgs: "<The target's @ OR ID number> <Reason>",
   requiredPermissions: ["MANAGE_GUILD"],
   callback: async ({ message, args, client }) => {
-    const { guild, member } = message;
+    const { guild, author, channel } = message;
+    const target =
+      message.mentions.members.first() || guild.members.cache.get(args[0]);
+    const reason = args.slice(1).join(" ");
 
-    const target = message.mentions.users.first();
     if (!target) {
       return message.reply("Please specify someone to warn.");
     }
 
-    args.shift();
-
-    const guildID = guild.id;
-    const userID = target.id;
-    const reason = args.join(" ");
-
-    if (!reason) {
-      return message.reply(
-        "Please provide a reason on why this member is being warned."
-      );
+    if (target.id === author.id) {
+      return message.reply(`Nice try, but you can't warn yourself.`);
     }
 
     const warning = {
-      warnedBy: member.user.id,
+      warnedBy: author.id,
       timestamp: new Date().getTime(),
       reason,
       messageLink: message.url,
@@ -37,12 +31,12 @@ module.exports = {
 
     await memberInfoSchema.findOneAndUpdate(
       {
-        guildID,
-        userID,
+        guildID: guild.id,
+        userID: target.id,
       },
       {
-        guildID,
-        userID,
+        guildID: guild.id,
+        userID: target.id,
         $push: {
           warnings: warning,
         },
@@ -50,22 +44,19 @@ module.exports = {
       { upsert: true }
     );
 
-    message.channel.send(`You have warned **${target.tag}** for ${reason}.`);
+    channel.send(`You have warned **${target.user.tag}** for ${reason}.`);
     const msgEmbed = new MessageEmbed()
       .setColor("#DFBE01")
-      .setAuthor(
-        message.author.tag,
-        message.author.displayAvatarURL({ dynamic: true })
-      )
-      .setThumbnail(target.displayAvatarURL({ dynamic: true }))
+      .setAuthor(author.tag, author.displayAvatarURL({ dynamic: true }))
+      .setThumbnail(target.user.displayAvatarURL({ dynamic: true }))
       .setDescription(
-        `**Member:** ${target.tag}\n**Action:** Warn${
+        `**Member:** ${target.user.tag}\n**Action:** Warn${
           reason !== "" ? `\n**Reason:** ${reason}` : ""
         }`
       )
       .setTimestamp()
       .setFooter(`ID: ${target.id}`);
 
-    sendMessageToBotLog(client, message.guild, msgEmbed);
+    sendMessageToBotLog(client, guild, msgEmbed);
   },
 };
