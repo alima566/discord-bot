@@ -1,37 +1,91 @@
+const { MessageEmbed } = require("discord.js");
+
+const pollOptions = [
+  "🇦",
+  "🇧",
+  "🇨",
+  "🇩",
+  "🇪",
+  "🇫",
+  "🇬",
+  "🇭",
+  "🇮",
+  "🇯",
+  "🇰",
+  "🇱",
+  "🇲",
+  "🇳",
+  "🇴",
+  "🇵",
+  "🇶",
+  "🇷",
+  "🇸",
+  "🇹",
+  "🇺",
+  "🇻",
+  "🇼",
+  "🇽",
+  "🇾",
+  "🇿",
+];
+
 module.exports = {
-  commands: ["poll"],
   category: "Admin",
-  expectedArgs: "",
-  maxArgs: -1,
+  expectedArgs: '<"Poll title"> <"Options">',
+  minArgs: 3,
   description: "Creates a poll.",
   requiredPermissions: ["ADMINISTRATOR"],
   permissionError: "You must be an administrator to execute this command.",
-  callback: async ({ message, args }) => {
-    const reactions = args;
-    await message.delete();
-    const fetched = await message.channel.messages.fetch({ limit: 1 });
-    if (fetched && fetched.first()) {
-      addReactions(fetched.first(), reactions);
+  callback: async ({ message, text }) => {
+    const regex = text.match(/"[^"]+"|[\\S]+"[^"]+/g);
+
+    if (!regex) {
+      return message.reply(
+        `In order for polls to work correctly, please surround your text with double quotes (i.e.,) !p "Poll Question" "Poll Options"`
+      );
     }
+
+    const pollQuestion = regex.shift().replace(/"/g, "");
+
+    if (regex.length < 2) {
+      return message.reply(`Please provide at least 2 poll options.`);
+    }
+
+    if (regex.length > 26) {
+      return message.reply(`You can only have a maximum of 26 poll options.`);
+    }
+
+    let str = "";
+    let i = 0;
+    for (let poll of regex) {
+      poll = poll.replace(/"/g, "");
+      str += `${pollOptions[i]} ${capFirstLetter(poll)}\n`;
+      i++;
+    }
+
+    const msgEmbed = new MessageEmbed()
+      .setColor(0x337fd5)
+      .setAuthor(
+        `Poll started by ${message.author.tag}`,
+        message.author.displayAvatarURL()
+      )
+      .setDescription(str)
+      .setTimestamp();
+
+    const msg = await message.channel.send(
+      `📊 ${capFirstLetter(pollQuestion)}`,
+      {
+        embed: msgEmbed,
+      }
+    );
+
+    for (let i = 0; i < regex.length; i++) {
+      msg.react(pollOptions[i]);
+    }
+    message.delete();
   },
 };
 
-const addReactions = async (msg, reactions = []) => {
-  if (reactions.length == 0) {
-    msg.react("👍").then(() => {
-      msg.react("👎");
-    });
-  } else if (reactions.length == 1) {
-    return msg
-      .reply(
-        `There needs to be a minimum of 2 reactions in order to create a poll!`
-      )
-      .then((m) => {
-        m.delete({ timeout: 3000 });
-      });
-  } else {
-    for (const reaction of reactions) {
-      await msg.react(reaction);
-    }
-  }
+const capFirstLetter = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
 };
