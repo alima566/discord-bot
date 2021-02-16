@@ -41,9 +41,9 @@ module.exports = {
         .setColor("#33a532")
         .setAuthor(bannedUser.user.tag, bannedUser.user.displayAvatarURL());
       if (memberInfo !== null) {
-        const { bans, warns, kicks, unbans } = memberInfo;
+        const { bans, warnings, kicks, unbans } = memberInfo;
         memberInfoEmbed.setFooter(
-          `Bans: ${bans.length} | Warns: ${warns.length} | Kicks: ${kicks.length} | Unbans: ${unbans.length}`
+          `Bans: ${bans.length} | Warns: ${warnings.length} | Kicks: ${kicks.length} | Unbans: ${unbans.length}`
         );
       } else {
         memberInfoEmbed.setFooter(`Bans: 0 | Warns: 0 | Kicks: 0 | Unbans: 0`);
@@ -115,17 +115,19 @@ const unban = (bannedUser, guild, message, client, reason) => {
         userID: user.id,
       };
 
+      const unban = {
+        unbannedBy: message.author.id,
+        timestamp: new Date().getTime(),
+        reason,
+        messageLink: message.url,
+      };
+
       await memberInfoSchema.findOneAndUpdate(
         memberObj,
         {
           ...memberObj,
-          $addToSet: {
-            unbans: {
-              unbannedBy: message.author.id,
-              reason,
-              messageLink: message.url,
-              unbannedDate: new Date(),
-            },
+          $push: {
+            unbans: unban,
           },
         },
         {
