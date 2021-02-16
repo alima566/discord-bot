@@ -41,7 +41,7 @@ module.exports = {
 
     if (!regex) {
       return message.reply(
-        `In order for polls to work correctly, please surround your text with double quotes (i.e.,) !p "Poll Question" "Poll Options"`
+        `In order for polls to work correctly, please surround your text with double quotes (i.e.,) !p "Poll Question" "Poll Option 1" "Poll Option 2" etc...`
       );
     }
 
