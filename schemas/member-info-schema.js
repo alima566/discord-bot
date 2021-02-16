@@ -7,58 +7,26 @@ const reqString = {
 const memberInfoSchema = mongoose.Schema({
   guildID: reqString,
   userID: reqString,
-  warns: [
-    {
-      warnedBy: reqString,
-      reason: {
-        type: String,
-      },
-      messageLink: reqString,
-      warnedDate: {
-        type: Date,
-        required: true,
-      },
-    },
-  ],
-  kicks: [
-    {
-      kickedBy: reqString,
-      reason: {
-        type: String,
-      },
-      messageLink: reqString,
-      kickedDate: {
-        type: Date,
-        required: true,
-      },
-    },
-  ],
-  bans: [
-    {
-      bannedBy: reqString,
-      reason: {
-        type: String,
-      },
-      messageLink: reqString,
-      bannedDate: {
-        type: Date,
-        required: true,
-      },
-    },
-  ],
-  unbans: [
-    {
-      unbannedBy: reqString,
-      reason: {
-        type: String,
-      },
-      messageLink: reqString,
-      unbannedDate: {
-        type: Date,
-        required: true,
-      },
-    },
-  ],
+  warnings: {
+    type: [Object],
+    required: true,
+  },
+  mutes: {
+    type: [Object],
+    required: true,
+  },
+  kicks: {
+    type: [Object],
+    required: true,
+  },
+  bans: {
+    type: [Object],
+    required: true,
+  },
+  unbans: {
+    type: [Object],
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("member-info", memberInfoSchema);
