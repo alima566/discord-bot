@@ -109,10 +109,6 @@ const fetchAuditLog = async (guild, auditLogAction) => {
       type: auditLogAction,
     });
   }
-  // return await guild.fetchAuditLogs({
-  //   limit: 1,
-  //   type: auditLogAction,
-  // });
 };
 
 module.exports = {
