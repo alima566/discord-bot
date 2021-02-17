@@ -20,19 +20,20 @@ module.exports = (client) => {
         .setFooter(`ID: ${newMem.id}`);
 
       const fetchedLogs = await fetchAuditLog(newMem.guild, "MEMBER_UPDATE");
-      const memberUpdateLog = fetchedLogs.entries.first();
-      if (memberUpdateLog) {
-        const { executor } = memberUpdateLog;
-        if (executor.id !== newMem.id) {
-          //Only show "Changed By" field if a mod changes member nickname
-          msgEmbed.addFields({
-            name: `**Changed By**`,
-            value: executor,
-            inline: true,
-          });
+      if (fetchedLogs) {
+        const memberUpdateLog = fetchedLogs.entries.first();
+        if (memberUpdateLog) {
+          const { executor } = memberUpdateLog;
+          if (executor.id !== newMem.id) {
+            //Only show "Changed By" field if a mod changes member nickname
+            msgEmbed.addFields({
+              name: `**Changed By**`,
+              value: executor,
+              inline: true,
+            });
+          }
         }
       }
-
       sendMessageToBotLog(client, newMem.guild, msgEmbed);
     }
 
@@ -72,7 +73,6 @@ module.exports = (client) => {
 
   client.on("guildMemberRemove", async (member) => {
     const { guild, user } = member;
-    const msgEmbed = new MessageEmbed().setColor("PURPLE");
 
     await gamblingSchema.deleteOne({
       guildID: guild.id,
@@ -80,35 +80,35 @@ module.exports = (client) => {
     }); // Delete gambling points from database
 
     const fetchedLogs = await fetchAuditLog(member.guild, "MEMBER_KICK");
+    if (!fetchedLogs) {
+      const msgEmbed = createEmbed(
+        "PURPLE",
+        member.user,
+        `**${member.user} has left the server**`
+      );
+      return sendMessageToBotLog(client, member.guild, msgEmbed);
+    }
 
     const kickLog = fetchedLogs.entries.first();
     if (!kickLog) {
-      msgEmbed
-        .setAuthor(
-          member.user.tag,
-          member.user.displayAvatarURL({ dynamic: true })
-        )
-        .setDescription(`**${member.user} has left the server**`)
-        .setTimestamp()
-        .setFooter(`ID: ${member.user.id}`);
+      const msgEmbed = createEmbed(
+        "PURPLE",
+        member.user,
+        `**${member.user} has left the server**`
+      );
       return sendMessageToBotLog(client, member.guild, msgEmbed);
     }
 
     const { executor, target } = kickLog;
-    msgEmbed
-      .setAuthor(
-        member.user.tag,
-        member.user.displayAvatarURL({ dynamic: true })
-      )
-      .setDescription(
-        `${
-          target.id === member.id
-            ? `**${member.user} was kicked from the server by ${executor}**`
-            : `**${member.user} has left the server**`
-        }`
-      )
-      .setTimestamp()
-      .setFooter(`ID: ${member.user.id}`);
+    const msgEmbed = createEmbed(
+      "PURPLE",
+      member.user,
+      `${
+        target.id === member.id
+          ? `**${member.user} was kicked from the server by ${executor}**`
+          : `**${member.user} has left the server**`
+      }`
+    );
     sendMessageToBotLog(client, member.guild, msgEmbed);
   });
 };
@@ -123,7 +123,17 @@ const roleUpdatedLog = async (client, role, user, type) => {
   description += `\`${role.name}\` role`;
 
   const fetchedLogs = await fetchAuditLog(role.guild, "MEMBER_ROLE_UPDATE");
+  if (!fetchedLogs) {
+    const msgEmbed = createEmbed("BLUE", user, description);
+    return sendMessageToBotLog(client, role.guild, msgEmbed);
+  }
+
   const roleUpdateLog = fetchedLogs.entries.first();
+  if (!roleUpdateLog) {
+    const msgEmbed = createEmbed("BLUE", user, description);
+    return sendMessageToBotLog(client, role.guild, msgEmbed);
+  }
+
   if (
     roleUpdateLog &&
     (!role.name.startsWith("Sub ") || role.name !== "Special Babies")
@@ -134,15 +144,19 @@ const roleUpdatedLog = async (client, role, user, type) => {
     description += `**`;
   }
 
-  const msgEmbed = new MessageEmbed()
-    .setColor("BLUE")
+  const msgEmbed = createEmbed("BLUE", user, description);
+
+  sendMessageToBotLog(client, role.guild, msgEmbed);
+  //sendDMToUser(client, role, user, type);
+};
+
+const createEmbed = (color, user, description) => {
+  return new MessageEmbed()
+    .setColor(color)
     .setAuthor(`${user.tag}`, user.displayAvatarURL({ dynamic: true }))
     .setDescription(description)
     .setTimestamp()
     .setFooter(`ID: ${user.id}`);
-
-  sendMessageToBotLog(client, role.guild, msgEmbed);
-  //sendDMToUser(client, role, user, type);
 };
 
 const sendDMToUser = (client, role, user, type) => {
