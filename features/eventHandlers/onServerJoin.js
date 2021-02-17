@@ -117,8 +117,8 @@ module.exports = async (client) => {
       userID: user.id,
     });
 
-    // Check to see if user already exists in db, if not, give them 1000 points
-    if (!result) {
+    // Check to see if user already exists in db and that they are not a bot, if not, give them 1000 points
+    if (!result && !user.bot) {
       await gambling.addPoints(guild.id, user.id, pointsToGive);
     }
 
