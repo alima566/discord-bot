@@ -25,18 +25,21 @@ module.exports = (client) => {
     if (!msg.partial) {
       if (msg.author.bot) return;
 
+      let description = `**Message sent by ${msg.author} deleted in ${msg.channel}:**\n`;
+      if (msg.attachments.size > 0 && msg.content !== "") {
+        description += `${msg.content}\n${msg.attachments.first().proxyURL}`;
+      } else if (msg.attachments.size > 0) {
+        description += msg.attachments.first().proxyURL;
+      } else {
+        description += msg.content;
+      }
+
       msgEmbed
         .setAuthor(
           `${msg.author.tag}`,
           msg.author.displayAvatarURL({ dynamic: true })
         )
-        .setDescription(
-          `**Message sent by ${msg.author} deleted in ${msg.channel}:**\n${
-            msg.attachments.size > 0
-              ? msg.attachments.first().proxyURL
-              : msg.content
-          }`
-        )
+        .setDescription(description)
         .setTimestamp()
         .setFooter(
           `${
@@ -73,7 +76,7 @@ module.exports = (client) => {
           .addFields(
             {
               name: "**Old Message**",
-              value: oldMsg.content,
+              value: oldMsg.content === "" ? "-" : oldMsg.content,
               inline: true,
             },
             {
