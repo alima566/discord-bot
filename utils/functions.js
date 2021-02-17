@@ -103,10 +103,16 @@ const log = (type, path, text) => {
 };
 
 const fetchAuditLog = async (guild, auditLogAction) => {
-  return await guild.fetchAuditLogs({
-    limit: 1,
-    type: auditLogAction,
-  });
+  if (guild.me.hasPermission("VIEW_AUDIT_LOG")) {
+    return await guild.fetchAuditLogs({
+      limit: 1,
+      type: auditLogAction,
+    });
+  }
+  // return await guild.fetchAuditLogs({
+  //   limit: 1,
+  //   type: auditLogAction,
+  // });
 };
 
 module.exports = {
