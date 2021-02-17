@@ -31,7 +31,11 @@ module.exports = (client) => {
           msg.author.displayAvatarURL({ dynamic: true })
         )
         .setDescription(
-          `**Message sent by ${msg.author} deleted in ${msg.channel}:**\n>>> ${msg}`
+          `**Message sent by ${msg.author} deleted in ${msg.channel}:**\n${
+            msg.attachments.size > 0
+              ? msg.attachments.first().proxyURL
+              : msg.content
+          }`
         )
         .setTimestamp()
         .setFooter(
