@@ -123,6 +123,8 @@ module.exports = async (client) => {
     }
 
     const data = await welcomeMessage(member);
+    if (!data) return;
+
     const channelID = data[0];
     const text = data[1];
 
