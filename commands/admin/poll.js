@@ -85,7 +85,7 @@ module.exports = {
     );
 
     for (let i = 0; i < regex.length; i++) {
-      msg.react(pollOptions[i]);
+      await msg.react(pollOptions[i]);
     }
   },
 };
