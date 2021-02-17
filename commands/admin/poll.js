@@ -56,8 +56,10 @@ module.exports = {
       return message.reply(`Please provide at least 2 poll options.`);
     }
 
-    if (regex.length > 26) {
-      return message.reply(`You can only have a maximum of 26 poll options.`);
+    if (regex.length > pollOptions.length) {
+      return message.reply(
+        `You can only have a maximum of ${pollOptions.length} poll options.`
+      );
     }
 
     let str = "";
