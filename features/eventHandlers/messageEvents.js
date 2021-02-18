@@ -5,18 +5,25 @@ module.exports = (client) => {
   client.on("messageDelete", async (msg) => {
     if (!msg.guild) return;
 
-    const msgEmbed = new MessageEmbed().setColor("RED");
     const fetchedLogs = await fetchAuditLog(msg.guild, "MESSAGE_DELETE");
+    if (!fetchedLogs) {
+      const msgEmbed = createEmbed(
+        "RED",
+        msg.guild,
+        msg,
+        `**A message sent by ${msg.author} was deleted in ${msg.channel}:**\n${msg.content}`
+      );
+      return sendMessageToBotLog(client, msg.guild, msgEmbed);
+    }
 
     const deletionLog = fetchedLogs.entries.first();
     if (!deletionLog) {
-      msgEmbed
-        .setAuthor(`${msg.guild.name}`, msg.guild.iconURL())
-        .setDescription(
-          `**Message sent by ${msg.author} was deleted in ${msg.channel}**`
-        )
-        .setTimestamp()
-        .setFooter(`Message ID: ${msg.id}`);
+      const msgEmbed = createEmbed(
+        "RED",
+        msg.guild,
+        msg,
+        `**A message sent by ${msg.author} was deleted in ${msg.channel}**`
+      );
       return sendMessageToBotLog(client, msg.guild, msgEmbed);
     }
 
@@ -25,7 +32,10 @@ module.exports = (client) => {
     if (!msg.partial) {
       if (msg.author.bot) return;
 
-      let description = `**Message sent by ${msg.author} deleted in ${msg.channel}:**\n`;
+      let description = `**A message sent by ${msg.author} was deleted in ${
+        msg.channel
+      } ${target.id === msg.author.id ? ` by ${executor.tag}` : ""}:**\n`;
+
       if (msg.attachments.size > 0 && msg.content !== "") {
         description += `${msg.content}\n${msg.attachments.first().proxyURL}`;
       } else if (msg.attachments.size > 0) {
@@ -34,90 +44,87 @@ module.exports = (client) => {
         description += msg.content;
       }
 
-      msgEmbed
-        .setAuthor(
-          `${msg.author.tag}`,
-          msg.author.displayAvatarURL({ dynamic: true })
-        )
-        .setDescription(description)
-        .setTimestamp()
-        .setFooter(
-          `${
-            target.id === msg.author.id ? `\nDeleted by: ${executor.tag} |` : ""
-          } Message ID: ${msg.id}`
-        );
+      const msgEmbed = createEmbed(
+        "RED",
+        msg.guild,
+        msg,
+        description,
+        msg.author
+      );
+      sendMessageToBotLog(client, msg.guild, msgEmbed);
     } else {
-      msgEmbed
-        .setAuthor(`${msg.guild.name}`, msg.guild.iconURL())
-        .setDescription(`**Message deleted in ${msg.channel}**`)
-        .setTimestamp()
-        .setFooter(`Message ID: ${msg.id}`);
+      const msgEmbed = createEmbed(
+        "RED",
+        msg.guild,
+        msg,
+        `**A message was deleted in ${msg.channel}**`
+      );
+      sendMessageToBotLog(client, msg.guild, msgEmbed);
     }
-    sendMessageToBotLog(client, msg.guild, msgEmbed);
   });
 
   client.on("messageUpdate", async (oldMsg, newMsg) => {
     if (!oldMsg.guild || !newMsg.guild) return;
 
-    const msgEmbed = new MessageEmbed().setColor("RED").setTimestamp();
-
     if (!oldMsg.partial && !newMsg.partial) {
       if (oldMsg.content !== newMsg.content) {
         if (newMsg.author.bot) return;
-
-        msgEmbed
-          .setAuthor(
-            newMsg.author.tag,
-            newMsg.author.displayAvatarURL({ dynamic: true })
-          )
-          .setDescription(
-            `[Message](${newMsg.url}) sent by ${newMsg.author} was edited in ${newMsg.channel}:`
-          )
-          .addFields(
-            {
-              name: "**Old Message**",
-              value: oldMsg.content === "" ? "-" : oldMsg.content,
-              inline: true,
-            },
-            {
-              name: "**New Message**",
-              value: newMsg.content,
-              inline: true,
-            }
-          )
-          .setFooter(`Message ID: ${newMsg.id}`);
-
+        const msgEmbed = createEmbed(
+          "RED",
+          newMsg.guild,
+          newMsg,
+          `A [message](${newMsg.url}) sent by ${newMsg.author} was edited in ${newMsg.channel}:`,
+          newMsg.author
+        ).addFields(
+          {
+            name: "**Old Message**",
+            value: oldMsg.content === "" ? "-" : oldMsg.content,
+            inline: true,
+          },
+          {
+            name: "**New Message**",
+            value: newMsg.content,
+            inline: true,
+          }
+        );
         sendMessageToBotLog(client, newMsg.guild, msgEmbed);
       }
     } else {
       const newM = await newMsg.fetch();
       if (newM.author.bot) return;
-
-      msgEmbed
-        .setAuthor(
-          newM.author.tag,
-          newM.author.displayAvatarURL({ dynamic: true })
-        )
-        .setDescription(
-          `[Message](${newMsg.url}) sent by ${newM.author} was edited in ${newM.channel}:`
-        )
-        .addFields(
-          {
-            name: "**Old Message**",
-            value: "Unknown",
-            inline: true,
-          },
-          {
-            name: "**New Message**",
-            value: newM.content,
-            inline: true,
-          }
-        )
-        .setFooter(`Message ID: ${newM.id}`);
-
+      const msgEmbed = createEmbed(
+        "RED",
+        newM.guild,
+        newM,
+        `A [message](${newM.url}) sent by ${newM.author} was edited in ${newM.channel}:`,
+        newM.author
+      ).addFields(
+        {
+          name: "**Old Message**",
+          value: "Unknown",
+          inline: true,
+        },
+        {
+          name: "**New Message**",
+          value: newM.content,
+          inline: true,
+        }
+      );
       sendMessageToBotLog(client, newM.guild, msgEmbed);
     }
   });
+};
+
+const createEmbed = (color, guild, msg, description, user) => {
+  return new MessageEmbed()
+    .setColor(color)
+    .setAuthor(
+      user ? user.tag : guild.name,
+      user ? user.displayAvatarURL() : guild.iconURL()
+    )
+    .setDescription(description)
+    .setTimestamp()
+    .setFooter(`ID: ${msg.id}`);
 };
 
 module.exports.config = {
