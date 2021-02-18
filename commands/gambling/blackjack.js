@@ -2,7 +2,7 @@ const { getGamblingChannel, getPoints, addPoints } = require("@utils/gambling");
 const { getRandomNumber } = require("@utils/functions");
 const { MessageEmbed } = require("discord.js");
 
-const suits = ["♥️", "♠️", "♦️", "♣️"];
+const suits = ["♥", "♠", "♦", "♣"];
 const values = ["A", 2, 3, 4, 5, 6, 7, 8, 9, 10, "K", "Q", "J"];
 const hit = "👍";
 const stand = "👎";
@@ -186,7 +186,7 @@ const getScore = (cardArray) => {
 };
 
 const getCardString = (card) => {
-  return `${card.value} ${card.suit}`;
+  return `\`${card.value} ${card.suit}\``;
 };
 
 const updateScores = () => {
@@ -197,12 +197,12 @@ const updateScores = () => {
 const showStatus = () => {
   dealerCardString = "";
   for (let i = 0; i < dealerCards.length; i++) {
-    dealerCardString += `${getCardString(dealerCards[i])}\n`;
+    dealerCardString += `${getCardString(dealerCards[i])} `;
   }
 
   playerCardString = "";
   for (let i = 0; i < playerCards.length; i++) {
-    playerCardString += `${getCardString(playerCards[i])}\n`;
+    playerCardString += `${getCardString(playerCards[i])} `;
   }
 
   updateScores();
