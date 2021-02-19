@@ -34,7 +34,7 @@ module.exports = (client) => {
 
       let description = `**A message sent by ${msg.author} was deleted in ${
         msg.channel
-      } ${target.id === msg.author.id ? ` by ${executor.tag}` : ""}:**\n`;
+      } ${target.id === msg.author.id ? ` by ${executor}` : ""}:**\n`;
 
       if (msg.attachments.size > 0 && msg.content !== "") {
         description += `${msg.content}\n${msg.attachments.first().proxyURL}`;
@@ -73,7 +73,7 @@ module.exports = (client) => {
           "RED",
           newMsg.guild,
           newMsg,
-          `A [message](${newMsg.url}) sent by ${newMsg.author} was edited in ${newMsg.channel}:`,
+          `**A [message](${newMsg.url}) sent by ${newMsg.author} was edited in ${newMsg.channel}:**`,
           newMsg.author
         ).addFields(
           {
