@@ -27,10 +27,9 @@ module.exports = {
               .setColor("#006798")
               .setAuthor(
                 `Woof!`,
-                `https://cdn.glitch.com/2d031706-b85e-4c2b-8903-3af7e09dd1c4%2F310e3061-4bbb-400e-bb4e-59c6a4084a66_dog.png?v=1604426681901`,
+                `https://i.imgur.com/cVR3t51.png`, //`https://cdn.glitch.com/2d031706-b85e-4c2b-8903-3af7e09dd1c4%2F310e3061-4bbb-400e-bb4e-59c6a4084a66_dog.png?v=1604426681901`,
                 `${img[0].url}`
               )
-              //.setTitle("🐶 Woof!")
               .setURL(img[0].url)
               .setImage(img[0].url)
               .addFields({

@@ -47,7 +47,7 @@ const execute = async (client) => {
     .setColor("#85bb65")
     .setTitle(`Gambling Leaderboard`)
     .setThumbnail(
-      `https://cdn.glitch.com/2d031706-b85e-4c2b-8903-3af7e09dd1c4%2F310e3061-4bbb-400e-bb4e-59c6a4084a66_poker-chip.png?v=1604426732959`
+      `https://i.imgur.com/VwbWTOn.png` //`https://cdn.glitch.com/2d031706-b85e-4c2b-8903-3af7e09dd1c4%2F310e3061-4bbb-400e-bb4e-59c6a4084a66_poker-chip.png?v=1604426732959`
     )
     .setTimestamp()
     .setFooter(`Leaderboard last updated `);
