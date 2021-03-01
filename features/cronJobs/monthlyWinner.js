@@ -105,9 +105,11 @@ const addRemoveRole = (masterGamblerRole, guild, userID) => {
   const currentMember = guild.members.cache.filter((member) =>
     member.roles.cache.find((r) => r == role)
   ); // Get current member with the Master Gambler role
-  currentMember.first().roles.remove(role); // Remove the Master Gambler role from the previous month's winner
-
   const member = guild.members.cache.get(userID);
+
+  if (currentMember.first().id === member.id) return;
+
+  currentMember.first().roles.remove(role); // Remove the Master Gambler role from the previous month's winner
   member.roles.add(role); // Add the Master Gambler role to the new winner
 };
 
