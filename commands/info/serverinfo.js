@@ -1,6 +1,7 @@
 const { MessageEmbed } = require("discord.js");
 const { utcToZonedTime, format } = require("date-fns-tz");
 const { formatDistance } = require("date-fns");
+const { timezone } = require("@root/config.json");
 
 const regionFlags = {
   brazil: "🇧🇷 Brazil",
@@ -36,8 +37,7 @@ module.exports = {
     ).size;
 
     const timeFormat = "EEE, MMM d, yyyy h:mm a zzz";
-    const timeZone = "America/New_York";
-    const createdAtEasternDate = utcToZonedTime(createdAt, timeZone);
+    const createdAtEasternDate = utcToZonedTime(createdAt, timezone);
 
     const msgEmbed = new MessageEmbed()
       .setColor("#DFBCF5")
@@ -57,7 +57,7 @@ module.exports = {
         {
           name: "**Server Created**",
           value: `${format(createdAtEasternDate, timeFormat, {
-            timeZone,
+            timeZone: timezone,
           })} (${formatDistance(createdAt, new Date(), {
             addSuffix: true,
           })})`,

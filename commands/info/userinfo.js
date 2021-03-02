@@ -1,6 +1,7 @@
 const { MessageEmbed } = require("discord.js");
 const { utcToZonedTime, format } = require("date-fns-tz");
 const { formatDistance } = require("date-fns");
+const { timezone } = require("@root/config.json");
 
 const keyPerms = {
   ADMINISTRATOR: "Administrator",
@@ -26,11 +27,10 @@ module.exports = {
     const { channel, guild } = message;
 
     const timeFormat = "EEE, MMM d, yyyy h:mm a zzz";
-    const timeZone = "America/New_York";
-    const joinedAtEasternDate = utcToZonedTime(member.joinedAt, timeZone);
+    const joinedAtEasternDate = utcToZonedTime(member.joinedAt, timezone);
     const createdAtEasternDate = utcToZonedTime(
       member.user.createdAt,
-      timeZone
+      timezone
     );
 
     const msgEmbed = new MessageEmbed()
@@ -45,7 +45,7 @@ module.exports = {
         {
           name: "**Joined**",
           value: `${format(joinedAtEasternDate, timeFormat, {
-            timeZone,
+            timeZone: timezone,
           })} (${formatDistance(member.joinedAt, new Date(), {
             addSuffix: true,
           })})`,
@@ -54,7 +54,7 @@ module.exports = {
         {
           name: "**Registered**",
           value: `${format(createdAtEasternDate, timeFormat, {
-            timeZone,
+            timeZone: timezone,
           })} (${formatDistance(member.user.createdAt, new Date(), {
             addSuffix: true,
           })})`,

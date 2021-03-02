@@ -5,16 +5,17 @@ const gamblingSchema = require("@schemas/gambling-schema");
 const { incrementMonthlyWins } = require("@utils/monthlyWins");
 const { monthlyPrize } = require("@root/config.json");
 const { sendMessageToBotLog, log } = require("@utils/functions");
+const { timezone } = require("@root/config.json");
 
 module.exports = (client) => {
-  const monthlyWinner = new cron.CronJob(
+  new cron.CronJob(
     "00 00 00 1 * *",
     () => {
       execute(client);
     },
     null,
     true,
-    "America/New_York"
+    timezone
   );
 };
 
@@ -28,10 +29,7 @@ const execute = async (client) => {
     const channel = client.channels.cache.get(channelId);
     if (channel) {
       const { userID, points } = await fetchWinner(guildId);
-      const month = moment()
-        .tz("America/New_York")
-        .subtract(1, "months")
-        .format("MMMM");
+      const month = moment().tz(timezone).subtract(1, "months").format("MMMM");
       channel.send(
         `Congrats to <@${userID}> for having the most points (${points.toLocaleString()}) for the month of ${month}! You have won a free month of ${monthlyPrize} and have earned the coveted <@&${masterGamblerRoleID}> role! Please check your DM for your gift!`
       );

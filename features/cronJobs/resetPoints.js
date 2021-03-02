@@ -2,16 +2,17 @@ const cron = require("cron");
 const gamblingSchema = require("@schemas/gambling-schema");
 const gambling = require("@utils/gambling");
 const { log } = require("@utils/functions");
+const { timezone } = require("@root/config.json");
 
 module.exports = (client) => {
-  const resetPoints = new cron.CronJob(
+  new cron.CronJob(
     "05 00 00 1 * *",
     () => {
       execute(client);
     },
     null,
     true,
-    "America/New_York"
+    timezone
   );
 };
 

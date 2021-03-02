@@ -4,26 +4,24 @@ const gamblingSchema = require("@schemas/gambling-schema");
 const { monthlyPrize } = require("@root/config.json");
 const cron = require("cron");
 const moment = require("moment-timezone");
+const { timezone } = require("@root/config.json");
 
 module.exports = async (client) => {
-  const updateLeaderboard = new cron.CronJob(
+  new cron.CronJob(
     "00 */5 * * * *",
     () => {
       execute(client);
     },
     null,
     true,
-    "America/Denver"
+    timezone
   );
 };
 
 const fetchTopMembers = async (guildID) => {
-  const timezone = moment.tz("America/New_York").format("z");
-  const nextMonth = moment()
-    .tz("America/New_York")
-    .add(1, "months")
-    .format("MMMM");
-  let text = `Person with the most points at the end of each month gets a free month of *${monthlyPrize}*. A winner is determined at 12AM ${timezone} on the first of every month.\n\n`;
+  const timezoneFormat = moment.tz(timezone).format("z");
+  const nextMonth = moment().tz(timezone).add(1, "months").format("MMMM");
+  let text = `Person with the most points at the end of each month gets a free month of *${monthlyPrize}*. A winner is determined at 12AM ${timezoneFormat} on the first of every month.\n\n`;
   const results = await gamblingSchema
     .find({
       guildID,
@@ -38,7 +36,7 @@ const fetchTopMembers = async (guildID) => {
       points !== 1 ? "points" : "point"
     }.\n`;
   }
-  text += `\nPoints will be reset back to 0 at 12AM ${timezone} on ${nextMonth} 1st.`;
+  text += `\nPoints will be reset back to 0 at 12AM ${timezoneFormat} on ${nextMonth} 1st.`;
   return text;
 };
 

@@ -4,5 +4,6 @@
   "rafflePoints": 500,
   "giveawayReactEmoji": "🎉",
   "monthlyPrize": "Discord Nitro",
-  "welcomeMessageCache": {}
+  "welcomeMessageCache": {},
+  "timezone": "America/New_York"
 }
