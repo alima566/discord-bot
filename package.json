@@ -28,6 +28,7 @@
     "ffmpeg": "0.0.4",
     "fluent-ffmpeg": "^2.1.2",
     "fs": "0.0.2",
+    "genshin-db": "^1.12.5",
     "geo-tz": "^6.0.1",
     "make": "^0.8.1",
     "module-alias": "^2.2.2",
