@@ -11,7 +11,7 @@ module.exports = {
   callback: ({ message, text }) => {
     const recipe = genshin.recipes(text);
     if (!recipe) {
-      return message.reply(`I could not find a weapon by that name.`);
+      return message.reply(`I could not find a recipe by that name.`);
     }
 
     if (recipe.length) {
