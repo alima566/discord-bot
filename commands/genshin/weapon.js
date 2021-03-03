@@ -58,12 +58,14 @@ module.exports = {
         },
         {
           name: "**Secondary Stat Type**",
-          value: substat,
+          value: substat.endsWith("%")
+            ? substat.substr(0, substat.length - 1)
+            : substat,
           inline: true,
         },
         {
           name: "**Secondary Stat (Lvl. 1)**",
-          value: subvalue,
+          value: substat.endsWith("%") ? `${subvalue}%` : subvalue,
           inline: true,
         },
         {
