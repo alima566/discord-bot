@@ -11,7 +11,7 @@ module.exports = {
   callback: ({ message, text }) => {
     const weapon = genshin.weapons(text);
     if (!weapon) {
-      return message.reply(`I could not fidn a weapon by that name.`);
+      return message.reply(`I could not find a weapon by that name.`);
     }
 
     if (weapon.length) {
