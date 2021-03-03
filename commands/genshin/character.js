@@ -15,6 +15,12 @@ module.exports = {
       return message.reply(`I could not find a character by that name.`);
     }
 
+    if (character.length) {
+      return message.reply(
+        `"${text}" returned more than one result. Please be more specific.`
+      );
+    }
+
     const {
       name,
       titles,
