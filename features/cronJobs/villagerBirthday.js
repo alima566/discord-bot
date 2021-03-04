@@ -38,7 +38,7 @@ const execute = (client) => {
       channel.send(`Happy birthday to ${getVillagerNames(data)}! 🎉`);
       for (let i = 0; i < data.length; i++) {
         let msgEmbed = new MessageEmbed()
-          .setColor("ORANGE")
+          .setColor(data[i].title_color ? `#${data[i].title_color}` : "ORANGE")
           .setURL(`${data[i].url}`)
           .setAuthor(
             `${data[i].name}`,

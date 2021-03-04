@@ -3,11 +3,9 @@ const { MessageEmbed } = require("discord.js");
 const { log } = require("@utils/functions");
 
 module.exports = {
-  commands: "villager",
   category: "AC",
   expectedArgs: "<villager_name>",
   minArgs: 1,
-  //maxArgs: 1,
   description:
     "Retrieve information about a specific villager in any Animal Crossing game.",
   cooldown: "15s",
@@ -30,8 +28,9 @@ module.exports = {
     )
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         const msgEmbed = new MessageEmbed()
-          .setColor("ORANGE")
+          .setColor(data[0].title_color ? `#${data[0].title_color}` : "ORANGE")
           .setURL(`${data[0].url}`)
           .setAuthor(
             `${data[0].name}`,
