@@ -1,6 +1,14 @@
 const genshin = require("genshin-db");
 const { MessageEmbed } = require("discord.js");
 
+const stars = {
+  1: "⭐",
+  2: "⭐⭐",
+  3: "⭐⭐⭐",
+  4: "⭐⭐⭐⭐",
+  5: "⭐⭐⭐⭐⭐",
+};
+
 module.exports = {
   category: "Genshin",
   expectedArgs: "<Recipe>",
@@ -40,7 +48,7 @@ module.exports = {
       .addFields(
         {
           name: "**Rarity**",
-          value: rarity,
+          value: stars[rarity],
           inline: true,
         },
         {
