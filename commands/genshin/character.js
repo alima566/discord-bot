@@ -1,6 +1,14 @@
 const genshin = require("genshin-db");
 const { MessageEmbed } = require("discord.js");
 
+const stars = {
+  1: "⭐",
+  2: "⭐⭐",
+  3: "⭐⭐⭐",
+  4: "⭐⭐⭐⭐",
+  5: "⭐⭐⭐⭐⭐",
+};
+
 module.exports = {
   commands: ["character", "gi"],
   category: "Genshin",
@@ -60,7 +68,7 @@ module.exports = {
         },
         {
           name: "**Rarity**",
-          value: rarity,
+          value: stars[rarity],
           inline: true,
         },
         {
