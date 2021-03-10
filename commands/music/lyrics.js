@@ -1,5 +1,5 @@
 const fetch = require("node-fetch");
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, Util } = require("discord.js");
 const { log, paginateEmbed } = require("@utils/functions");
 
 module.exports = {
@@ -36,17 +36,18 @@ module.exports = {
     )
       .then((resp) => resp.json())
       .then((res) => {
-        const { artist, name, lyrics } = res.data[0];
+        const { artist, name, lyrics, album_art } = res.data[0];
         if (res.data[0].length === 0) {
           return m.edit(`No lyrics were found for "${songName}"`);
         }
 
         const embedArray = [];
-        let lyricsArray = splitLyrics(lyrics);
+        let lyricsArray = Util.splitMessage(lyrics);
         if (lyricsArray.length == 1) {
           const lyricsEmbed = new MessageEmbed()
             .setColor("#1ED761")
             .setTitle(`${artist} - ${name}`)
+            .setThumbnail(album_art)
             .setDescription(lyrics.trim())
             .setFooter(`Lyrics provided by KSoft.Si`);
           m.edit(`Here's what I found.`);
@@ -91,12 +92,4 @@ const removeCharacters = (songName) => {
     ""
   );
   return songName;
-};
-
-const splitLyrics = (string) => {
-  let chunks = [];
-  for (let i = 0; i < string.length; i += 2047) {
-    chunks.push(string.substring(i, i + 2047));
-  }
-  return chunks;
 };
