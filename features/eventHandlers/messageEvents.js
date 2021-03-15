@@ -79,12 +79,10 @@ module.exports = (client) => {
           {
             name: "**Old Message**",
             value: oldMsg.content === "" ? "-" : oldMsg.content,
-            inline: true,
           },
           {
             name: "**New Message**",
             value: newMsg.content,
-            inline: true,
           }
         );
         sendMessageToBotLog(client, newMsg.guild, msgEmbed);
