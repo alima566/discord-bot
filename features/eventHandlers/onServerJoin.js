@@ -133,8 +133,7 @@ module.exports = async (client) => {
 
     const attachment = await createCanvas(guild, member);
 
-    channel.send(text.replace(/<@>/g, `<@${member.id}>`));
-    channel.send(attachment);
+    channel.send(text.replace(/<@>/g, `<@${member.id}>`), attachment);
 
     const msgEmbed = new MessageEmbed()
       .setColor("#FF69B4")
