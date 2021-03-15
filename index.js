@@ -74,6 +74,10 @@ client.on("ready", async () => {
         name: "Pokemon",
         emoji: "🍚",
       },
+      {
+        name: "Genshin",
+        emoji: "⚔️"
+      }
     ]);
 
   wok.on("databaseConnected", (connection, state) => {
