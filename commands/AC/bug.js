@@ -9,7 +9,7 @@ const {
 
 module.exports = {
   commands: "bug",
-  category: "AC",
+  category: "🍀 AC",
   expectedArgs: "<bug_name>",
   minArgs: 1,
   //maxArgs: 1,

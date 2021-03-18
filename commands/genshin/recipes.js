@@ -10,7 +10,7 @@ const stars = {
 };
 
 module.exports = {
-  category: "Genshin",
+  category: "⚔️ Genshin",
   expectedArgs: "<Recipe>",
   minArgs: 1,
   description:

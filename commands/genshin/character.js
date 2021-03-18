@@ -10,8 +10,8 @@ const stars = {
 };
 
 module.exports = {
-  commands: ["character", "gi"],
-  category: "Genshin",
+  commands: ["gi"],
+  category: "⚔️ Genshin",
   expectedArgs: "<character name>",
   minArgs: 1,
   description:

@@ -2,8 +2,8 @@ const { MessageEmbed } = require("discord.js");
 const { chunkArray, paginateEmbed } = require("@utils/functions");
 
 module.exports = {
-  commands: ["queue", "songs"],
-  category: "Music",
+  commands: ["songs"],
+  category: "🎵 Music",
   description: "Gets all the songs currently in the queue.",
   callback: async ({ message }) => {
     const queue = message.client.player.getQueue(message);

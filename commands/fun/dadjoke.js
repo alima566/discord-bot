@@ -3,7 +3,7 @@ const { log } = require("@utils/functions");
 
 module.exports = {
   commands: "dadjoke",
-  category: "Fun",
+  category: "🎮 Fun",
   cooldown: "15s",
   description: "KelleeBot tells you a random dad joke.",
   callback: async ({ message }) => {

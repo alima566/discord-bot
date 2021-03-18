@@ -3,7 +3,7 @@ const { MessageEmbed } = require("discord.js");
 const { log } = require("@utils/functions");
 
 module.exports = {
-  category: "Animals",
+  category: "🐱 Animals",
   cooldown: "15s",
   description: "KelleeBot shows you a random picture/gif of a bunny.",
   callback: async ({ message, instance }) => {

@@ -3,8 +3,8 @@ const { MessageEmbed, Util } = require("discord.js");
 const { log, paginateEmbed } = require("@utils/functions");
 
 module.exports = {
-  category: "Music",
-  expectedArgs: "<song_title> - <artist>",
+  category: "🎵 Music",
+  expectedArgs: "<song_title> <artist>",
   minArgs: 0,
   maxArgs: -1,
   description:

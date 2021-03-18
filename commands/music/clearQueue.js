@@ -1,6 +1,6 @@
 module.exports = {
-  commands: ["clear", "clearqueue"],
-  category: "Music",
+  commands: ["clear"],
+  category: "🎵 Music",
   description: "Clears the queue.",
   callback: async ({ message }) => {
     message.client.player.clearQueue(message);

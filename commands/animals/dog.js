@@ -4,7 +4,7 @@ const { log } = require("@utils/functions");
 
 module.exports = {
   commands: ["dog", "doggo"],
-  category: "Animals",
+  category: "🐱 Animals",
   cooldown: "15s",
   description:
     "KelleeBot shows you a random picture of a dog and provides you with a random dog fact.",

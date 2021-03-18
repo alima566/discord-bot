@@ -4,7 +4,7 @@ const { log } = require("@utils/functions");
 
 module.exports = {
   commands: ["breakfast", "lunch", "dinner"],
-  category: "Misc",
+  category: "💡 Misc",
   cooldown: "15s",
   description: "KelleeBot shows you a random meal.",
   callback: ({ message }) => {

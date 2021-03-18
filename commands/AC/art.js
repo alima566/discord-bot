@@ -5,7 +5,7 @@ const { log } = require("@utils/functions");
 
 module.exports = {
   commands: "art",
-  category: "AC",
+  category: "🍀 AC",
   expectedArgs: "<artwork_name>",
   minArgs: 1,
   //maxArgs: 1,

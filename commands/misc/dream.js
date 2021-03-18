@@ -1,6 +1,6 @@
 module.exports = {
   commands: ["dream", "da"],
-  category: "Misc",
+  category: "💡 Misc",
   cooldown: "15s",
   description: "Kéllee's ACNH dream address.",
   callback: ({ message }) => {

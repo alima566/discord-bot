@@ -1,7 +1,7 @@
 const { MessageEmbed } = require("discord.js");
 
 module.exports = {
-  category: "Music",
+  category: "🎵 Music",
   expectedArgs: "<Search query>",
   minArgs: 1,
   maxArgs: -1,

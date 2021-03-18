@@ -14,7 +14,7 @@ const clearCache = () => {
 clearCache();
 
 module.exports = {
-  category: "Gambling",
+  category: "🎰 Gambling",
   description: `Gives users their daily reward of ${pointsToGive.toLocaleString()} points.`,
   callback: async ({ message, instance, client }) => {
     const { guild, member, channel } = message;

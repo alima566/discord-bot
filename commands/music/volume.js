@@ -1,8 +1,8 @@
 const { MessageEmbed } = require("discord.js");
 
 module.exports = {
-  commands: ["volume", "setvolume"],
-  category: "Music",
+  commands: ["setvolume"],
+  category: "🎵 Music",
   description: "Adjust the volume of the song.",
   minArgs: 1,
   maxArgs: 1,

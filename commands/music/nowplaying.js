@@ -1,8 +1,8 @@
 const { MessageEmbed } = require("discord.js");
 
 module.exports = {
-  commands: ["nowplaying", "np", "song"],
-  category: "Music",
+  commands: ["np", "song"],
+  category: "🎵 Music",
   description: "Shows what's currently playing.",
   callback: async ({ message }) => {
     const nowPlaying = message.client.player.nowPlaying(message);

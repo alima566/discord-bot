@@ -8,8 +8,9 @@ const aaronHug = [
 ];
 
 module.exports = {
-  category: "Misc",
+  category: "💡 Misc",
   minArgs: 0,
+  expectedArgs: "[The other member to hug]",
   cooldown: "15s",
   description: "Hugs another user.",
   callback: ({ message, args, text }) => {

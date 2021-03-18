@@ -11,7 +11,7 @@ const multiplier = slotsEmoji.length;
 
 module.exports = {
   commands: ["slots", "slot"],
-  category: "Gambling",
+  category: "🎰 Gambling",
   minArgs: 1,
   maxArgs: 1,
   description: `Play the slots and test your luck. Each slot win gives you ${multiplier} times the amount you bet.`,

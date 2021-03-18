@@ -2,7 +2,7 @@ const { MessageEmbed } = require("discord.js");
 
 module.exports = {
   description: "Lists out all the commands that KelleeBot has.",
-  category: "Info",
+  category: "❗ Info",
   minArgs: 0,
   maxArgs: 1,
   syntax: "[command_name]",

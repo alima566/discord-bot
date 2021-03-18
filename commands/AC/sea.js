@@ -9,7 +9,7 @@ const {
 
 module.exports = {
   commands: "sea",
-  category: "AC",
+  category: "🍀 AC",
   expectedArgs: "<seacreature_name>",
   minArgs: 1,
   maxArgs: 1,

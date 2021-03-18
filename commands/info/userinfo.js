@@ -19,9 +19,13 @@ const keyPerms = {
 
 module.exports = {
   commands: ["whois"],
-  category: "Info",
+  category: "❗ Info",
   cooldown: "15s",
-  description: "Gives information about the user.",
+  description:
+    "Gives information about yourself or another member in the server.",
+  minArgs: 0,
+  maxArgs: 1,
+  expectedArgs: "[The member to see information for]",
   callback: ({ message }) => {
     const member = message.mentions.members.first() || message.member;
     const { channel, guild } = message;

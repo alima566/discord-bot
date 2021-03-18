@@ -20,7 +20,7 @@ const regionFlags = {
 };
 
 module.exports = {
-  category: "Info",
+  category: "❗ Info",
   cooldown: "15s",
   description: "Gives information about the server.",
   callback: ({ message }) => {

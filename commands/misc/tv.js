@@ -4,7 +4,7 @@ const { MessageEmbed } = require("discord.js");
 
 module.exports = {
   commands: ["show", "tvshow"],
-  category: "Misc",
+  category: "💡 Misc",
   minArgs: 1,
   expectedArgs: "<TV Show Title>",
   cooldown: "15s",

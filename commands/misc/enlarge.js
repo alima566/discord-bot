@@ -3,7 +3,7 @@ const { parse } = require("twemoji-parser");
 
 module.exports = {
   commands: "enlarge",
-  category: "Misc",
+  category: "💡 Misc",
   cooldown: "15s",
   minArgs: 1,
   maxArgs: 1,

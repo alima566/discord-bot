@@ -1,8 +1,7 @@
 const { MessageEmbed } = require("discord.js");
 
 module.exports = {
-  commands: "stop",
-  category: "Music",
+  category: "🎵 Music",
   description: "Stops the song.",
   callback: async ({ message }) => {
     const voiceChannel = message.member.voice.channel;

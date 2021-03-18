@@ -2,7 +2,7 @@ const { getGamblingChannel, getPoints, addPoints } = require("@utils/gambling");
 
 module.exports = {
   commands: ["gamble", "roulette"],
-  category: "Gambling",
+  category: "🎰 Gambling",
   minArgs: 1,
   maxArgs: 1,
   description: "Users can gamble away the amount of points that they have.",

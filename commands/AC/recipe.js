@@ -4,7 +4,7 @@ const { log } = require("@utils/functions");
 
 module.exports = {
   commands: ["recipe", "diy"],
-  category: "AC",
+  category: "🍀 AC",
   expectedArgs: "<diy_name>",
   minArgs: 1,
   //maxArgs: 1,

@@ -5,7 +5,7 @@ const geoTz = require("geo-tz");
 const { utcToZonedTime, format } = require("date-fns-tz");
 
 module.exports = {
-  category: "Misc",
+  category: "💡 Misc",
   cooldown: "15s",
   minArgs: 1,
   maxArgs: -1,

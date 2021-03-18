@@ -18,7 +18,7 @@ let deck = [],
   playerWon;
 
 module.exports = {
-  category: "Gambling",
+  category: "🎰 Gambling",
   minArgs: 1,
   maxArgs: 1,
   globalCooldown: "1m",

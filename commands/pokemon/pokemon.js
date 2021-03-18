@@ -24,7 +24,7 @@ const embedColor = {
 };
 
 module.exports = {
-  category: "Pokemon",
+  category: "🍚 Pokemon",
   expectedArgs: "<pokemon_name>",
   minArgs: 1,
   description: "Retrieve information about a specific Pokémon.",

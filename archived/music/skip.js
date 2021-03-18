@@ -1,6 +1,6 @@
 module.exports = {
   commands: "skip",
-  category: "Music",
+  category: "🎵 Music",
   description: "Skips the current song.",
   callback: (msg) => {
     const serverQueue = msg.client.queue.get(msg.guild.id);

@@ -2,7 +2,7 @@ const { MessageEmbed } = require("discord.js");
 const character = require("@root/acSpecialCharacters.json");
 
 module.exports = {
-  category: "AC",
+  category: "🍀 AC",
   expectedArgs: "<character_name>",
   minArgs: 1,
   description:

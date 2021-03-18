@@ -4,7 +4,7 @@ const gamblingSchema = require("@schemas/gambling-schema");
 
 module.exports = {
   commands: ["points", "balance", "bal"],
-  category: "Gambling",
+  category: "🎰 Gambling",
   maxArgs: 1,
   description:
     "Displays how many points you or another user has and current ranking.",

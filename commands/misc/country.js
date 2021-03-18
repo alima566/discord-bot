@@ -3,7 +3,7 @@ const { log } = require("@utils/functions");
 const { MessageEmbed } = require("discord.js");
 
 module.exports = {
-  category: "Misc",
+  category: "💡 Misc",
   minArgs: 1,
   expectedArgs: "<Country Name>",
   cooldown: "15s",

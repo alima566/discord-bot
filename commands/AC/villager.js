@@ -3,7 +3,7 @@ const { MessageEmbed } = require("discord.js");
 const { log } = require("@utils/functions");
 
 module.exports = {
-  category: "AC",
+  category: "🍀 AC",
   expectedArgs: "<villager_name>",
   minArgs: 1,
   description:
