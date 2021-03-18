@@ -1,3 +1,4 @@
+const { Permissions } = require("discord.js");
 const botChannelSchema = require("@schemas/bot-channel-schema");
 
 const reactions = ["⏪", "⏸️", "⏩"];
@@ -103,7 +104,7 @@ const log = (type, path, text) => {
 };
 
 const fetchAuditLog = async (guild, auditLogAction) => {
-  if (guild.me.hasPermission("VIEW_AUDIT_LOG")) {
+  if (guild.me.permissions.has(Permissions.FLAGS.VIEW_AUDIT_LOG)) {
     return await guild.fetchAuditLogs({
       limit: 1,
       type: auditLogAction,

@@ -1,3 +1,4 @@
+const { Permissions } = require("discord.js");
 const { fetchCache, addToCache } = require("@features/features/reactionRoles");
 const messageRolesSchema = require("@schemas/message-roles-schema");
 
@@ -9,7 +10,7 @@ module.exports = {
   requiredPermission: ["ADMINISTRATOR"],
   callback: async ({ message, args }) => {
     const { guild } = message;
-    if (!guild.me.hasPermission("MANAGE_ROLES")) {
+    if (!guild.me.permissions.has(Permissions.FLAGS.MANAGE_ROLES)) {
       return message.reply("I do not have the `Manage Roles` permission.");
     }
 

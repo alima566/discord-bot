@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, Permissions } = require("discord.js");
 const { utcToZonedTime, format } = require("date-fns-tz");
 const { formatDistance } = require("date-fns");
 const { timezone } = require("@root/config.json");
@@ -73,7 +73,7 @@ module.exports = {
     if (isServerAdmin(member, guild)) {
       if (member.id === guild.ownerID) {
         extraPerms.push("Server Owner");
-      } else if (member.hasPermission("ADMINISTRATOR")) {
+      } else if (member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
         extraPerms.push("Server Admin");
       } else {
         extraPerms.push("Server Manager");
@@ -125,7 +125,7 @@ const isServerAdmin = (member, guild) => {
   return (
     member.id === guild.ownerID ||
     (member.permissions &&
-      (member.hasPermission("ADMINISTRATOR") ||
-        member.hasPermission("MANAGE_GUILD")))
+      (member.permissions.has(Permissions.FLAGS.ADMINISTRATOR) ||
+        member.permissions.has(Permissions.FLAGS.MANAGE_GUILD)))
   );
 };

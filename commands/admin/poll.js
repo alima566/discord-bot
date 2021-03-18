@@ -36,7 +36,7 @@ module.exports = {
   description: "Creates a poll.",
   requiredPermissions: ["ADMINISTRATOR"],
   permissionError: "You must be an administrator to execute this command.",
-  callback: async ({ message, text }) => {
+  callback: async ({ message, text, client }) => {
     message.delete();
     const regex = text.match(/"[^"]+"|[\\S]+"[^"]+/g);
 
@@ -46,7 +46,7 @@ module.exports = {
           `In order for polls to work correctly, please surround your text with double quotes (i.e.) !poll "Poll Question" "Poll Option 1" "Poll Option 2" etc...`
         )
         .then((msg) => {
-          msg.delete({ timeout: 1000 * 3 });
+          client.setTimeout(() => msg.delete(), 1000 * 3);
         });
     }
 

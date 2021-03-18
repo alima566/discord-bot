@@ -1,3 +1,4 @@
+const { Permissions } = require("discord.js");
 const messageRolesSchema = require("@schemas/message-roles-schema");
 const cache = {}; // { guildID: [message, { Emoji: roleID }]}
 
@@ -30,7 +31,7 @@ const handleReaction = (reaction, user, adding) => {
 
   if (
     fetchedMessage.id === message.id &&
-    guild.me.hasPermission("MANAGE_ROLES")
+    guild.me.permissions.has(Permissions.FLAGS.MANAGE_ROLES)
   ) {
     const toCompare = reaction.emoji.id || reaction.emoji.name;
 

@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, Permissions } = require("discord.js");
 const { sendMessageToBotLog } = require("@utils/functions");
 const memberInfoSchema = require("@schemas/member-info-schema");
 
@@ -27,8 +27,8 @@ module.exports = {
     }
 
     if (
-      !guild.me.hasPermission("KICK_MEMBERS") ||
-      !guild.me.hasPermission("BAN_MEMBERS")
+      !guild.me.permissions.has(Permissions.FLAGS.KICK_MEMBERS) ||
+      !guild.me.permissions.has(Permissions.FLAGS.BAN_MEMBERS)
     ) {
       return message.reply(
         "I do not have `Kick Members` or `Ban Members` permission."
