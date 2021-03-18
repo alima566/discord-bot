@@ -24,7 +24,7 @@ module.exports = {
   globalCooldown: "1m",
   description: "Play blackjack with the bot.",
   expectedArgs: "<The amount you want to gamble>",
-  callback: async ({ message, args, instance }) => {
+  callback: async ({ message, args, instance, client }) => {
     gameOver = false; //Reset game status back to false each time command is ran
     playerWon = false; //Reset playerWon status back to false each time command is ran
 
@@ -39,7 +39,7 @@ module.exports = {
         message
           .reply(`Blackjack can only be played in <#${gamblingChannel}>!`)
           .then((msg) => {
-            msg.delete({ timeout: 3000 });
+            client.setTimeout(() => msg.delete(), 1000 * 3);
           });
         message.delete();
         return;

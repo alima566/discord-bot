@@ -16,7 +16,7 @@ clearCache();
 module.exports = {
   category: "Gambling",
   description: `Gives users their daily reward of ${pointsToGive.toLocaleString()} points.`,
-  callback: async ({ message, instance }) => {
+  callback: async ({ message, instance, client }) => {
     const { guild, member, channel } = message;
     const { id } = member;
     const gamblingChannel = await getGamblingChannel(guild.id);
@@ -26,7 +26,7 @@ module.exports = {
         message
           .reply(`Daily can only be redeemed in <#${gamblingChannel}>!`)
           .then((msg) => {
-            msg.delete({ timeout: 5000 });
+            client.setTimeout(() => msg.delete(), 1000 * 3);
           });
         message.delete();
         return;

@@ -81,7 +81,9 @@ module.exports = {
                   .send(
                     `Invalid selection. Please type either Y (Yes) or N (No).`
                   )
-                  .then((m) => m.delete({ timeout: 1000 * 2 }));
+                  .then((m) => {
+                    client.setTimeout(() => m.delete(), 1000 * 3);
+                  });
                 break;
             }
           });

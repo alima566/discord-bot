@@ -8,7 +8,7 @@ module.exports = {
   description: "Sets the leaderboard channel for a server.",
   requiredPermissions: ["ADMINISTRATOR"],
   permissionError: "You must be an administrator to execute this command.",
-  callback: async ({ message }) => {
+  callback: async ({ message, client }) => {
     const { guild } = message;
     const channel = message.mentions.channels.first() || message.channel;
     const guildID = guild.id;
@@ -28,7 +28,7 @@ module.exports = {
     );
 
     message.reply(`Leaderboard has been set to <#${channel.id}>.`).then((m) => {
-      m.delete({ timeout: 3000 });
+      client.setTimeout(() => m.delete(), 1000 * 3);
     });
     message.delete();
   },

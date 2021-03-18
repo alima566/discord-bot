@@ -8,7 +8,7 @@ module.exports = {
   maxArgs: 1,
   description:
     "Displays how many points you or another user has and current ranking.",
-  callback: async ({ message }) => {
+  callback: async ({ message, client }) => {
     const target = message.mentions.users.first() || message.author;
     const channelID = message.channel.id;
     const guildID = message.guild.id;
@@ -21,7 +21,7 @@ module.exports = {
         message
           .reply(`Points can only be checked in <#${gamblingChannel}>!`)
           .then((msg) => {
-            msg.delete({ timeout: 5000 });
+            client.setTimeout(() => msg.delete(), 1000 * 3);
           });
         message.delete();
         return;

@@ -7,7 +7,7 @@ module.exports = {
   description: "Edits an existing bot message.",
   ownerOnly: true,
   permissionError: "You must be the bot owner to execute this command.",
-  callback: async ({ message, args }) => {
+  callback: async ({ message, args, client }) => {
     const channel = message.mentions.channels.first();
     if (!channel) {
       return message.reply(
@@ -36,7 +36,7 @@ module.exports = {
     } catch (e) {
       message.delete();
       return message.reply(`That message no longer exists.`).then((msg) => {
-        msg.delete({ timeout: 3000 });
+        client.setTimeout(() => msg.delete(), 1000 * 3);
       });
     }
   },

@@ -7,7 +7,7 @@ module.exports = {
   maxArgs: 1,
   description: "Users can gamble away the amount of points that they have.",
   expectedArgs: "<The amount you want to gamble>",
-  callback: async ({ message, args, instance }) => {
+  callback: async ({ message, args, instance, client }) => {
     const target = message.author;
     const channelID = message.channel.id;
     const guildID = message.guild.id;
@@ -19,7 +19,7 @@ module.exports = {
         message
           .reply(`Gambling is only allowed in <#${gamblingChannel}>!`)
           .then((msg) => {
-            msg.delete({ timeout: 5000 });
+            client.setTimeout(() => msg.delete(), 1000 * 3);
           });
         message.delete();
         return;

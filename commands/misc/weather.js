@@ -11,7 +11,7 @@ module.exports = {
   maxArgs: -1,
   expectedArgs: "<city>",
   description: "Gives you the current weather of the specified location.",
-  callback: ({ message, args }) => {
+  callback: ({ message, args, client }) => {
     const input = args.join(" ");
     weather.find({ search: input, degreeType: "C" }, (err, result) => {
       if (err) {
@@ -29,7 +29,7 @@ module.exports = {
       }
 
       if (result.length > 1) {
-        showAllCities(input, result, message);
+        showAllCities(input, result, message, client);
       } else {
         message.channel.send(showWeatherResult(result[0]));
       }
@@ -41,7 +41,7 @@ const convertToFahrenheit = (temp) => {
   return convert(temp).from("celsius").to("fahrenheit").toFixed(1);
 };
 
-const showAllCities = (query, results, message) => {
+const showAllCities = (query, results, message, client) => {
   let menuItems = "";
   for (let i = 0; i < results.length; i++) {
     menuItems += `${i + 1}. ${results[i].location.name}\n`;
@@ -81,7 +81,9 @@ const showAllCities = (query, results, message) => {
           .send(
             `Invalid selection. Please select a number from 1 to ${results.length}.`
           )
-          .then((m) => m.delete({ timeout: 2000 }));
+          .then((m) => {
+            client.setTimeout(() => m.delete(), 1000 * 3);
+          });
       }
     });
 

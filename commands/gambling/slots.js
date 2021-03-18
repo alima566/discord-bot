@@ -28,7 +28,7 @@ module.exports = {
         message
           .reply(`Gambling is only allowed in <#${gamblingChannel}>!`)
           .then((msg) => {
-            msg.delete({ timeout: 5000 });
+            client.setTimeout(() => msg.delete(), 1000 * 3);
           });
         message.delete();
         return;

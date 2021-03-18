@@ -8,7 +8,7 @@ module.exports = {
   expectedArgs: "<Movie Title>",
   cooldown: "15s",
   description: "Gives you information about a movie.",
-  callback: async ({ message, text }) => {
+  callback: async ({ message, text, client }) => {
     const { channel } = message;
     movieDB.searchMovie(
       {
@@ -37,7 +37,7 @@ module.exports = {
         }
 
         if (res.results.length > 1) {
-          showAllMovies(text, res.results, message);
+          showAllMovies(text, res.results, message, client);
         } else {
           channel.send(showMovieInfo(res.results[0]));
         }
@@ -46,7 +46,7 @@ module.exports = {
   },
 };
 
-const showAllMovies = (query, results, message) => {
+const showAllMovies = (query, results, message, client) => {
   let menuItems = "";
   for (let i = 0; i < results.length; i++) {
     let title = results[i].original_title;
@@ -93,7 +93,9 @@ const showAllMovies = (query, results, message) => {
           .send(
             `Invalid selection. Please select a number from 1 to ${results.length}.`
           )
-          .then((m) => m.delete({ timeout: 1000 * 2 }));
+          .then((m) => {
+            client.setTimeout(() => m.delete(), 1000 * 3);
+          });
       }
     });
 

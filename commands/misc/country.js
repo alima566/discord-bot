@@ -8,7 +8,7 @@ module.exports = {
   expectedArgs: "<Country Name>",
   cooldown: "15s",
   description: "Gives you information about a country.",
-  callback: async ({ message, text }) => {
+  callback: async ({ message, text, client }) => {
     const { channel } = message;
     fetch(`https://restcountries.eu/rest/v2/name/${text}`)
       .then((resp) => resp.json())
@@ -22,7 +22,7 @@ module.exports = {
         }
 
         if (data.length > 1) {
-          showAllResults(text, data, message);
+          showAllResults(text, data, message, client);
         } else {
           channel.send(showCountryInfo(data[0]));
         }
@@ -40,7 +40,7 @@ module.exports = {
   },
 };
 
-const showAllResults = (query, results, message) => {
+const showAllResults = (query, results, message, client) => {
   let menuItems = "";
   for (let i = 0; i < results.length; i++) {
     menuItems += `${i + 1}. ${results[i].name}\n`;
@@ -80,7 +80,9 @@ const showAllResults = (query, results, message) => {
           .send(
             `Invalid selection. Please select a number from 1 to ${results.length}.`
           )
-          .then((m) => m.delete({ timeout: 1000 * 2 }));
+          .then((m) => {
+            client.setTimeout(() => m.delete(), 1000 * 3);
+          });
       }
     });
 

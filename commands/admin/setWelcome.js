@@ -9,7 +9,7 @@ module.exports = {
   description: "Sets a welcome message for the server.",
   requiredPermissions: ["ADMINISTRATOR"],
   permissionError: "You must be an administrator to execute this command.",
-  callback: async ({ message, args }) => {
+  callback: async ({ message, args, client }) => {
     const { guild } = message;
     let welcomeMessage = ""; //args.join(" ");
 
@@ -45,7 +45,7 @@ module.exports = {
         `Welcome has been set to <#${channel.id}> and the welcome message is ${welcomeMessage}`
       )
       .then((m) => {
-        m.delete({ timeout: 3000 });
+        client.setTimeout(() => m.delete(), 1000 * 3);
       });
     message.delete();
   },
