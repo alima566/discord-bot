@@ -4,6 +4,7 @@ const gambling = require("@utils/gambling");
 const welcomeSchema = require("@schemas/welcome-schema");
 const gamblingSchema = require("@schemas/gambling-schema");
 const { sendMessageToBotLog } = require("@utils/functions");
+const { getGamblingChannel } = require("@utils/gambling");
 const { MessageAttachment, MessageEmbed } = require("discord.js");
 
 // Pass the entire Canvas object because you'll need to access its width, as well its context
@@ -116,9 +117,10 @@ module.exports = async (client) => {
       guildID: guild.id,
       userID: user.id,
     });
+    const gamblingChannel = await getGamblingChannel(guild.id);
 
-    // Check to see if user already exists in db and that they are not a bot, if not, give them 1000 points
-    if (!result && !user.bot) {
+    // Check to see if user already exists in db and that they are not a bot and a gambling channel has been set, if not, give them 1000 points
+    if (!result && !user.bot && !gamblingChannel) {
       await gambling.addPoints(guild.id, user.id, pointsToGive);
     }
 
