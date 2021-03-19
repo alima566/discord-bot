@@ -118,7 +118,7 @@ const unban = (bannedUser, guild, message, client, reason) => {
       };
 
       const unban = {
-        unbannedBy: message.author.id,
+        executor: message.author.id,
         timestamp: new Date().getTime(),
         reason,
         messageLink: message.url,

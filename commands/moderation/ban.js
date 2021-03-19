@@ -116,14 +116,14 @@ const ban = (member, message, client, reason) => {
       };
 
       const ban = {
-        bannedBy: message.author.id,
+        executor: message.author.id,
         timestamp: new Date().getTime(),
         reason,
         messageLink: message.url,
       };
 
       const kick = {
-        kickedBy: message.author.id,
+        executor: message.author.id,
         timestamp: new Date().getTime(),
         reason: "Kicked due to being banned from server.",
         messageLink: message.url,

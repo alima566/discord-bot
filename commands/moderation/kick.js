@@ -112,7 +112,7 @@ const kick = (member, message, client, reason) => {
       };
 
       const kick = {
-        kickedBy: message.author.id,
+        executor: message.author.id,
         timestamp: new Date().getTime(),
         reason,
         messageLink: message.url,

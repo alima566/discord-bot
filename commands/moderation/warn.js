@@ -39,7 +39,7 @@ module.exports = {
     }
 
     const warning = {
-      warnedBy: author.id,
+      executor: author.id,
       timestamp: new Date().getTime(),
       reason,
       messageLink: message.url,
