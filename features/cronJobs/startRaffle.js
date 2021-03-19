@@ -3,7 +3,7 @@ const cron = require("cron");
 const { rafflePoints, giveawayReactEmoji } = require("@root/config.json");
 
 module.exports = async (client) => {
-  const startRaffle = new cron.CronJob(
+  new cron.CronJob(
     "00 00 9-22/4 * * *",
     () => {
       execute(client);
@@ -21,7 +21,7 @@ const execute = async (client) => {
   if (!channel || !giveawayChannel) return;
 
   const giveawayDuration = "30m";
-  const giveawayNumberWinners = "1";
+  const giveawayNumberWinners = 1;
   const giveawayPrize = `${rafflePoints} Points`;
 
   client.giveawaysManager.start(giveawayChannel, {
@@ -32,7 +32,7 @@ const execute = async (client) => {
     // The giveaway winner count
     winnerCount: giveawayNumberWinners,
     // Who hosts this giveaway
-    hostedBy: `<@754033907267010560>`,
+    hostedBy: `<@${client.user.id}>`, //`<@754033907267010560>`,
     // Messages
     messages: {
       giveaway: `${giveawayReactEmoji}${giveawayReactEmoji} **RAFFLE** ${giveawayReactEmoji}${giveawayReactEmoji}`,
@@ -44,7 +44,7 @@ const execute = async (client) => {
       embedFooter: "Raffles",
       noWinner: "Raffle cancelled, no valid participants.",
       hostedBy: "Hosted by: {user}",
-      winners: "winner(s)",
+      winners: giveawayNumberWinners !== 1 ? "winners" : "winner",
       endedAt: "Ended at",
       units: {
         seconds: "seconds",
