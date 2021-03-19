@@ -30,7 +30,7 @@
     "fs": "0.0.2",
     "genshin-db": "^1.12.5",
     "geo-tz": "^6.0.1",
-    "make": "^0.8.1",
+    "make": "^0.0.0",
     "module-alias": "^2.2.2",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.33",
@@ -50,7 +50,7 @@
     "twit": "^2.2.11",
     "twitter-lite": "^0.14.0",
     "weather-js": "^2.0.0",
-    "wokcommands": "^1.2.1",
+    "wokcommands": "1.2.3",
     "youtube-sr": "^2.0.5",
     "ytdl-core": "^4.5.0"
   },
