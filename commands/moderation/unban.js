@@ -73,7 +73,7 @@ module.exports = {
                 break;
               case "N":
                 collector.stop();
-                channel.send(`**${member.user.tag}** was not unbanned.`);
+                channel.send(`**${bannedUser.user.tag}** was not unbanned.`);
                 break;
               default:
                 m.delete();
