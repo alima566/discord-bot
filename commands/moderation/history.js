@@ -60,9 +60,10 @@ module.exports = {
     }
 
     if (kicks.length) {
-      description += mutes.length
-        ? `\n**❯ Kicks [${kicks.length}]**`
-        : `**❯ Kicks [${kicks.length}]**`;
+      description +=
+        mutes.length || warnings.length
+          ? `\n**❯ Kicks [${kicks.length}]**`
+          : `**❯ Kicks [${kicks.length}]**`;
       description += loopThroughInfo({ kicks });
     }
 
