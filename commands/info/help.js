@@ -8,11 +8,23 @@ module.exports = {
   syntax: "[command_name]",
   callback: ({ message, instance, client, prefix, args }) => {
     const helpMenu = new MessageEmbed()
-      .setTitle(`KelleeBot - Help Menu`)
+      .setAuthor(
+        `KelleeBot - Help Menu`,
+        message.guild.iconURL({ dynamic: true })
+      )
       .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
       .setColor("#ecc5ff")
-      .setDescription(
-        `Use \`${prefix}help <command_name>\` to get more information on a specific command.`
+      .addField(
+        "**Info**",
+        `To see more information on a specific command, use \`${prefix}help [Command Name]\`.`,
+        false
+      )
+      .addField(
+        "**Prefix**",
+        `My default prefix for this server is \`${prefix}\`. Server admins can easily change this by executing the command \`${prefix}prefix <New Prefix>\`.
+        
+        **Note:** \`<>\` means required arguments. \`[]\` means optional arguments.`,
+        false
       );
 
     const categories = groupBy(
@@ -50,7 +62,10 @@ module.exports = {
         names.length > 1 ? `\n\n**Aliases:** ${names.join(", ")}` : "";
 
       const commandEmbed = new MessageEmbed()
-        .setTitle(`${prefix}${commandName}`)
+        .setAuthor(
+          `${prefix}${commandName}`,
+          message.guild.iconURL({ dynamic: true })
+        )
         .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
         .setColor("#ecc5ff")
         .setDescription(`${description}${aliases}${cmdSyntax}`)
