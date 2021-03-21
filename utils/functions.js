@@ -8,6 +8,8 @@ const consoleColors = {
   ERROR: "\u001b[31m",
 };
 
+const botChannelCache = {}; //{guildID: channelID}
+
 const getRandomNumber = (array) => {
   return Math.floor(Math.random() * array.length);
 };
@@ -28,12 +30,18 @@ const getTimesAvailable = (hemisphere) => {
 };
 
 const sendMessageToBotLog = async (client, guild, msg) => {
-  const result = await botChannelSchema.findOne({ _id: guild.id });
-  if (result) {
-    const channel = client.channels.cache.get(result.channelID);
-    if (channel) {
-      channel.send(msg);
-    }
+  let channelID = botChannelCache[guild.id];
+  if (!channelID) {
+    const result = await botChannelSchema.findById(guild.id);
+    if (!result) return;
+
+    channelID = result.channelID;
+    botChannelCache[guild.id] = channelID;
+  }
+
+  const channel = client.channels.cache.get(channelID);
+  if (channel) {
+    channel.send(msg);
   }
 };
 
