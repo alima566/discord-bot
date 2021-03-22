@@ -26,43 +26,56 @@ module.exports = {
   minArgs: 0,
   maxArgs: 1,
   expectedArgs: "[The member to see information for]",
-  callback: ({ message }) => {
-    const member = message.mentions.members.first() || message.member;
+  callback: ({ message, args }) => {
+    const member =
+      message.mentions.members.first() ||
+      message.guild.members.cache.get(args[0]) ||
+      message.member;
+
+    const { user, nickname } = member;
     const { channel, guild } = message;
 
     const timeFormat = "EEE, MMM d, yyyy h:mm a zzz";
     const joinedAtEasternDate = utcToZonedTime(member.joinedAt, timezone);
-    const createdAtEasternDate = utcToZonedTime(
-      member.user.createdAt,
-      timezone
-    );
+    const createdAtEasternDate = utcToZonedTime(user.createdAt, timezone);
 
     const msgEmbed = new MessageEmbed()
-      .setDescription(member)
       .setColor(member.displayHexColor)
-      .setAuthor(
-        member.user.tag,
-        member.user.displayAvatarURL({ dynamic: true })
-      )
-      .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
+      .setAuthor(user.tag, user.displayAvatarURL({ dynamic: true }))
+      .setThumbnail(user.displayAvatarURL({ dynamic: true }))
       .addFields(
         {
-          name: "**Joined**",
-          value: `${format(joinedAtEasternDate, timeFormat, {
+          name: "**Nickname**",
+          value: `\`${nickname || "None"}\``,
+          inline: true,
+        },
+        {
+          name: "**Discriminator**",
+          value: `\`${user.discriminator}\``,
+          inline: true,
+        },
+        {
+          name: "**Status**",
+          value: `\`${member.presence.status.toUpperCase()}\``,
+          inline: true,
+        },
+        {
+          name: "**Joined Discord**",
+          value: `${format(createdAtEasternDate, timeFormat, {
             timeZone: timezone,
-          })} (${formatDistance(member.joinedAt, new Date(), {
+          })} (${formatDistance(user.createdAt, new Date(), {
             addSuffix: true,
           })})`,
           inline: true,
         },
         {
-          name: "**Registered**",
-          value: `${format(createdAtEasternDate, timeFormat, {
+          name: "**Joined Server**",
+          value: `${format(joinedAtEasternDate, timeFormat, {
             timeZone: timezone,
-          })} (${formatDistance(member.user.createdAt, new Date(), {
+          })} (${formatDistance(member.joinedAt, new Date(), {
             addSuffix: true,
           })})`,
-          inline: true,
+          inline: false,
         },
         {
           name: `**Roles [${member.roles.cache.size - 1}]**`,
@@ -70,7 +83,7 @@ module.exports = {
           inline: false,
         }
       )
-      .setFooter(`ID: ${member.user.id}`)
+      .setFooter(`ID: ${user.id}`)
       .setTimestamp();
 
     const extraPerms = [];
