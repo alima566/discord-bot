@@ -25,73 +25,109 @@ module.exports = {
   description: "Gives information about the server.",
   callback: ({ message }) => {
     const { guild, channel } = message;
-    const { name, region, owner, memberCount, createdAt } = guild;
-    const categoryChannels = guild.channels.cache.filter(
+    const {
+      name,
+      region,
+      owner,
+      createdAt,
+      premiumSubscriptionCount,
+      premiumTier,
+    } = guild;
+
+    const members = guild.members.cache.filter((member) => !member.user.bot)
+      .size;
+    const onlineMembers = guild.members.cache
+      .filter((member) => !member.user.bot)
+      .filter((member) => member.presence.status !== "offline").size;
+    const bots = guild.members.cache.filter((member) => member.user.bot).size;
+    const onlineBots = guild.members.cache
+      .filter((member) => member.user.bot)
+      .filter((member) => member.presence.status !== "offline").size;
+    const categories = guild.channels.cache.filter(
       (channel) => channel.type === "category"
-    );
-    const totalTextChannels = guild.channels.cache.filter(
-      (c) => c.type === "text"
     ).size;
-    const totalVoiceChannels = guild.channels.cache.filter(
-      (c) => c.type === "voice"
-    ).size;
+    const textChannels = guild.channels.cache.filter((c) => c.type === "text")
+      .size;
+    const voiceChannels = guild.channels.cache.filter((c) => c.type === "voice")
+      .size;
+    const roleCount = guild.roles.cache.size - 1;
+
+    const icon = guild.iconURL()
+      ? guild.iconURL({ dynamic: true })
+      : "https://i.imgur.com/AWGDmiu.png";
 
     const timeFormat = "EEE, MMM d, yyyy h:mm a zzz";
     const createdAtEasternDate = utcToZonedTime(createdAt, timezone);
 
     const msgEmbed = new MessageEmbed()
       .setColor("#DFBCF5")
-      .setAuthor(name, guild.iconURL())
-      .setThumbnail(guild.iconURL())
+      .setAuthor(name, icon)
+      .setThumbnail(icon)
+      .setDescription(
+        `${guild.name} was created on ${format(
+          createdAtEasternDate,
+          timeFormat,
+          {
+            timeZone: timezone,
+          }
+        )} (${formatDistance(createdAt, new Date(), {
+          addSuffix: true,
+        })}).`
+      )
       .addFields(
-        {
-          name: "**Owner**",
-          value: owner.user.tag,
-          inline: true,
-        },
         {
           name: "**Region**",
           value: regionFlags[region],
           inline: true,
         },
         {
-          name: "**Server Created**",
-          value: `${format(createdAtEasternDate, timeFormat, {
-            timeZone: timezone,
-          })} (${formatDistance(createdAt, new Date(), {
-            addSuffix: true,
-          })})`,
-          inline: true,
-        },
-        {
-          name: "**Channel Categories**",
-          value: categoryChannels.size,
-          inline: true,
-        },
-        {
-          name: "**Text Channels**",
-          value: totalTextChannels,
-          inline: true,
-        },
-        {
-          name: "**Voice Channels**",
-          value: totalVoiceChannels,
+          name: "**Total Members + Bots**",
+          value: `${guild.members.cache.size} Members + Bots`,
           inline: true,
         },
         {
           name: "**Members**",
-          value: memberCount,
+          value: `${members} Member${
+            members !== 1 ? "s" : ""
+          } (${onlineMembers} Online)`,
+          inline: true,
+        },
+        {
+          name: "**Bots**",
+          value: `${bots} bot${bots !== 1 ? "s" : ""} (${onlineBots} Online)`,
+          inline: true,
+        },
+        {
+          name: "**Boosts**",
+          value: `${premiumSubscriptionCount} Boost${
+            premiumSubscriptionCount !== 1 ? "s" : ""
+          } (Tier ${premiumTier})`,
+          inline: true,
+        },
+        {
+          name: "**Categories**",
+          value: categories,
+          inline: true,
+        },
+        {
+          name: "**Text Channels**",
+          value: textChannels,
+          inline: true,
+        },
+        {
+          name: "**Voice Channels**",
+          value: voiceChannels,
           inline: true,
         },
         {
           name: "**Roles**",
-          value: guild.roles.cache.size,
+          value: roleCount,
           inline: true,
         },
         {
-          name: "**Role List**",
-          value: getRoleList(guild),
-          inline: false,
+          name: "**Server Owner**",
+          value: owner.user.tag,
+          inline: true,
         }
       )
       .setFooter(`ID: ${guild.id}`)
