@@ -50,8 +50,8 @@ module.exports = {
             .setThumbnail(album_art)
             .setDescription(lyrics.trim())
             .setFooter(`Lyrics provided by KSoft.Si`);
-          m.edit(`Here's what I found.`);
-          return message.channel.send(lyricsEmbed);
+
+          return m.edit(`Here's what I found.`, lyricsEmbed);
         }
 
         for (let i = 0; i < lyricsArray.length; i++) {
