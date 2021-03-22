@@ -14,6 +14,11 @@ module.exports = {
     if (text.includes(" ")) {
       text = text.replace(/ +/g, "_");
     }
+
+    if (text.toLowerCase() === "etoile") {
+      text = "Étoile";
+    }
+
     fetch(
       `https://api.nookipedia.com/villagers?name=${encodeURIComponent(
         text.toLowerCase()
@@ -28,7 +33,6 @@ module.exports = {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         const msgEmbed = new MessageEmbed()
           .setColor(data[0].title_color ? `#${data[0].title_color}` : "ORANGE")
           .setURL(`${data[0].url}`)
