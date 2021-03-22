@@ -120,15 +120,14 @@ module.exports = async (client) => {
     const gamblingChannel = await getGamblingChannel(guild.id);
 
     // Check to see if user already exists in db and that they are not a bot and a gambling channel has been set, if not, give them 1000 points
-    if (!result && !user.bot && !gamblingChannel) {
+    if (!result && !user.bot && gamblingChannel) {
       await gambling.addPoints(guild.id, user.id, pointsToGive);
     }
 
     const data = await welcomeMessage(member);
     if (!data) return;
 
-    const channelID = data[0];
-    const text = data[1];
+    const [channelID, text] = data;
 
     const channel = guild.channels.cache.get(channelID);
     if (!channel) return;
