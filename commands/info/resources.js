@@ -14,27 +14,32 @@ module.exports = {
       .addFields(
         {
           name: "**Riot Safety & Black History**",
-          value: "[Click Here](https://moreblminfo.carrd.co/)",
+          value:
+            "[Click Here](https://moreblminfo.carrd.co/ 'Riot Safety & Black History')",
           inline: true,
         },
         {
           name: "**Ways to Help**",
-          value: "[Click Here](https://blacklivesmatters.carrd.co/)",
+          value:
+            "[Click Here](https://blacklivesmatters.carrd.co/ 'Ways to Help')",
           inline: true,
         },
         {
           name: "**Anti-Asian Violence Resources**",
-          value: "[Click Here](https://anti-asianviolenceresources.carrd.co/)",
+          value:
+            "[Click Here](https://anti-asianviolenceresources.carrd.co/ 'Anti-Asian Violence Resources')",
           inline: true,
         },
         {
           name: "**Mental Health Resources for BIPOC**",
-          value: "[Click Here](https://axidbipocmentalhealth.carrd.co/)",
+          value:
+            "[Click Here](https://axidbipocmentalhealth.carrd.co/ 'Mental Health Resources for BIPOC')",
           inline: true,
         },
         {
           name: "**LGBTQ+ Carrd Master List**",
-          value: "[Click Here](https://lgbtqtopics.carrd.co/)",
+          value:
+            "[Click Here](https://lgbtqtopics.carrd.co/ 'LGBTQ+ Carrd Master List')",
           inline: true,
         }
       );
