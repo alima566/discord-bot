@@ -3,7 +3,6 @@ const { MessageEmbed } = require("discord.js");
 const { log } = require("@utils/functions");
 
 module.exports = {
-  commands: "panda",
   category: "🐱 Animals",
   cooldown: "15s",
   description:
@@ -29,14 +28,20 @@ module.exports = {
                 `${img.link}`
               )
               .setURL(img.link)
-              .setImage(img.link)
-              .addFields({
+              .setImage(img.link);
+
+            if (fact) {
+              msgEmbed.addFields({
                 name: `**Random Panda Fact**`,
-                value: `${fact ? fact : "-"}`,
+                value: fact,
                 inline: true,
               });
-            m.edit(instance.messageHandler.get(guild, "FOUND_ANIMAL"));
-            message.channel.send(msgEmbed);
+            }
+
+            return m.edit(
+              instance.messageHandler.get(guild, "FOUND_ANIMAL"),
+              msgEmbed
+            );
           })
           .catch((e) => {
             log(

@@ -23,8 +23,11 @@ module.exports = {
           )
           .setURL(data[0])
           .setImage(data[0]);
-        m.edit(instance.messageHandler.get(guild, "FOUND_ANIMAL"));
-        message.channel.send(msgEmbed);
+
+        return m.edit(
+          instance.messageHandler.get(guild, "FOUND_ANIMAL"),
+          msgEmbed
+        );
       })
       .catch((e) => {
         log(

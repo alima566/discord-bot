@@ -4,7 +4,7 @@ const { log } = require("@utils/functions");
 const fetch = require("node-fetch");
 
 module.exports = {
-  commands: ["bunny", "bunbun"],
+  commands: ["bunbun"],
   category: "🐱 Animals",
   cooldown: "15s",
   description: "KelleeBot shows you a random picture/gif of a bunny.",
@@ -25,8 +25,11 @@ module.exports = {
           )
           .setURL(`${data.media.gif}`)
           .setImage(`${data.media.gif}`);
-        m.edit(instance.messageHandler.get(guild, "FOUND_ANIMAL"));
-        message.channel.send(msgEmbed);
+
+        return m.edit(
+          instance.messageHandler.get(guild, "FOUND_ANIMAL"),
+          msgEmbed
+        );
       })
       .catch((e) => {
         log(

@@ -31,14 +31,20 @@ module.exports = {
                 `${img[0].url}`
               )
               .setURL(img[0].url)
-              .setImage(img[0].url)
-              .addFields({
+              .setImage(img[0].url);
+
+            if (fact) {
+              msgEmbed.addFields({
                 name: `**Random Dog Fact**`,
                 value: `${fact ? fact : "-"}`,
                 inline: true,
               });
-            m.edit(instance.messageHandler.get(guild, "FOUND_ANIMAL"));
-            message.channel.send(msgEmbed);
+            }
+
+            return m.edit(
+              instance.messageHandler.get(guild, "FOUND_ANIMAL"),
+              msgEmbed
+            );
           })
           .catch((e) => {
             log(
