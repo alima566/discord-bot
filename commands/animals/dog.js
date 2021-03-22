@@ -3,7 +3,7 @@ const { MessageEmbed } = require("discord.js");
 const { log } = require("@utils/functions");
 
 module.exports = {
-  commands: ["dog", "doggo"],
+  commands: ["doggy", "doggo"],
   category: "🐱 Animals",
   cooldown: "15s",
   description:
