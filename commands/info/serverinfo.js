@@ -94,7 +94,7 @@ module.exports = {
         },
         {
           name: "**Bots**",
-          value: `${bots} bot${bots !== 1 ? "s" : ""} (${onlineBots} Online)`,
+          value: `${bots} Bot${bots !== 1 ? "s" : ""} (${onlineBots} Online)`,
           inline: true,
         },
         {
@@ -122,6 +122,11 @@ module.exports = {
         {
           name: "**Roles**",
           value: roleCount,
+          inline: true,
+        },
+        {
+          name: "**Emotes**",
+          value: guild.emojis.cache.size,
           inline: true,
         },
         {
