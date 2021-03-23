@@ -4,7 +4,7 @@ const { sendMessageToBotLog } = require("@utils/functions");
 const muteSchema = require("@schemas/mute-schema");
 
 module.exports = {
-  category: "Moderation",
+  category: "🔨 Moderation",
   minArgs: 3,
   description: "Mutes a member in the server",
   expectedArgs: "<The target's @ OR ID number> <Duration> <Reason>",

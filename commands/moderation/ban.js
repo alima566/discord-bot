@@ -3,7 +3,7 @@ const { sendMessageToBotLog } = require("@utils/functions");
 const memberInfoSchema = require("@schemas/member-info-schema");
 
 module.exports = {
-  category: "Moderation",
+  category: "🔨 Moderation",
   minArgs: 1,
   description: "Bans a member from the server",
   expectedArgs: "<The target's @ OR ID number> [Reason]",

@@ -6,7 +6,7 @@ const { timezone } = require("@root/config.json");
 const ms = require("ms");
 
 module.exports = {
-  category: "Moderation",
+  category: "🔨 Moderation",
   minArgs: 1,
   maxArgs: 1,
   description: "Shows moderation history of a member.",
