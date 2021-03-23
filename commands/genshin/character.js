@@ -31,7 +31,7 @@ module.exports = {
 
     const {
       name,
-      titles,
+      title,
       rarity,
       element,
       weapontype,
@@ -40,6 +40,8 @@ module.exports = {
       birthday,
       images,
       description,
+      constellation,
+      substat,
       url,
     } = character;
 
@@ -52,9 +54,9 @@ module.exports = {
       )
       .addFields(
         {
-          name: "**Titles**",
-          value: titles.join(", "),
-          inline: false,
+          name: "**Title**",
+          value: title,
+          inline: true,
         },
         {
           name: "**Gender**",
@@ -84,6 +86,16 @@ module.exports = {
         {
           name: "**Region**",
           value: region,
+          inline: true,
+        },
+        {
+          name: "**Constellation**",
+          value: constellation,
+          inline: true,
+        },
+        {
+          name: "**Substat**",
+          value: substat,
           inline: true,
         }
       );
