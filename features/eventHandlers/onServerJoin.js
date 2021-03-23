@@ -5,6 +5,7 @@ const welcomeSchema = require("@schemas/welcome-schema");
 const gamblingSchema = require("@schemas/gambling-schema");
 const { sendMessageToBotLog } = require("@utils/functions");
 const { getGamblingChannel } = require("@utils/gambling");
+const muteSchema = require("@schemas/mute-schema");
 const { MessageAttachment, MessageEmbed } = require("discord.js");
 
 // Pass the entire Canvas object because you'll need to access its width, as well its context
@@ -112,6 +113,19 @@ const welcomeMessage = async (member) => {
 module.exports = async (client) => {
   client.on("guildMemberAdd", async (member) => {
     const { guild, user } = member;
+
+    const currentMute = await muteSchema.findOne({
+      guildID: guild.id,
+      userID: user.id,
+      current: true,
+    });
+
+    if (currentMute) {
+      const mutedRole = guild.roles.cache.find((r) => r.name === "Muted");
+      if (mutedRole) {
+        member.roles.add(mutedRole);
+      }
+    }
 
     const result = await gamblingSchema.findOne({
       guildID: guild.id,

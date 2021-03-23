@@ -1,7 +1,9 @@
 const { MessageEmbed } = require("discord.js");
 const memberInfoSchema = require("@schemas/member-info-schema");
+const muteSchema = require("@schemas/mute-schema");
 const { utcToZonedTime, format } = require("date-fns-tz");
 const { timezone } = require("@root/config.json");
+const ms = require("ms");
 
 module.exports = {
   category: "Moderation",
@@ -37,8 +39,12 @@ module.exports = {
       guildID: guild.id,
       userID: member.id,
     });
+    const mutes = await muteSchema.find({
+      guildID: guild.id,
+      userID: member.id,
+    });
 
-    if (!results) {
+    if (!results && !mutes && !mutes.length) {
       msgEmbed.setDescription(
         "This member does not have any moderation history."
       );
@@ -46,13 +52,13 @@ module.exports = {
     }
 
     let description = "";
-    const { warnings, mutes, kicks, bans, unbans } = results;
+    const { warnings, kicks, bans, unbans } = results;
     if (warnings.length) {
       description += `**❯ Warnings [${warnings.length}]**`;
       description += loopThroughInfo({ warnings });
     }
 
-    if (mutes.length) {
+    if (mutes && mutes.length) {
       description += warnings.length
         ? `\n**❯ Mutes [${mutes.length}]**`
         : `**❯ Mutes [${mutes.length}]**`;
@@ -117,9 +123,9 @@ const loopThroughInfo = (infoType) => {
       time,
       timeFormat,
       { timeZone: timezone }
-    )}\nReason: ${reason}\n${
-      infoType.mutes ? `Duration: ${info.duration}` : ""
-    }Context: [Beam Me Up](${messageLink})\n`;
+    )}\nReason: ${reason}${
+      infoType.mutes ? `\nDuration: ${ms(info.duration)}` : ""
+    }\nContext: [Beam Me Up](${messageLink})\n`;
   }
   return description;
 };
