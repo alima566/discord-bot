@@ -2,7 +2,8 @@ const { MessageEmbed, Permissions } = require("discord.js");
 const { utcToZonedTime, format } = require("date-fns-tz");
 const { formatDistance } = require("date-fns");
 const { timezone } = require("@root/config.json");
-const ms = require("ms");
+const moment = require("moment");
+const momentDurationFormatSetup = require("moment-duration-format");
 
 const keyPerms = {
   ADMINISTRATOR: "Administrator",
@@ -19,7 +20,7 @@ const keyPerms = {
 };
 
 module.exports = {
-  commands: ["whois"],
+  commands: ["profile", "whois"],
   category: "❗ Info",
   cooldown: "15s",
   description:
@@ -61,7 +62,9 @@ module.exports = {
           },
           {
             name: "**Uptime**",
-            value: ms(client.uptime),
+            value: moment
+              .duration(client.uptime, "milliseconds")
+              .format("d[d] h[h] m[m] s[s]"),
             inline: true,
           },
           {
