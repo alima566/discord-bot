@@ -63,18 +63,16 @@ module.exports = {
       .setColor("#DFBCF5")
       .setAuthor(name, icon)
       .setThumbnail(icon)
-      .setDescription(
-        `${guild.name} was created on ${format(
-          createdAtEasternDate,
-          timeFormat,
-          {
-            timeZone: timezone,
-          }
-        )} (${formatDistance(createdAt, new Date(), {
-          addSuffix: true,
-        })}).`
-      )
       .addFields(
+        {
+          name: "**Created**",
+          value: `${format(createdAtEasternDate, timeFormat, {
+            timeZone: timezone,
+          })} (${formatDistance(createdAt, new Date(), {
+            addSuffix: true,
+          })})`,
+          inline: false,
+        },
         {
           name: "**Region**",
           value: regionFlags[region],
