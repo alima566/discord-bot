@@ -50,9 +50,7 @@ module.exports = {
     );
 
     if (commands.has(commandName)) {
-      const { names, category, description, syntax } = commands.get(
-        commandName
-      )[0];
+      const { names, description, syntax } = commands.get(commandName)[0];
 
       const cmdSyntax =
         syntax !== ""
@@ -62,10 +60,7 @@ module.exports = {
         names.length > 1 ? `\n\n**Aliases:** ${names.join(", ")}` : "";
 
       const commandEmbed = new MessageEmbed()
-        .setAuthor(
-          `${prefix}${commandName}`,
-          message.guild.iconURL({ dynamic: true })
-        )
+        .setAuthor(commandName, message.guild.iconURL({ dynamic: true }))
         .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
         .setColor("#ecc5ff")
         .setDescription(`${description}${aliases}${cmdSyntax}`)
@@ -92,8 +87,7 @@ const groupBy = (list, keyGetter) => {
         key !== "Configuration" &&
         key !== "Giveaways" &&
         key !== "Testing" &&
-        key !== "Utils" &&
-        key !== "Moderation"
+        key !== "Utils"
       )
         map.set(key, [item]);
     } else {
