@@ -2,6 +2,7 @@ const { MessageEmbed, Permissions } = require("discord.js");
 const { utcToZonedTime, format } = require("date-fns-tz");
 const { formatDistance } = require("date-fns");
 const { timezone } = require("@root/config.json");
+const ms = require("ms");
 
 const keyPerms = {
   ADMINISTRATOR: "Administrator",
@@ -26,7 +27,7 @@ module.exports = {
   minArgs: 0,
   maxArgs: 1,
   expectedArgs: "[The member to see information for]",
-  callback: ({ message, args }) => {
+  callback: async ({ message, args, client }) => {
     const member =
       message.mentions.members.first() ||
       message.guild.members.cache.get(args[0]) ||
@@ -35,6 +36,8 @@ module.exports = {
     const { user, nickname } = member;
     const { channel, guild } = message;
 
+    const botCreator = await client.users.fetch("464635440801251328");
+
     const timeFormat = "EEE, MMM d, yyyy h:mm a zzz";
     const joinedAtEasternDate = utcToZonedTime(member.joinedAt, timezone);
     const createdAtEasternDate = utcToZonedTime(user.createdAt, timezone);
@@ -42,7 +45,55 @@ module.exports = {
     const msgEmbed = new MessageEmbed()
       .setColor(member.displayHexColor)
       .setAuthor(user.tag, user.displayAvatarURL({ dynamic: true }))
-      .setThumbnail(user.displayAvatarURL({ dynamic: true }))
+      .setThumbnail(user.displayAvatarURL({ dynamic: true }));
+
+    if (user.id === client.user.id) {
+      const botFooter = `© ${client.user.createdAt.getFullYear()}-${new Date().getFullYear()} ${
+        botCreator.tag
+      }`;
+
+      msgEmbed
+        .addFields(
+          {
+            name: "**Creator**",
+            value: botCreator.tag,
+            inline: true,
+          },
+          {
+            name: "**Uptime**",
+            value: ms(client.uptime),
+            inline: true,
+          },
+          {
+            name: "**Servers**",
+            value: client.guilds.cache.size,
+            inline: true,
+          },
+          {
+            name: "**Created On**",
+            value: `${format(createdAtEasternDate, timeFormat, {
+              timeZone: timezone,
+            })} (${formatDistance(client.user.createdAt, new Date(), {
+              addSuffix: true,
+            })})`,
+            inline: false,
+          },
+          {
+            name: "**Joined Server**",
+            value: `${format(joinedAtEasternDate, timeFormat, {
+              timeZone: timezone,
+            })} (${formatDistance(member.joinedAt, new Date(), {
+              addSuffix: true,
+            })})`,
+            inline: false,
+          }
+        )
+        .setFooter(botFooter);
+
+      return channel.send(msgEmbed);
+    }
+
+    msgEmbed
       .addFields(
         {
           name: "**Nickname**",
