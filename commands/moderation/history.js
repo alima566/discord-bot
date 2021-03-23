@@ -44,7 +44,7 @@ module.exports = {
       userID: member.id,
     });
 
-    if (!results && !mutes && !mutes.length) {
+    if (!results && !mutes.length) {
       msgEmbed.setDescription(
         "This member does not have any moderation history."
       );
@@ -52,39 +52,39 @@ module.exports = {
     }
 
     let description = "";
-    const { warnings, kicks, bans, unbans } = results;
-    if (warnings.length) {
-      description += `**❯ Warnings [${warnings.length}]**`;
-      description += loopThroughInfo({ warnings });
+    if (results) {
+      const { warnings, kicks, bans, unbans } = results;
+      if (warnings.length) {
+        description += `**❯ Warnings [${warnings.length}]**`;
+        description += loopThroughInfo({ warnings });
+      }
+
+      if (kicks.length) {
+        description +=
+          mutes.length || warnings.length
+            ? `\n**❯ Kicks [${kicks.length}]**`
+            : `**❯ Kicks [${kicks.length}]**`;
+        description += loopThroughInfo({ kicks });
+      }
+
+      if (bans.length) {
+        description += kicks.length
+          ? `\n**❯ Bans [${bans.length}]**`
+          : `**❯ Bans [${bans.length}]**`;
+        description += loopThroughInfo({ bans });
+      }
+
+      if (unbans.length) {
+        description += bans.length
+          ? `\n**❯ Unbans [${unbans.length}]**`
+          : `**❯ Unans [${unbans.length}]**`;
+        description += loopThroughInfo({ unbans });
+      }
     }
 
-    if (mutes && mutes.length) {
-      description += warnings.length
-        ? `\n**❯ Mutes [${mutes.length}]**`
-        : `**❯ Mutes [${mutes.length}]**`;
+    if (mutes.length) {
+      description += `\n**❯ Mutes [${mutes.length}]**`;
       description += loopThroughInfo({ mutes });
-    }
-
-    if (kicks.length) {
-      description +=
-        mutes.length || warnings.length
-          ? `\n**❯ Kicks [${kicks.length}]**`
-          : `**❯ Kicks [${kicks.length}]**`;
-      description += loopThroughInfo({ kicks });
-    }
-
-    if (bans.length) {
-      description += kicks.length
-        ? `\n**❯ Bans [${bans.length}]**`
-        : `**❯ Bans [${bans.length}]**`;
-      description += loopThroughInfo({ bans });
-    }
-
-    if (unbans.length) {
-      description += bans.length
-        ? `\n**❯ Unbans [${unbans.length}]**`
-        : `**❯ Unans [${unbans.length}]**`;
-      description += loopThroughInfo({ unbans });
     }
 
     msgEmbed.setDescription(description);
