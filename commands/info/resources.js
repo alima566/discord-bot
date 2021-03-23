@@ -41,6 +41,12 @@ module.exports = {
           value:
             "[Click Here](https://lgbtqtopics.carrd.co/ 'LGBTQ+ Carrd Master List')",
           inline: true,
+        },
+        {
+          name: "**Be An Activist**",
+          value:
+            "[Click Here](https://changeforthebetter.carrd.co/ 'Be An Activist')",
+          inline: true,
         }
       );
     return message.channel.send(msgEmbed);
