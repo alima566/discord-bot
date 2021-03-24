@@ -1,4 +1,8 @@
-const { sendMessageToBotLog, fetchAuditLog } = require("@utils/functions");
+const {
+  sendMessageToBotLog,
+  fetchAuditLog,
+  guildIcon,
+} = require("@utils/functions");
 const { MessageEmbed } = require("discord.js");
 
 module.exports = (client) => {
@@ -118,7 +122,7 @@ const createEmbed = (color, guild, msg, description, user) => {
     .setColor(color)
     .setAuthor(
       user ? user.tag : guild.name,
-      user ? user.displayAvatarURL() : guild.iconURL()
+      user ? user.displayAvatarURL() : guildIcon(guild)
     )
     .setDescription(description)
     .setTimestamp()

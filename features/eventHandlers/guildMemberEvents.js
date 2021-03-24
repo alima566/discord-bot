@@ -1,5 +1,9 @@
 const { MessageEmbed } = require("discord.js");
-const { sendMessageToBotLog, fetchAuditLog } = require("@utils/functions");
+const {
+  sendMessageToBotLog,
+  fetchAuditLog,
+  guildIcon,
+} = require("@utils/functions");
 const gamblingSchema = require("@schemas/gambling-schema");
 
 const twitchSubRoles = [
@@ -20,7 +24,7 @@ module.exports = (client) => {
 
       const msgEmbed = new MessageEmbed()
         .setColor("PURPLE")
-        .setAuthor(`${newMem.guild.name}`, newMem.guild.iconURL())
+        .setAuthor(`${newMem.guild.name}`, guildIcon(newMem.guild))
         .setDescription(`**${newMem.user} nickname changed**`)
         .addFields(
           { name: `**Before**`, value: `${oldNick}`, inline: true },

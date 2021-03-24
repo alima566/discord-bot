@@ -1,12 +1,12 @@
 const { MessageEmbed, Util } = require("discord.js");
-const { paginateEmbed, chunkArray } = require("@utils/functions");
+const { paginateEmbed, chunkArray, guildIcon } = require("@utils/functions");
 
 module.exports = (client) => {
   client.player
     .on("trackStart", (msg, track) => {
       const msgEmbed = new MessageEmbed()
         .setColor("#1ED761")
-        .setAuthor("Now Playing", `${msg.guild.iconURL()}`)
+        .setAuthor("Now Playing", `${guildIcon(msg.guild)}`)
         .setDescription(
           `[${Util.escapeMarkdown(track.title)}](${track.url}) (${
             track.duration
@@ -20,13 +20,16 @@ module.exports = (client) => {
       msg.channel.send(msgEmbed);
     })
     .on("trackAdd", (msg, queue, track) => {
+      const tracks = queue.tracks;
       const msgEmbed = new MessageEmbed()
         .setColor("#1ED761")
-        .setAuthor("Track Added", `${msg.guild.iconURL()}`)
+        .setAuthor("Track Added", `${guildIcon(msg.guild)}`)
         .setDescription(
           `[${Util.escapeMarkdown(track.title)}](${track.url}) (${
             track.duration
-          }) has been added to the queue!`
+          }) has been added to the queue!\n\nThere's now \`${
+            tracks.length
+          }\` song${tracks.length !== 1 ? "s" : ""} in the queue.`
         )
         .setFooter(
           `Added by ${track.requestedBy.tag}`,
@@ -51,7 +54,7 @@ module.exports = (client) => {
           .setColor("#1ED761")
           .setAuthor(
             `Here are your search results for ${query}:`,
-            `${msg.guild.iconURL()}`
+            `${guildIcon(msg.guild)}`
           )
           .setFooter(
             `Type the number of the song you want to play! Type "cancel" to cancel.`
@@ -73,13 +76,13 @@ module.exports = (client) => {
         collector.stop();
         const msgEmbed = new MessageEmbed()
           .setColor("#1ED761")
-          .setAuthor("Search Canceled", `${msg.guild.iconURL()}`)
+          .setAuthor("Search Canceled", `${guildIcon(msg.guild)}`)
           .setDescription(`❌ | You have canceled the search for "${query}".`);
         return msg.channel.send(msgEmbed);
       }
       const msgEmbed = new MessageEmbed()
         .setColor("#1ED761")
-        .setAuthor("Invalid Response", `${msg.guild.iconURL()}`)
+        .setAuthor("Invalid Response", `${guildIcon(msg.guild)}`)
         .setDescription(
           `❌ | You must type a valid number between 1 and ${tracks.length}!`
         )
@@ -91,7 +94,7 @@ module.exports = (client) => {
     .on("searchCancel", (msg, query, tracks) => {
       const msgEmbed = new MessageEmbed()
         .setColor("#1ED761")
-        .setAuthor("Search Canceled", `${msg.guild.iconURL()}`)
+        .setAuthor("Search Canceled", `${guildIcon(msg.guild)}`)
         .setDescription(
           `❌ | You did not provide a valid response! Please send the command again.`
         );
@@ -100,14 +103,14 @@ module.exports = (client) => {
     .on("noResults", (msg, query) => {
       const msgEmbed = new MessageEmbed()
         .setColor("#1ED761")
-        .setAuthor("No Results", `${msg.guild.iconURL()}`)
+        .setAuthor("No Results", `${guildIcon(msg.guild)}`)
         .setDescription(`❌ | No results were found for "${query}".`);
       msg.channel.send(msgEmbed);
     })
     .on("queueEnd", (msg, queue) => {
       const msgEmbed = new MessageEmbed()
         .setColor("#1ED761")
-        .setAuthor(`No More Music`, `${msg.guild.iconURL()}`)
+        .setAuthor(`No More Music`, `${guildIcon(msg.guild)}`)
         .setDescription(
           `⏹️ | Music stopped as there is no more music in the queue.`
         );
@@ -116,7 +119,7 @@ module.exports = (client) => {
     .on("channelEmpty", (msg, queue) => {
       const msgEmbed = new MessageEmbed()
         .setColor("#1ED761")
-        .setAuthor(`Voice Channel Empty`, `${msg.guild.iconURL()}`)
+        .setAuthor(`Voice Channel Empty`, `${guildIcon(msg.guild)}`)
         .setDescription(
           `⏹️ | Music stopped as there are no more members in the voice channel.`
         );
@@ -125,7 +128,7 @@ module.exports = (client) => {
     .on("botDisconnect", (msg) => {
       const msgEmbed = new MessageEmbed()
         .setColor("#1ED761")
-        .setAuthor("Bot Disconnected", `${msg.guild.iconURL()}`)
+        .setAuthor("Bot Disconnected", `${guildIcon(msg.guild)}`)
         .setDescription(
           `⏹️ | Music stopped as I have been disconnected from the voice channel.`
         );
@@ -136,7 +139,7 @@ module.exports = (client) => {
       switch (err) {
         case "NotPlaying":
           msgEmbed
-            .setAuthor("No Music", `${msg.guild.iconURL()}`)
+            .setAuthor("No Music", `${guildIcon(msg.guild)}`)
             .setDescription(
               `❌ | No music is currently playing on the server!`
             );
@@ -144,7 +147,7 @@ module.exports = (client) => {
           break;
         case "NotConnected":
           msgEmbed
-            .setAuthor("Not Connected", `${msg.guild.iconURL()}`)
+            .setAuthor("Not Connected", `${guildIcon(msg.guild)}`)
             .setDescription(
               `❌ | You need to be in a voice channel in order to play music!`
             );
@@ -152,7 +155,7 @@ module.exports = (client) => {
           break;
         case "UnableToJoin":
           msgEmbed
-            .setAuthor("No Permissions", `${msg.guild.iconURL()}`)
+            .setAuthor("No Permissions", `${guildIcon(msg.guild)}`)
             .setDescription(
               `❌ | I don't have permissions to join and speak in your voice channel!`
             );

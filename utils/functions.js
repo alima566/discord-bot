@@ -120,6 +120,12 @@ const fetchAuditLog = async (guild, auditLogAction) => {
   }
 };
 
+const guildIcon = (guild) => {
+  return guild.iconURL()
+    ? guild.iconURL({ dynamic: true })
+    : "https://i.imgur.com/2rWkqIA.png";
+};
+
 module.exports = {
   getRandomNumber,
   getMonthsAvailable,
@@ -129,4 +135,5 @@ module.exports = {
   log,
   paginateEmbed,
   fetchAuditLog,
+  guildIcon,
 };

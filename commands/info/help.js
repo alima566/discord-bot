@@ -1,4 +1,5 @@
 const { MessageEmbed } = require("discord.js");
+const { guildIcon } = require("@utils/functions");
 
 module.exports = {
   description: "Lists out all the commands that KelleeBot has.",
@@ -8,10 +9,7 @@ module.exports = {
   syntax: "[command_name]",
   callback: ({ message, instance, client, prefix, args }) => {
     const helpMenu = new MessageEmbed()
-      .setAuthor(
-        `KelleeBot - Help Menu`,
-        message.guild.iconURL({ dynamic: true })
-      )
+      .setAuthor(`KelleeBot - Help Menu`, guildIcon(message.guild))
       .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
       .setColor("#ecc5ff")
       .addField(
@@ -60,7 +58,7 @@ module.exports = {
         names.length > 1 ? `\n\n**Aliases:** ${names.join(", ")}` : "";
 
       const commandEmbed = new MessageEmbed()
-        .setAuthor(commandName, message.guild.iconURL({ dynamic: true }))
+        .setAuthor(commandName, guildIcon(message.guild))
         .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
         .setColor("#ecc5ff")
         .setDescription(`${description}${aliases}${cmdSyntax}`)

@@ -1,5 +1,9 @@
 const { MessageEmbed } = require("discord.js");
-const { sendMessageToBotLog, fetchAuditLog } = require("@utils/functions");
+const {
+  sendMessageToBotLog,
+  fetchAuditLog,
+  guildIcon,
+} = require("@utils/functions");
 
 module.exports = (client) => {
   client.on("channelCreate", async (channel) => {
@@ -136,7 +140,9 @@ const createChannelEmbed = async (oldChan, newChan, description) => {
     .setDescription(description)
     .setAuthor(
       `${newChan === null ? oldChan.guild.name : newChan.guild.name}`,
-      `${newChan === null ? oldChan.guild.iconURL() : newChan.guild.iconURL()}`
+      `${
+        newChan === null ? guildIcon(oldChan.guild) : guildIcon(newChan.guild)
+      }`
     )
     .setTimestamp()
     .setFooter(`ID: ${oldChan.id}`);

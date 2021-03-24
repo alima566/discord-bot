@@ -1,4 +1,8 @@
-const { sendMessageToBotLog, fetchAuditLog } = require("@utils/functions");
+const {
+  sendMessageToBotLog,
+  fetchAuditLog,
+  guildIcon,
+} = require("@utils/functions");
 const { MessageEmbed } = require("discord.js");
 
 module.exports = (client) => {
@@ -18,7 +22,7 @@ module.exports = (client) => {
     const banLog = fetchedLogs.entries.first();
     if (!banLog) {
       msgEmbed
-        .setAuthor(guild.name, guild.iconURL())
+        .setAuthor(guild.name, guildIcon(guild))
         .setDescription(`**${user.tag} has been banned from the server**`)
         .setTimestamp()
         .setFooter(`ID: ${user.id}`);
@@ -80,7 +84,7 @@ module.exports = (client) => {
 const createEmbed = (color, guild, user, description) => {
   return new MessageEmbed()
     .setColor(color)
-    .setAuthor(guild.name, guild.iconURL())
+    .setAuthor(guild.name, guildIcon(guild))
     .setDescription(description)
     .setTimestamp()
     .setFooter(`ID: ${user.id}`);

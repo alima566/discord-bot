@@ -2,6 +2,7 @@ const { MessageEmbed } = require("discord.js");
 const { utcToZonedTime, format } = require("date-fns-tz");
 const { formatDistance } = require("date-fns");
 const { timezone } = require("@root/config.json");
+const { guildIcon } = require("@utils/functions");
 
 const regionFlags = {
   brazil: "🇧🇷 Brazil",
@@ -52,17 +53,13 @@ module.exports = {
       .size;
     const roleCount = guild.roles.cache.size - 1;
 
-    const icon = guild.iconURL()
-      ? guild.iconURL({ dynamic: true })
-      : "https://i.imgur.com/AWGDmiu.png";
-
     const timeFormat = "EEE, MMM d, yyyy h:mm a zzz";
     const createdAtEasternDate = utcToZonedTime(createdAt, timezone);
 
     const msgEmbed = new MessageEmbed()
       .setColor("#DFBCF5")
-      .setAuthor(name, icon)
-      .setThumbnail(icon)
+      .setAuthor(name, guildIcon(guild))
+      .setThumbnail(guildIcon(guild))
       .addFields(
         {
           name: "**Created**",

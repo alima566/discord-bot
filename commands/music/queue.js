@@ -1,5 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-const { chunkArray, paginateEmbed } = require("@utils/functions");
+const { chunkArray, paginateEmbed, guildIcon } = require("@utils/functions");
 
 module.exports = {
   commands: ["songs"],
@@ -10,7 +10,7 @@ module.exports = {
     if (!queue) {
       const msgEmbed = new MessageEmbed()
         .setColor("#1ED761")
-        .setAuthor("No Music", `${message.guild.iconURL()}`)
+        .setAuthor("No Music", guildIcon(message.guild))
         .setDescription(`❌ | There are currently no songs in the queue!`);
 
       return message.channel.send(msgEmbed);
@@ -24,7 +24,7 @@ module.exports = {
 
     if (tracksArray.length == 1) {
       const embed = new MessageEmbed()
-        .setAuthor("Music Queue", message.guild.iconURL())
+        .setAuthor("Music Queue", guildIcon(message.guild))
         .setColor("#1ED761");
 
       let text = "";
@@ -54,7 +54,7 @@ module.exports = {
       let text = "";
       let duration = 0;
       const embed = new MessageEmbed()
-        .setAuthor("Music Queue", message.guild.iconURL())
+        .setAuthor("Music Queue", guildIcon(message.guild))
         .setColor("#1ED761");
 
       let counter = i == 1 ? 10 : 0;

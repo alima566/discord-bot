@@ -1,4 +1,5 @@
 const { MessageEmbed } = require("discord.js");
+const { guildIcon } = require("@utils/functions");
 
 module.exports = {
   category: "🎵 Music",
@@ -7,7 +8,7 @@ module.exports = {
     const voiceChannel = message.member.voice.channel;
     if (!voiceChannel) {
       const msgEmbed = new MessageEmbed()
-        .setAuthor("Not Connected", `${message.guild.iconURL()}`)
+        .setAuthor("Not Connected", guildIcon(message.guild))
         .setColor("#1ED761")
         .setDescription(
           `❌ | You need to be in a voice channel in order to resume the music!`
@@ -17,7 +18,7 @@ module.exports = {
 
     const msgEmbed = new MessageEmbed()
       .setColor("#1ED761")
-      .setAuthor("Track Resumed", `${message.guild.iconURL()}`)
+      .setAuthor("Track Resumed", guildIcon(message.guild))
       .setDescription("▶️ | Music has resumed playing.");
 
     message.channel.send(msgEmbed);

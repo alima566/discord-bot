@@ -1,5 +1,9 @@
 const { MessageEmbed } = require("discord.js");
-const { sendMessageToBotLog, fetchAuditLog } = require("@utils/functions");
+const {
+  sendMessageToBotLog,
+  fetchAuditLog,
+  guildIcon,
+} = require("@utils/functions");
 
 module.exports = (client) => {
   client.on("roleCreate", async (role) => {
@@ -98,7 +102,7 @@ module.exports = (client) => {
 const createEmbed = (color, guild, role, description) => {
   return new MessageEmbed()
     .setColor(color)
-    .setAuthor(guild.name, guild.iconURL())
+    .setAuthor(guild.name, guildIcon(guild))
     .setDescription(description)
     .setTimestamp()
     .setFooter(`ID: ${role.id}`);

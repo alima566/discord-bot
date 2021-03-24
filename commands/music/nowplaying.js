@@ -1,4 +1,5 @@
 const { MessageEmbed } = require("discord.js");
+const { guildIcon } = require("@utils/functions");
 
 module.exports = {
   commands: ["np", "song"],
@@ -13,7 +14,7 @@ module.exports = {
     });
     const msgEmbed = new MessageEmbed()
       .setColor("#1ED761")
-      .setAuthor(`Currently Playing`, `${message.guild.iconURL()}`)
+      .setAuthor(`Currently Playing`, guildIcon(message.guild))
       .setDescription(
         `[${nowPlaying.title}](${nowPlaying.url}) (${nowPlaying.duration})\n${progressBar}`
       )
