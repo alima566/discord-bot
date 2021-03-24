@@ -2,6 +2,16 @@ const { MessageEmbed } = require("discord.js");
 const { sendMessageToBotLog, fetchAuditLog } = require("@utils/functions");
 const gamblingSchema = require("@schemas/gambling-schema");
 
+const twitchSubRoles = [
+  "769262291274170379", //Special Babies
+  "769262291274170380", //Sub 1
+  "769262291274170381", //Sub 2
+  "769262291274170382", //Sub 3
+  //"612693794131017759", //Banana (Subs)
+  "689250842649428047", //Twitch Subscriber: Tier 1
+  "689250842649428063", //Twitch Subscriber: Tier 3
+];
+
 module.exports = (client) => {
   client.on("guildMemberUpdate", async (oldMem, newMem) => {
     if (oldMem.nickname !== newMem.nickname) {
@@ -136,7 +146,8 @@ const roleUpdatedLog = async (client, role, user, type) => {
 
   if (
     roleUpdateLog &&
-    (!role.name.startsWith("Sub ") || role.name !== "Special Babies")
+    !twitchSubRoles.includes(role.id)
+    //(!role.name.startsWith("Sub ") || role.name !== "Special Babies")
   ) {
     const { executor } = roleUpdateLog;
     description += ` by ${executor}**`;
