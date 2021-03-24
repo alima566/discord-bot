@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, Util } = require("discord.js");
 const { paginateEmbed, chunkArray } = require("@utils/functions");
 
 module.exports = (client) => {
@@ -7,7 +7,11 @@ module.exports = (client) => {
       const msgEmbed = new MessageEmbed()
         .setColor("#1ED761")
         .setAuthor("Now Playing", `${msg.guild.iconURL()}`)
-        .setDescription(`[${track.title}](${track.url}) (${track.duration})`)
+        .setDescription(
+          `[${Util.escapeMarkdown(track.title)}](${track.url}) (${
+            track.duration
+          })`
+        )
         .setFooter(
           `Requested by ${track.requestedBy.tag}`,
           `${track.requestedBy.displayAvatarURL({ dynamic: true })}`
@@ -20,7 +24,9 @@ module.exports = (client) => {
         .setColor("#1ED761")
         .setAuthor("Track Added", `${msg.guild.iconURL()}`)
         .setDescription(
-          `[${track.title}](${track.url}) (${track.duration}) has been added to the queue!`
+          `[${Util.escapeMarkdown(track.title)}](${track.url}) (${
+            track.duration
+          }) has been added to the queue!`
         )
         .setFooter(
           `Added by ${track.requestedBy.tag}`,
@@ -52,9 +58,9 @@ module.exports = (client) => {
           );
         let counter = i == 1 ? 10 : 0;
         for (let j = 0; j < tracksArray[i].length; j++) {
-          text += `${counter + 1}. [${tracksArray[i][j].title}](${
-            tracksArray[i][j].url
-          }) (${tracksArray[i][j].duration})\n`;
+          text += `${counter + 1}. [${Util.escapeMarkdown(
+            tracksArray[i][j].title
+          )}](${tracksArray[i][j].url}) (${tracksArray[i][j].duration})\n`;
           counter++;
         }
         embed.setDescription(text);
