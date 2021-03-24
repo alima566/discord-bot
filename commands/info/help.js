@@ -82,6 +82,7 @@ const groupBy = (list, keyGetter) => {
       if (
         key !== "" &&
         key !== "Admin" &&
+        key !== "Bot Owner" &&
         key !== "Configuration" &&
         key !== "Giveaways" &&
         key !== "Testing" &&
