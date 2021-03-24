@@ -2,9 +2,9 @@ const raffleWinsSchema = require("@schemas/raffle-wins-schema");
 const { MessageEmbed } = require("discord.js");
 
 module.exports = {
-  commands: ["rafflewins", "raffles"],
-  category: "Utils",
-  description: "Restarts the bot.",
+  commands: ["raffles"],
+  category: "Bot Owner",
+  description: "Shows how many raffles a member has won.",
   ownerOnly: true,
   callback: async ({ message }) => {
     const guildID = message.guild.id;

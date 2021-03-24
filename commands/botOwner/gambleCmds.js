@@ -1,6 +1,7 @@
 const { MessageEmbed } = require("discord.js");
 
 module.exports = {
+  category: "Bot Owner",
   description: "List out all the gambling commands",
   ownerOnly: true,
   permissionError: "You must be the bot owner to execute this command.",

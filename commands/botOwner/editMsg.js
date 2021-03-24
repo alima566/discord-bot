@@ -1,6 +1,5 @@
 module.exports = {
-  commands: ["edit"],
-  category: "Admin",
+  category: "Bot Owner",
   expectedArgs: "<Tagged channel> <Message ID> <Message>",
   minArgs: 3,
   maxArgs: -1,
