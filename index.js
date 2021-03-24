@@ -25,7 +25,8 @@ client.on("ready", async () => {
     commandsDir: "commands",
     featureDir: "features",
     messagesPath,
-    showWarns: true,
+    showWarns: false,
+    del: 3,
     testServers: ["785593545187917824"],
   })
     .setMongoPath(process.env.MONGO_PATH)
@@ -76,8 +77,8 @@ client.on("ready", async () => {
       },
       {
         name: "Genshin",
-        emoji: "⚔️"
-      }
+        emoji: "⚔️",
+      },
     ]);
 
   wok.on("databaseConnected", (connection, state) => {
