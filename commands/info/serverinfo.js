@@ -74,6 +74,11 @@ module.exports = {
           inline: false,
         },
         {
+          name: "**Server Owner**",
+          value: owner.user.tag,
+          inline: true,
+        },
+        {
           name: "**Region**",
           value: regionFlags[region],
           inline: true,
@@ -128,12 +133,11 @@ module.exports = {
           inline: true,
         },
         {
-          name: "**Server Owner**",
-          value: owner.user.tag,
+          name: "**Server ID**",
+          value: guild.id,
           inline: true,
         }
       )
-      .setFooter(`ID: ${guild.id}`)
       .setTimestamp();
     channel.send(msgEmbed);
   },
