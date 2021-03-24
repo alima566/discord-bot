@@ -1,12 +1,11 @@
 module.exports = {
-  commands: ["say"],
-  category: "Admin",
+  category: "Bot Owner",
   expectedArgs: "<OPTIONAL: The tagged channel> <The message you want to say>",
   minArgs: 1,
   maxArgs: -1,
   description: "Makes the bot say whatever you type.",
-  requiredPermissions: ["ADMINISTRATOR"],
-  permissionError: "You must be an administrator to execute this command.",
+  ownerOnly: true,
+  permissionError: "You must be the bot owner to execute this command.",
   callback: async ({ message, args }) => {
     let msg = "";
     const channel = message.mentions.channels.first();
