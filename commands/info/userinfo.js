@@ -19,6 +19,13 @@ const keyPerms = {
   MENTION_EVERYONE: "Mention Everyone",
 };
 
+const status = {
+  offline: "<:offline:824287505137532949>",
+  online: "<:online:824287390779834368>",
+  dnd: "<:dnd:824287478432923668>",
+  idle: "<:idle:824287438746288150>",
+};
+
 module.exports = {
   commands: ["profile", "whois"],
   category: "❗ Info",
@@ -110,7 +117,9 @@ module.exports = {
         },
         {
           name: "**Status**",
-          value: `\`${member.presence.status.toUpperCase()}\``,
+          value: `${
+            status[member.presence.status]
+          } \`${member.presence.status.toUpperCase()}\``,
           inline: true,
         },
         {
