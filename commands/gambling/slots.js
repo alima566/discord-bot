@@ -2,11 +2,12 @@ const { getGamblingChannel, getPoints, addPoints } = require("@utils/gambling");
 const { getRandomNumber } = require("@utils/functions");
 
 const slotsEmoji = [
-  "750956567666491393", // kellee1Star
-  "750956642459189289", // kellee2Star
-  "750956774810583103", // kellee3Star
-  "750956822755541012", // kellee4Star
+  "<:kellee1Star:750956567666491393>", // kellee1Star
+  "<:kellee2Star:750956642459189289>", // kellee2Star
+  "<:kellee3Star:750956774810583103>", // kellee3Star
+  "<:kellee4Star:750956822755541012>", // kellee4Star
 ]; //["💰", "✨", "💩", "🔥"];
+
 const multiplier = slotsEmoji.length;
 
 module.exports = {
@@ -46,9 +47,9 @@ module.exports = {
     const slot2 = getRandomNumber(slotsEmoji);
     const slot3 = getRandomNumber(slotsEmoji);
 
-    const emote1 = client.emojis.cache.get(slotsEmoji[slot1]);
-    const emote2 = client.emojis.cache.get(slotsEmoji[slot2]);
-    const emote3 = client.emojis.cache.get(slotsEmoji[slot3]);
+    const emote1 = slotsEmoji[slot1];
+    const emote2 = slotsEmoji[slot2];
+    const emote3 = slotsEmoji[slot3];
 
     const slotsText = `<@${userID}> spun ${emote1} | ${emote2} | ${emote3}`;
 
