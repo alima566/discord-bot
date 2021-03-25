@@ -1,6 +1,7 @@
 const { MessageEmbed, Permissions } = require("discord.js");
 const { sendMessageToBotLog } = require("@utils/functions");
 const memberInfoSchema = require("@schemas/member-info-schema");
+const muteSchema = require("@schemas/mute-schema");
 
 module.exports = {
   category: "🔨 Moderation",
@@ -37,16 +38,22 @@ module.exports = {
       }
 
       const memberInfo = await fetchMemberInfo(guild, bannedUser.user);
+      const mutes = await muteSchema.find({
+        guildID: guild.id,
+        userID: bannedUser.user.id,
+      });
       const memberInfoEmbed = new MessageEmbed()
         .setColor("#33a532")
         .setAuthor(bannedUser.user.tag, bannedUser.user.displayAvatarURL());
       if (memberInfo !== null) {
         const { bans, warnings, kicks, unbans } = memberInfo;
-        memberInfoEmbed.setFooter(
-          `Bans: ${bans.length} | Warns: ${warnings.length} | Kicks: ${kicks.length} | Unbans: ${unbans.length}`
+        memberInfoEmbed.setDescription(
+          `• Warns: ${warnings.length}\n• Mutes: ${mutes.length}\n• Kicks: ${kicks.length}\n• Bans: ${bans.length}\n• Unbans: ${unbans.length}\n`
         );
       } else {
-        memberInfoEmbed.setFooter(`Bans: 0 | Warns: 0 | Kicks: 0 | Unbans: 0`);
+        memberInfoEmbed.setDescription(
+          `• Warns: 0\n• Mutes: ${mutes.length}\n• Kicks: 0\n• Bans: 0\n• Unbans: 0\n`
+        );
       }
 
       channel
