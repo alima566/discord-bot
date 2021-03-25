@@ -114,6 +114,11 @@ const showWeatherResult = (city) => {
     .setColor("0xFFC334")
     .addFields(
       {
+        name: "**Local Time**",
+        value: getTimezone(current, location, true),
+        inline: false,
+      },
+      {
         name: "**Location**",
         value: location.name,
         inline: true,
@@ -152,14 +157,18 @@ const showWeatherResult = (city) => {
   return msgEmbed;
 };
 
-const getTimezone = (current, location) => {
+const getTimezone = (current, location, showTime) => {
   const lat = location.lat;
   const long = location.long;
 
-  const timeFormat = "zzz";
+  const timeFormat = showTime ? "EEE, MMM d, yyyy h:mm a zzz" : "zzz";
   const date = current.date;
   const time = current.observationtime;
   const timeZone = geoTz(+lat, +long)[0];
   const lastUpdated = utcToZonedTime(`${date} ${time}`, timeZone);
-  return format(lastUpdated, timeFormat, { timeZone });
+  const localTime = utcToZonedTime(new Date(), timeZone);
+
+  return showTime
+    ? format(localTime, timeFormat, { timeZone })
+    : format(lastUpdated, timeFormat, { timeZone });
 };
