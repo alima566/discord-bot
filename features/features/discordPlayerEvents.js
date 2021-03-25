@@ -143,27 +143,33 @@ module.exports = (client) => {
             .setDescription(
               `❌ | No music is currently playing on the server!`
             );
-          msg.channel.send(msgEmbed);
-          break;
+          return msg.channel.send(msgEmbed);
         case "NotConnected":
           msgEmbed
             .setAuthor("Not Connected", `${guildIcon(msg.guild)}`)
             .setDescription(
               `❌ | You need to be in a voice channel in order to play music!`
             );
-          msg.channel.send(msgEmbed);
-          break;
+          return msg.channel.send(msgEmbed);
         case "UnableToJoin":
           msgEmbed
             .setAuthor("No Permissions", `${guildIcon(msg.guild)}`)
             .setDescription(
               `❌ | I don't have permissions to join and speak in your voice channel!`
             );
-          msg.channel.send(msgEmbed);
-          break;
+          return msg.channel.send(msgEmbed);
+        case "LiveVideo":
+          msgEmbed
+            .setAuthor("Not Supported", `${guildIcon(msg.guild)}`)
+            .setDescription(`❌ | YouTube Lives are not supported.`);
+          return msg.channel.send(msgEmbed);
+        case "VideoUnavailable":
+          msgEmbed
+            .setAuthor("Video Unavailable", `${guildIcon(msg.guild)}`)
+            .setDescription(`❌ | This YouTube video is not available.`);
+          return msg.channel.send(msgEmbed);
         default:
-          msg.channel.send(`Something went wrong... Error: ${err}`);
-          break;
+          return msg.channel.send(`Something went wrong... Error: ${err}`);
       }
     });
 };
