@@ -124,8 +124,8 @@
     "spanish": "No tienes puntos para apostar."
   },
   "ALL_IN_LOSE": {
-    "english": "{USER} went all in and lost all of their points :sob:",
-    "spanish": "{USER} fue con todo y perdió todos sus puntos."
+    "english": "{USER} went all in and lost all of their points <:kelleeCry:824727343511633973>",
+    "spanish": "{USER} fue con todo y perdió todos sus puntos. <:kelleeCry:824727343511633973>"
   },
   "ALL_IN_WIN": {
     "english": "{USER} went all in and won! They now have {POINTS} points!",
