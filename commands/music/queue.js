@@ -57,7 +57,7 @@ module.exports = {
         .setAuthor("Music Queue", guildIcon(message.guild))
         .setColor("#1ED761");
 
-      let counter = i == 1 ? 10 : 0;
+      let counter = (i + 1) * 10 - 10;
       for (let j = 0; j < tracksArray[i].length; j++) {
         text += `${counter + 1}. [${tracksArray[i][j].title}](${
           tracksArray[i][j].url
@@ -79,7 +79,7 @@ module.exports = {
         );
       embedArray.push(embed);
     }
-    paginateEmbed(message, embedArray, { time: 1000 * 30 });
+    paginateEmbed(message, embedArray, { time: 1000 * 60 });
   },
 };
 
