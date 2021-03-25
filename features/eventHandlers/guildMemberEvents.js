@@ -11,8 +11,9 @@ const twitchSubRoles = [
   "769262291274170380", //Sub 1
   "769262291274170381", //Sub 2
   "769262291274170382", //Sub 3
-  //"612693794131017759", //Banana (Subs)
+  "612693794131017759", //Banana (Subs)
   "689250842649428047", //Twitch Subscriber: Tier 1
+  "689250842649428059", //Twitch Subscriber: Tier 2
   "689250842649428063", //Twitch Subscriber: Tier 3
 ];
 
@@ -148,11 +149,7 @@ const roleUpdatedLog = async (client, role, user, type) => {
     return sendMessageToBotLog(client, role.guild, msgEmbed);
   }
 
-  if (
-    roleUpdateLog &&
-    !twitchSubRoles.includes(role.id)
-    //(!role.name.startsWith("Sub ") || role.name !== "Special Babies")
-  ) {
+  if (roleUpdateLog && !twitchSubRoles.includes(role.id)) {
     const { executor } = roleUpdateLog;
     description += ` by ${executor}**`;
   } else {
