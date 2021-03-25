@@ -1,5 +1,6 @@
 const { MessageEmbed } = require("discord.js");
 const { guildIcon } = require("@utils/functions");
+const { log } = require("@utils/functions");
 
 module.exports = {
   category: "🎵 Music",
@@ -19,6 +20,19 @@ module.exports = {
       return message.channel.send(msgEmbed);
     }
 
-    return message.client.player.play(message, args.join(" "));
+    message.client.player.play(message, args.join(" ")).catch((e) => {
+      log(
+        "ERROR",
+        "./commands/music/play.js",
+        `An error has occurred: ${e.message}`
+      );
+      const msgEmbed = new MessageEmbed()
+        .setAuthor("Error", guildIcon(message.guild))
+        .setColor("#1ED761")
+        .setDescription(
+          `❌ | An error occurred while trying to play the specified track. Please try again.`
+        );
+      return message.channel.send(msgEmbed);
+    });
   },
 };
