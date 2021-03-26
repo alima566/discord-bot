@@ -156,7 +156,7 @@ module.exports = async (client) => {
 
     const timeFormat = "EEE, MMM d, yyyy h:mm a zzz";
     const createdAtEasternDate = utcToZonedTime(user.createdAt, timezone);
-    const accountAge = `${format(createdAtEasternDate, timeFormat, {
+    const accountCreation = `${format(createdAtEasternDate, timeFormat, {
       timeZone: timezone,
     })} (${formatDistance(user.createdAt, new Date(), {
       addSuffix: true,
@@ -168,9 +168,8 @@ module.exports = async (client) => {
         member.user.tag,
         member.user.displayAvatarURL({ dynamic: true })
       )
-      .setDescription(
-        `**${member.user} has joined the server**\n\n**Account Created**\n${accountAge}`
-      )
+      .setDescription(`**${member.user} has joined the server**`)
+      .addField("**Account Created**", accountCreation)
       .setTimestamp()
       .setFooter(`ID: ${member.user.id}`);
 
