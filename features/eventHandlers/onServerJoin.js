@@ -6,6 +6,10 @@ const gamblingSchema = require("@schemas/gambling-schema");
 const { sendMessageToBotLog } = require("@utils/functions");
 const { getGamblingChannel } = require("@utils/gambling");
 const muteSchema = require("@schemas/mute-schema");
+const { utcToZonedTime, format } = require("date-fns-tz");
+const { formatDistance } = require("date-fns");
+const { timezone } = require("@root/config.json");
+
 const { MessageAttachment, MessageEmbed } = require("discord.js");
 
 // Pass the entire Canvas object because you'll need to access its width, as well its context
@@ -150,13 +154,23 @@ module.exports = async (client) => {
 
     channel.send(text.replace(/<@>/g, `<@${member.id}>`), attachment);
 
+    const timeFormat = "EEE, MMM d, yyyy h:mm a zzz";
+    const createdAtEasternDate = utcToZonedTime(user.createdAt, timezone);
+    const accountAge = `${format(createdAtEasternDate, timeFormat, {
+      timeZone: timezone,
+    })} (${formatDistance(user.createdAt, new Date(), {
+      addSuffix: true,
+    })})`;
+
     const msgEmbed = new MessageEmbed()
       .setColor("#FF69B4")
       .setAuthor(
         member.user.tag,
         member.user.displayAvatarURL({ dynamic: true })
       )
-      .setDescription(`**${member.user} has joined the server**`)
+      .setDescription(
+        `**${member.user} has joined the server**\n\n**Account Created**\n${accountAge}`
+      )
       .setTimestamp()
       .setFooter(`ID: ${member.user.id}`);
 
