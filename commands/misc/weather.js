@@ -3,6 +3,7 @@ const weather = require("weather-js");
 const { convert } = require("convert");
 const geoTz = require("geo-tz");
 const { utcToZonedTime, format } = require("date-fns-tz");
+const { log } = require("@utils/functions");
 
 module.exports = {
   category: "💡 Misc",
@@ -15,7 +16,14 @@ module.exports = {
     const input = args.join(" ");
     weather.find({ search: input, degreeType: "C" }, (err, result) => {
       if (err) {
-        return console.log(err);
+        log(
+          "ERROR",
+          "./commands/misc/weather.js",
+          `An error occurred: ${err.message}`
+        );
+        return message.channel.send(
+          "An error occurred while trying to fetch weather data. Please try again."
+        );
       }
 
       if (!result || result.length === 0) {
