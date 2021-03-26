@@ -5,10 +5,10 @@ const { timezone } = require("@root/config.json");
 
 const schedule = {
   Monday: "OFF",
-  Tuesday: "Taco Tuesday (Stream with <@274641094484951040>)! [2:00PM]",
+  Tuesday: "Taco Tuesday (Stream with <@274641094484951040>)! [3:00PM]",
   Wednesday: "OFF",
-  Thursday: "Turtle Thursday! (Spiritfarer) [6:00PM]",
-  Friday: "Ni no Kuni: Wrath of the White Witch [2:00PM]",
+  Thursday: "Turtle Thursday! (Spiritfarer) [9:30PM]",
+  Friday: "Ni no Kuni: Wrath of the White Witch [3:00PM]",
   Saturday: "OFF",
   Sunday: "OFF",
 };
