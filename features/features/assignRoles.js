@@ -41,11 +41,6 @@ module.exports = (client) => {
       description:
         "**For access to the <#775809627589312532> channel, react with**",
     },
-    "⏰": {
-      role: "Schedule",
-      description:
-        "**If you want to get notified for when Kéllee posts her stream `Schedule`, react with**",
-    },
     "🎬": {
       role: "Movie Nights",
       description:
