@@ -21,11 +21,12 @@ module.exports = (client) => {
 
     const banLog = fetchedLogs.entries.first();
     if (!banLog) {
-      msgEmbed
-        .setAuthor(guild.name, guildIcon(guild))
-        .setDescription(`**${user.tag} has been banned from the server**`)
-        .setTimestamp()
-        .setFooter(`ID: ${user.id}`);
+      const msgEmbed = createEmbed(
+        "CC0202",
+        guild,
+        user,
+        `**${user.tag} has been banned from the server**`
+      );
       return sendMessageToBotLog(client, guild, msgEmbed);
     }
 
