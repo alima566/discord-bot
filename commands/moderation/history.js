@@ -9,26 +9,27 @@ module.exports = {
   category: "🔨 Moderation",
   minArgs: 1,
   maxArgs: 1,
-  description: "Shows moderation history of a member.",
+  description: "Shows moderation history of a user.",
   expectedArgs: "<The target's @ OR ID number>",
   requiredPermissions: ["MANAGE_GUILD"],
   callback: async ({ message, args }) => {
     const { guild, author, channel } = message;
-    const member =
-      message.mentions.members.first() || guild.members.cache.get(args[0]);
-    if (!member) {
+    const user =
+      message.mentions.users.first() ||
+      (await message.client.users.fetch(args[0], false, true));
+    if (!user) {
       return message.reply(
-        "Please specify a member to see moderation history for."
+        "Please specify someone to see moderation history for."
       );
     }
 
     const msgEmbed = new MessageEmbed()
       .setColor(0x337fd5)
       .setAuthor(
-        `Moderation history for ${member.user.tag}`,
-        member.user.displayAvatarURL({ dynamic: true })
+        `Moderation history for ${user.tag}`,
+        user.displayAvatarURL({ dynamic: true })
       )
-      .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
+      .setThumbnail(user.displayAvatarURL({ dynamic: true }))
       .setFooter(
         `Requested by ${author.tag}`,
         author.displayAvatarURL({ dynamic: true })
@@ -37,16 +38,16 @@ module.exports = {
 
     const results = await memberInfoSchema.findOne({
       guildID: guild.id,
-      userID: member.id,
+      userID: user.id,
     });
     const mutes = await muteSchema.find({
       guildID: guild.id,
-      userID: member.id,
+      userID: user.id,
     });
 
     if (!results && !mutes.length) {
       msgEmbed.setDescription(
-        "This member does not have any moderation history."
+        "This user does not have any moderation history."
       );
       return channel.send(msgEmbed);
     }
