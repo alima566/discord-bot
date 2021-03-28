@@ -142,18 +142,6 @@ module.exports = async (client) => {
       await gambling.addPoints(guild.id, user.id, pointsToGive);
     }
 
-    const data = await welcomeMessage(member);
-    if (!data) return;
-
-    const [channelID, text] = data;
-
-    const channel = guild.channels.cache.get(channelID);
-    if (!channel) return;
-
-    const attachment = await createCanvas(guild, member);
-
-    channel.send(text.replace(/<@>/g, `<@${member.id}>`), attachment);
-
     const timeFormat = "EEE, MMM d, yyyy h:mm a zzz";
     const createdAtEasternDate = utcToZonedTime(user.createdAt, timezone);
     const accountCreation = `${format(createdAtEasternDate, timeFormat, {
@@ -174,6 +162,18 @@ module.exports = async (client) => {
       .setFooter(`ID: ${member.user.id}`);
 
     sendMessageToBotLog(client, guild, msgEmbed);
+
+    const data = await welcomeMessage(member);
+    if (!data) return;
+
+    const [channelID, text] = data;
+
+    const channel = guild.channels.cache.get(channelID);
+    if (!channel) return;
+
+    const attachment = await createCanvas(guild, member);
+
+    channel.send(text.replace(/<@>/g, `<@${member.id}>`), attachment);
   });
 };
 
