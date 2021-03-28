@@ -59,7 +59,7 @@ module.exports = (client) => {
           .setFooter(
             `Type the number of the song you want to play! Type "cancel" to cancel.`
           );
-        let counter = i == 1 ? 10 : 0;
+        let counter = (i + 1) * 10 - 10;
         for (let j = 0; j < tracksArray[i].length; j++) {
           text += `${counter + 1}. [${Util.escapeMarkdown(
             tracksArray[i][j].title
