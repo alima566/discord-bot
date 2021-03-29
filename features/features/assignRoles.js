@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { stripIndents } = require("common-tags");
 const firstMessage = require("@utils/firstMessage");
 
 module.exports = (client) => {
@@ -58,26 +58,27 @@ module.exports = (client) => {
   };
 
   const reactions = [];
-  let emojiText = `:waning_crescent_moon: Hi Welcome to the Lunar Circle! (づ｡◕‿‿◕｡)づ :waxing_crescent_moon:
+  let emojiText = stripIndents`
+  :waning_crescent_moon: Hi Welcome to the Lunar Circle! (づ｡◕‿‿◕｡)づ :waxing_crescent_moon:
+  
+  **Some House Rules:**
+  
+  :heartpulse: No Spam :heartpulse:
+  
+  :heartpulse: Be Kind :heartpulse:
+  
+  :heartpulse: Include Others :heartpulse:
+  
+  :heartpulse: Listen to the Moderators :heartpulse:
+  
+  :heartpulse: No Bullying, Sexism, Racism, Homophobia or Other Hate-Based Chat :heartpulse:
+  
+  :heartpulse: Nothing Which Violates the Discord TOS: https://discordapp.com/tos :heartpulse:\n\n`;
 
-**Some House Rules:**
-
-:heartpulse: No Spam :heartpulse:
-
-:heartpulse: Be Kind :heartpulse:
-
-:heartpulse: Include Others :heartpulse:
-
-:heartpulse: Listen to the Moderators :heartpulse:
-
-:heartpulse: No Bullying, Sexism, Racism, Homophobia or Other Hate-Based Chat :heartpulse:
-
-:heartpulse: Nothing Which Violates the Discord TOS: https://discordapp.com/tos :heartpulse:\n\n`;
   for (const key in emojis) {
     const emoji = getEmoji(key) || key;
-    //const emoji = typeof getEmoji(key) !== "undefined" ? getEmoji(key) : key;
     reactions.push(emoji);
-    const role = emojis[key].role;
+    //const role = emojis[key].role;
     if (emoji === "✨" || emoji === "🎬") {
       emojiText += `${emoji} ${emojis[key].description} ${emoji}
 -----------------------------------------------------------------------------------------------\n`;
@@ -91,16 +92,11 @@ module.exports = (client) => {
       emojiText += `${emoji} ${emojis[key].description} ${emoji}\n`;
     }
   }
-  // let msgEmbed = new MessageEmbed()
-  //   .setColor("#34B1EB")
-  //   .setDescription(emojiText);
 
   firstMessage(client, channelID, emojiText, reactions);
 
   const handleReaction = (reaction, user, add) => {
-    if (user.id === "754033907267010560") {
-      return;
-    }
+    if (user.bot) return;
 
     const emoji = reaction._emoji.name;
     const { guild } = reaction.message;
