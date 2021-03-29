@@ -58,15 +58,9 @@ const sendDM = (client, guild, userID, month, points) => {
     .setColor("#7289da")
     .setTitle("Congratulations!")
     .setDescription(
-      `Congratulations! You have the most points for the month of ${month} with ${points.toLocaleString()} points and have won a free month of Discord Nitro!
-      
-      To claim it, please click [here](${process.env.DISCORD_NITRO_GIFT_LINK}).
-
-      Please contact <@464635440801251328> if you encounter any problems.
-
-      Fun fact: With Discord Nitro, you have two free server boosts to any server you like.
-
-      Enjoy the Nitro!`
+      `Congratulations! You have the most points for the month of ${month} with ${points.toLocaleString()} points and have won a free month of Discord Nitro!\n\nTo claim it, please click [here](${
+        process.env.DISCORD_NITRO_GIFT_LINK
+      }).\n\nPlease contact <@464635440801251328> if you encounter any problems.\n\nFun fact: With Discord Nitro, you have two free server boosts to any server you like.\n\nEnjoy the Nitro!`
     )
     .setThumbnail(
       "https://www.howtogeek.com/wp-content/uploads/2020/04/Discord-Nitro-Banner-Image.jpg"
