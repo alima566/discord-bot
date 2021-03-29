@@ -6,27 +6,35 @@ const muteSchema = require("@schemas/mute-schema");
 module.exports = {
   category: "🔨 Moderation",
   minArgs: 1,
-  description: "Bans a member from the server",
+  description: "Bans a user/member from the server.",
   expectedArgs: "<The target's @ OR ID number> [Reason]",
   requiredPermissions: ["KICK_MEMBERS", "BAN_MEMBERS"],
   callback: async ({ message, args, client }) => {
     const { guild, author, channel } = message;
-    const member =
-      message.mentions.members.first() || guild.members.cache.get(args[0]);
+    const user =
+      message.mentions.users.first() ||
+      (await client.users.fetch(args[0], false, true));
+    const member = guild.member.cache.get(user.id); //Convert the user to a member
     const reason = args.slice(1).join(" ");
 
-    if (!member) {
-      return message.reply("Please specify a member to ban.");
+    if (!user) {
+      return message.reply("Please specify someone to ban.");
     }
 
-    if (member.id === author.id) {
+    if (user.id === author.id) {
       return message.reply(`Nice try, but you can't ban yourself.`);
     }
 
-    if (!member.bannable) {
-      return message.reply(`I do not have the permissions to ban that member.`);
+    //If the user is a member of the guild that we are trying to ban from
+    if (member) {
+      if (!member.bannable) {
+        return message.reply(
+          `I do not have the permissions to ban that member.`
+        );
+      }
     }
 
+    //Check bot's permissions
     if (
       !guild.me.permissions.has(Permissions.FLAGS.KICK_MEMBERS) ||
       !guild.me.permissions.has(Permissions.FLAGS.BAN_MEMBERS)
@@ -36,31 +44,31 @@ module.exports = {
       );
     }
 
-    const memberInfo = await fetchMemberInfo(guild, member);
+    const userInfo = await fetchMemberInfo(guild, user);
     const mutes = await muteSchema.find({
       guildID: guild.id,
-      userID: member.id,
+      userID: user.id,
     });
-    const memberInfoEmbed = new MessageEmbed()
+    const userInfoEmbed = new MessageEmbed()
       .setColor("#CC0202")
-      .setAuthor(member.user.tag, member.user.displayAvatarURL());
-    if (memberInfo !== null) {
-      const { bans, warnings, kicks, unbans } = memberInfo;
-      memberInfoEmbed.setDescription(
+      .setAuthor(user.tag, user.displayAvatarURL());
+    if (userInfo !== null) {
+      const { bans, warnings, kicks, unbans } = userInfo;
+      userInfoEmbed.setDescription(
         `• Warns: ${warnings.length}\n• Mutes: ${mutes.length}\n• Kicks: ${kicks.length}\n• Bans: ${bans.length}\n• Unbans: ${unbans.length}\n`
       );
     } else {
-      memberInfoEmbed.setDescription(
+      userInfoEmbed.setDescription(
         `• Warns: 0\n• Mutes: ${mutes.length}\n• Kicks: 0\n• Bans: 0\n• Unbans: 0\n`
       );
     }
 
     channel
       .send(
-        `Are you sure you want to ban **${member.user.tag}**${
+        `Are you sure you want to ban **${user.tag}**${
           reason ? ` for ${reason}` : ""
         }? (Y/N)`,
-        { embed: memberInfoEmbed }
+        { embed: userInfoEmbed }
       )
       .then((msg) => {
         const collector = msg.channel.createMessageCollector(
@@ -75,11 +83,11 @@ module.exports = {
           switch (m.content.charAt(0).toUpperCase()) {
             case "Y":
               collector.stop();
-              ban(member, message, client, reason);
+              ban(user, message, client, reason);
               break;
             case "N":
               collector.stop();
-              channel.send(`**${member.user.tag}** was not banned.`);
+              channel.send(`**${user.tag}** was not banned.`);
               break;
             default:
               m.delete();
@@ -97,7 +105,7 @@ module.exports = {
         collector.on("end", (collected, reason) => {
           if (reason === "time") {
             return channel.send(
-              `You did not choose a response in time. **${member.user.tag}** was not banned.`
+              `You did not choose a response in time. **${user.tag}** was not banned.`
             );
           }
         });
@@ -105,21 +113,21 @@ module.exports = {
   },
 };
 
-const fetchMemberInfo = async (guild, member) => {
+const fetchMemberInfo = async (guild, user) => {
   const result = await memberInfoSchema.findOne({
     guildID: guild.id,
-    userID: member.id,
+    userID: user.id,
   });
   return result ? result : null;
 };
 
-const ban = (member, message, client, reason) => {
-  member
-    .ban({ days: 7, reason })
+const ban = (user, message, client, reason) => {
+  message.guild.members
+    .ban(user, { days: 7, reason })
     .then(async (mem) => {
       const memberObj = {
         guildID: message.guild.id,
-        userID: mem.user.id,
+        userID: mem.id,
       };
 
       const ban = {
@@ -129,12 +137,12 @@ const ban = (member, message, client, reason) => {
         messageLink: message.url,
       };
 
-      const kick = {
-        executor: message.author.id,
-        timestamp: new Date().getTime(),
-        reason: "Kicked due to being banned from server.",
-        messageLink: message.url,
-      };
+      // const kick = {
+      //   executor: message.author.id,
+      //   timestamp: new Date().getTime(),
+      //   reason: "Kicked due to being banned from server.",
+      //   messageLink: message.url,
+      // };
 
       await memberInfoSchema.findOneAndUpdate(
         memberObj,
@@ -142,7 +150,7 @@ const ban = (member, message, client, reason) => {
           ...memberObj,
           $push: {
             bans: ban,
-            kicks: kick,
+            //kicks: kick,
           },
         },
         {
@@ -150,16 +158,17 @@ const ban = (member, message, client, reason) => {
         }
       );
 
-      message.channel.send(`Successfully banned **${mem.user.tag}**`);
+      message.channel.send(`Successfully banned **${mem.tag}**`);
+
       const msgEmbed = new MessageEmbed()
         .setColor("#CC0202")
         .setAuthor(
           message.author.tag,
           message.author.displayAvatarURL({ dynamic: true })
         )
-        .setThumbnail(mem.user.displayAvatarURL({ dynamic: true }))
+        .setThumbnail(mem.displayAvatarURL({ dynamic: true }))
         .setDescription(
-          `**Member:** ${mem.user.tag}\n**Action:** Ban${
+          `**Member:** ${mem.tag}\n**Action:** Ban${
             reason !== "" ? `\n**Reason:** ${reason}` : ""
           }`
         )
