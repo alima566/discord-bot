@@ -73,13 +73,16 @@ module.exports = (client) => {
   
   :heartpulse: No Bullying, Sexism, Racism, Homophobia or Other Hate-Based Chat :heartpulse:
   
-  :heartpulse: Nothing Which Violates the Discord TOS: https://discordapp.com/tos :heartpulse:\n\n`;
+  :heartpulse: Nothing Which Violates the Discord TOS: https://discordapp.com/tos :heartpulse:
+  `;
 
   for (const key in emojis) {
     const emoji = getEmoji(key) || key;
     reactions.push(emoji);
-    //const role = emojis[key].role;
     if (emoji === "✨" || emoji === "🎬") {
+      if (emoji === "✨") {
+        emojiText += "\n\n";
+      }
       emojiText += `${emoji} ${emojis[key].description} ${emoji}
 -----------------------------------------------------------------------------------------------\n`;
     } else if (
