@@ -20,22 +20,32 @@ module.exports = (client) => {
   client.giveawaysManager.on(
     "giveawayReactionAdded",
     (giveaway, member, reaction) => {
-      sendMessageToBotLog(
-        client,
-        member.guild,
-        `${member.user.tag} entered giveaway #${giveaway.messageID} (${reaction.emoji.name})`
+      log(
+        "SUCCESS",
+        "./features/cronJobs/startRaffle.js",
+        `${member.user.tag} entered to giveaway #${giveaway.messageID} (${reaction.emoji.name})`
       );
+      // sendMessageToBotLog(
+      //   client,
+      //   member.guild,
+      //   `${member.user.tag} entered giveaway #${giveaway.messageID} (${reaction.emoji.name})`
+      // );
     }
   );
 
   client.giveawaysManager.on(
     "giveawayReactionRemoved",
     (giveaway, member, reaction) => {
-      sendMessageToBotLog(
-        client,
-        member.guild,
+      log(
+        "SUCCESS",
+        "./features/cronJobs/startRaffle.js",
         `${member.user.tag} unreacted to giveaway #${giveaway.messageID} (${reaction.emoji.name})`
       );
+      // sendMessageToBotLog(
+      //   client,
+      //   member.guild,
+      //   `${member.user.tag} unreacted to giveaway #${giveaway.messageID} (${reaction.emoji.name})`
+      // );
     }
   );
 
@@ -53,11 +63,11 @@ module.exports = (client) => {
 
         await incrementRaffleWins(w.guild.id, w.user.id);
 
-        sendMessageToBotLog(
-          client,
-          w.guild,
-          `${rafflePoints} points have been given to ${w.user.tag} and they now have ${newPoints}.`
-        );
+        // sendMessageToBotLog(
+        //   client,
+        //   w.guild,
+        //   `${rafflePoints} points have been given to ${w.user.tag} and they now have ${newPoints}.`
+        // );
         log(
           "SUCCESS",
           "./features/cronJobs/startRaffle.js",
