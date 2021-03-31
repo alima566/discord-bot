@@ -21,7 +21,7 @@ module.exports = {
     const { id } = member;
     const gamblingChannel = await getGamblingChannel(guild.id);
 
-    if (gamblingChannel !== null) {
+    if (gamblingChannel) {
       if (channel.id !== gamblingChannel) {
         message
           .reply(`Daily can only be redeemed in <#${gamblingChannel}>!`)
@@ -32,9 +32,12 @@ module.exports = {
         return;
       }
     } else {
-      message.reply(
-        `A gambling channel needs to be set first in order for this command to be used.`
-      );
+      message
+        .reply(
+          `A gambling channel needs to be set first in order for this command to be used.`
+        )
+        .then((msg) => client.setTimeout(() => msg.delete(), 1000 * 3));
+      message.delete();
       return;
     }
 

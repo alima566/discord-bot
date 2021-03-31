@@ -24,7 +24,7 @@ module.exports = {
     const userID = target.id;
     const gamblingChannel = await getGamblingChannel(guildID);
 
-    if (gamblingChannel !== null) {
+    if (gamblingChannel) {
       if (channelID !== gamblingChannel) {
         message
           .reply(`Gambling is only allowed in <#${gamblingChannel}>!`)
@@ -35,9 +35,13 @@ module.exports = {
         return;
       }
     } else {
-      return message.reply(
-        `A gambling channel needs to be set first in order for this command to be used.`
-      );
+      message
+        .reply(
+          `A gambling channel needs to be set first in order for this command to be used.`
+        )
+        .then((msg) => client.setTimeout(() => msg.delete(), 1000 * 3));
+      message.delete();
+      return;
     }
 
     const pointsToGamble = args[0].trim();

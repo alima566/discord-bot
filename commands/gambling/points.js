@@ -16,7 +16,7 @@ module.exports = {
 
     const gamblingChannel = await getGamblingChannel(guildID);
 
-    if (gamblingChannel !== null) {
+    if (gamblingChannel) {
       if (channelID !== gamblingChannel) {
         message
           .reply(`Points can only be checked in <#${gamblingChannel}>!`)
@@ -27,9 +27,13 @@ module.exports = {
         return;
       }
     } else {
-      return message.reply(
-        `A gambling channel needs to be set first in order for this command to be used.`
-      );
+      message
+        .reply(
+          `A gambling channel needs to be set first in order for this command to be used.`
+        )
+        .then((msg) => client.setTimeout(() => msg.delete(), 1000 * 3));
+      message.delete();
+      return;
     }
 
     if (target.bot) {
