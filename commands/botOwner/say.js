@@ -34,7 +34,7 @@ const sendMessage = (message, content, options) => {
 
   if (message.attachments.size > 0) {
     const attachment = message.attachments.first();
-    channel.send(content, attachment); //Only send the attachment and not any text
+    channel.send(content, attachment);
   } else {
     channel.send(content);
   }
