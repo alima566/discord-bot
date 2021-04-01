@@ -45,14 +45,14 @@ module.exports = {
       const memberInfoEmbed = new MessageEmbed()
         .setColor("#33a532")
         .setAuthor(bannedUser.user.tag, bannedUser.user.displayAvatarURL());
-      if (memberInfo !== null) {
-        const { bans, warnings, kicks, unbans } = memberInfo;
+      if (memberInfo) {
+        const { bans, warnings, kicks, unbans, softbans } = memberInfo;
         memberInfoEmbed.setDescription(
-          `• Warns: ${warnings.length}\n• Mutes: ${mutes.length}\n• Kicks: ${kicks.length}\n• Bans: ${bans.length}\n• Unbans: ${unbans.length}\n`
+          `• Warns: ${warnings.length}\n• Mutes: ${mutes.length}\n• Kicks: ${kicks.length}\n• Bans: ${bans.length}\n• Soft Bans: ${softbans.length}\n• Unbans: ${unbans.length}\n`
         );
       } else {
         memberInfoEmbed.setDescription(
-          `• Warns: 0\n• Mutes: ${mutes.length}\n• Kicks: 0\n• Bans: 0\n• Unbans: 0\n`
+          `• Warns: 0\n• Mutes: ${mutes.length}\n• Kicks: 0\n• Bans: 0\n• Soft Bans: 0\n• Unbans: 0\n`
         );
       }
 

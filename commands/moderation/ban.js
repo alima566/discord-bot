@@ -32,6 +32,14 @@ module.exports = {
           `I do not have the permissions to ban that member.`
         );
       }
+
+      if (
+        message.member.roles.highest.comparePositionTo(member.roles.highest) < 0 // Can't warn members with a higher role
+      ) {
+        return message.reply(
+          "You can't ban a member with a higher role than you."
+        );
+      }
     }
 
     //Check bot's permissions
@@ -52,14 +60,14 @@ module.exports = {
     const userInfoEmbed = new MessageEmbed()
       .setColor("#CC0202")
       .setAuthor(user.tag, user.displayAvatarURL());
-    if (userInfo !== null) {
-      const { bans, warnings, kicks, unbans } = userInfo;
+    if (userInfo) {
+      const { bans, warnings, kicks, unbans, softbans } = userInfo;
       userInfoEmbed.setDescription(
-        `• Warns: ${warnings.length}\n• Mutes: ${mutes.length}\n• Kicks: ${kicks.length}\n• Bans: ${bans.length}\n• Unbans: ${unbans.length}\n`
+        `• Warns: ${warnings.length}\n• Mutes: ${mutes.length}\n• Kicks: ${kicks.length}\n• Bans: ${bans.length}\n• Soft Bans: ${softbans.length}\n• Unbans: ${unbans.length}\n`
       );
     } else {
       userInfoEmbed.setDescription(
-        `• Warns: 0\n• Mutes: ${mutes.length}\n• Kicks: 0\n• Bans: 0\n• Unbans: 0\n`
+        `• Warns: 0\n• Mutes: ${mutes.length}\n• Kicks: 0\n• Bans: 0\n• Soft Bans: 0\n• Unbans: 0\n`
       );
     }
 

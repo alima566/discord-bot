@@ -30,6 +30,14 @@ module.exports = {
     }
 
     if (
+      message.member.roles.highest.comparePositionTo(member.roles.highest) < 0 // Can't warn members with a higher role
+    ) {
+      return message.reply(
+        "You can't kick a member with a higher role than you."
+      );
+    }
+
+    if (
       !guild.me.permissions.has(Permissions.FLAGS.KICK_MEMBERS) ||
       !guild.me.permissions.has(Permissions.FLAGS.BAN_MEMBERS)
     ) {
@@ -46,14 +54,14 @@ module.exports = {
     const memberInfoEmbed = new MessageEmbed()
       .setColor("#CC0202")
       .setAuthor(member.user.tag, member.user.displayAvatarURL());
-    if (memberInfo !== null) {
-      const { bans, warnings, kicks, unbans } = memberInfo;
+    if (memberInfo) {
+      const { bans, warnings, kicks, unbans, softbans } = memberInfo;
       memberInfoEmbed.setDescription(
-        `• Warns: ${warnings.length}\n• Mutes: ${mutes.length}\n• Kicks: ${kicks.length}\n• Bans: ${bans.length}\n• Unbans: ${unbans.length}\n`
+        `• Warns: ${warnings.length}\n• Mutes: ${mutes.length}\n• Kicks: ${kicks.length}\n• Bans: ${bans.length}\n• Soft Bans: ${softbans.length}\n• Unbans: ${unbans.length}\n`
       );
     } else {
       memberInfoEmbed.setDescription(
-        `• Warns: 0\n• Mutes: ${mutes.length}\n• Kicks: 0\n• Bans: 0\n• Unbans: 0\n`
+        `• Warns: 0\n• Mutes: ${mutes.length}\n• Kicks: 0\n• Bans: 0\n• Soft Bans: 0\n• Unbans: 0\n`
       );
     }
 
