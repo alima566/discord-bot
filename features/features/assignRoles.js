@@ -62,18 +62,14 @@ module.exports = (client) => {
   :waning_crescent_moon: Hi Welcome to the Lunar Circle! (づ｡◕‿‿◕｡)づ :waxing_crescent_moon:
   
   **Some House Rules:**
-  
-  :heartpulse: No Spam :heartpulse:
-  
-  :heartpulse: Be Kind :heartpulse:
-  
-  :heartpulse: Include Others :heartpulse:
-  
-  :heartpulse: Listen to the Moderators :heartpulse:
-  
-  :heartpulse: No Bullying, Sexism, Racism, Homophobia or Other Hate-Based Chat :heartpulse:
-  
-  :heartpulse: Nothing Which Violates the Discord TOS: https://discordapp.com/tos :heartpulse:
+
+  1. We ask that you do not spam the Discord and to keep all messages within the appropriate text channels.
+
+  2. Please be respectful and kind to others within the Discord. We do not tolerate any bullying, sexism, racism, homophobia or other hate-based chat of any kind.
+
+  3. Listen to the moderators of the server (\`Mr + Ms Baby\` role) and either contact them or Kéllee if you have any issues with another member.
+
+  4. Follow the Discord Terms of Service: https://discordapp.com/tos
   `;
 
   for (const key in emojis) {
