@@ -1,4 +1,6 @@
 const botChannelSchema = require("@schemas/bot-channel-schema");
+const { botLoggingCache } = require("@root/config.json");
+
 module.exports = {
   commands: ["setbotchan", "botchannel", "botchan"],
   category: "Admin",
@@ -13,10 +15,11 @@ module.exports = {
     const channel = message.mentions.channels.first() || message.channel;
     const guildID = guild.id;
 
+    botLoggingCache[guildID] = channel.id;
+
     await botChannelSchema.findOneAndUpdate(
       {
         _id: guildID,
-        channelID: channel.id,
       },
       {
         _id: guildID,

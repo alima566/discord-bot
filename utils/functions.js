@@ -1,5 +1,6 @@
 const { Permissions } = require("discord.js");
 const botChannelSchema = require("@schemas/bot-channel-schema");
+const { botLoggingCache } = require("@root/config.json");
 
 const reactions = ["⏪", "⏸️", "⏩"];
 const consoleColors = {
@@ -7,8 +8,6 @@ const consoleColors = {
   WARNING: "\u001b[33m",
   ERROR: "\u001b[31m",
 };
-
-const botChannelCache = {}; //{guildID: channelID}
 
 const getRandomNumber = (array) => {
   return Math.floor(Math.random() * array.length);
@@ -30,13 +29,13 @@ const getTimesAvailable = (hemisphere) => {
 };
 
 const sendMessageToBotLog = async (client, guild, msg) => {
-  let channelID = botChannelCache[guild.id];
+  let channelID = botLoggingCache[guild.id];
   if (!channelID) {
     const result = await botChannelSchema.findById(guild.id);
     if (!result) return;
 
     channelID = result.channelID;
-    botChannelCache[guild.id] = channelID;
+    botLoggingCache[guild.id] = channelID;
   }
 
   const channel = client.channels.cache.get(channelID);
