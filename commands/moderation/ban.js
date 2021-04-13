@@ -59,7 +59,7 @@ module.exports = {
     });
     const userInfoEmbed = new MessageEmbed()
       .setColor("#CC0202")
-      .setAuthor(user.tag, user.displayAvatarURL());
+      .setAuthor(user.tag, user.displayAvatarURL({ dynamic: true }));
     if (userInfo) {
       const { bans, warnings, kicks, unbans, softbans } = userInfo;
       userInfoEmbed.setDescription(

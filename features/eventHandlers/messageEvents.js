@@ -122,7 +122,7 @@ const createEmbed = (color, guild, msg, description, user) => {
     .setColor(color)
     .setAuthor(
       user ? user.tag : guild.name,
-      user ? user.displayAvatarURL() : guildIcon(guild)
+      user ? user.displayAvatarURL({ dynamic: true }) : guildIcon(guild)
     )
     .setDescription(description)
     .setTimestamp()

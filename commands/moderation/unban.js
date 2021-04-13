@@ -44,7 +44,10 @@ module.exports = {
       });
       const memberInfoEmbed = new MessageEmbed()
         .setColor("#33a532")
-        .setAuthor(bannedUser.user.tag, bannedUser.user.displayAvatarURL());
+        .setAuthor(
+          bannedUser.user.tag,
+          bannedUser.user.displayAvatarURL({ dynamic: true })
+        );
       if (memberInfo) {
         const { bans, warnings, kicks, unbans, softbans } = memberInfo;
         memberInfoEmbed.setDescription(

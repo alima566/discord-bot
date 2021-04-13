@@ -53,7 +53,10 @@ module.exports = {
     });
     const memberInfoEmbed = new MessageEmbed()
       .setColor("#CC0202")
-      .setAuthor(member.user.tag, member.user.displayAvatarURL());
+      .setAuthor(
+        member.user.tag,
+        member.user.displayAvatarURL({ dynamic: true })
+      );
     if (memberInfo) {
       const { bans, warnings, kicks, unbans, softbans } = memberInfo;
       memberInfoEmbed.setDescription(

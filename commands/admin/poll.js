@@ -74,7 +74,7 @@ module.exports = {
       .setColor(0x337fd5)
       .setAuthor(
         `Poll started by ${message.author.tag}`,
-        message.author.displayAvatarURL()
+        message.author.displayAvatarURL({ dynamic: true })
       )
       .setDescription(str)
       .setTimestamp();
