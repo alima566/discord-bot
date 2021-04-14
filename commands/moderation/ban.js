@@ -11,15 +11,17 @@ module.exports = {
   requiredPermissions: ["KICK_MEMBERS", "BAN_MEMBERS"],
   callback: async ({ message, args, client }) => {
     const { guild, author, channel } = message;
-    const user =
-      message.mentions.users.first() ||
-      (await client.users.fetch(args[0], false, true));
-    const member = guild.members.cache.get(user.id); //Convert the user to a member
-    const reason = args.slice(1).join(" ");
-
-    if (!user) {
+    let user;
+    try {
+      user =
+        message.mentions.users.first() ||
+        (await client.users.fetch(args[0], false, true));
+    } catch (e) {
       return message.reply("Please specify someone to ban.");
     }
+
+    const member = guild.members.cache.get(user.id); //Convert the user to a member
+    const reason = args.slice(1).join(" ");
 
     if (user.id === author.id) {
       return message.reply(`Nice try, but you can't ban yourself.`);
