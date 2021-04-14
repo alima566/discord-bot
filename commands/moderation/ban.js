@@ -14,7 +14,7 @@ module.exports = {
     const user =
       message.mentions.users.first() ||
       (await client.users.fetch(args[0], false, true));
-    const member = guild.member.cache.get(user.id); //Convert the user to a member
+    const member = guild.members.cache.get(user.id); //Convert the user to a member
     const reason = args.slice(1).join(" ");
 
     if (!user) {
