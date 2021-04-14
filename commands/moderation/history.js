@@ -1,6 +1,7 @@
 const { MessageEmbed } = require("discord.js");
 const memberInfoSchema = require("@schemas/member-info-schema");
 const muteSchema = require("@schemas/mute-schema");
+const { log } = require("@utils/functions");
 const { utcToZonedTime, format } = require("date-fns-tz");
 const { timezone } = require("@root/config.json");
 const ms = require("ms");
@@ -12,11 +13,18 @@ module.exports = {
   description: "Shows moderation history of a user.",
   expectedArgs: "<The target's @ OR ID number>",
   requiredPermissions: ["MANAGE_GUILD"],
-  callback: async ({ message, args }) => {
+  callback: async ({ message, args, client }) => {
     const { guild, author, channel } = message;
     const user =
       message.mentions.users.first() ||
-      (await message.client.users.fetch(args[0], false, true));
+      (await client.users.fetch(args[0], false, true).catch((e) => {
+        log(
+          "ERROR",
+          "./commands/moderation/history.js",
+          `An error has occurred: ${e.message}`
+        );
+      }));
+
     if (!user) {
       return message.reply(
         "Please specify someone to see moderation history for."
