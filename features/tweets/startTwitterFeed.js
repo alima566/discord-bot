@@ -9,7 +9,7 @@ const followedChannels = [
   "287885794", // @Tetris_Official
 ];
 
-startTwitterFeed = (client) => {
+const startTwitterFeed = (client) => {
   T.stream("statuses/filter", {
     follow: followedChannels.join(","),
   })
