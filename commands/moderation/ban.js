@@ -2,6 +2,7 @@ const { MessageEmbed, Permissions } = require("discord.js");
 const { sendMessageToBotLog } = require("@utils/functions");
 const memberInfoSchema = require("@schemas/member-info-schema");
 const muteSchema = require("@schemas/mute-schema");
+const { log } = require("@utils/functions");
 
 module.exports = {
   category: "🔨 Moderation",
@@ -11,12 +12,17 @@ module.exports = {
   requiredPermissions: ["KICK_MEMBERS", "BAN_MEMBERS"],
   callback: async ({ message, args, client }) => {
     const { guild, author, channel } = message;
-    let user;
-    try {
-      user =
-        message.mentions.users.first() ||
-        (await client.users.fetch(args[0], false, true));
-    } catch (e) {
+    const user =
+      message.mentions.users.first() ||
+      (await client.users.fetch(args[0], false, true).catch((e) => {
+        log(
+          "ERROR",
+          "./commands/moderation/ban.js",
+          `An error has occurred: ${e.message}`
+        );
+      }));
+
+    if (!user) {
       return message.reply("Please specify someone to ban.");
     }
 
@@ -36,7 +42,7 @@ module.exports = {
       }
 
       if (
-        message.member.roles.highest.comparePositionTo(member.roles.highest) < 0 // Can't warn members with a higher role
+        message.member.roles.highest.comparePositionTo(member.roles.highest) < 0 // Can't ban members with a higher role
       ) {
         return message.reply(
           "You can't ban a member with a higher role than you."
