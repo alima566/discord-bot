@@ -1,5 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-const { getGamblingChannel, getPoints } = require("@utils/gambling");
+const { getGamblingChannel, getPoints } = require("@dbHelpers/gambling");
 const gamblingSchema = require("@schemas/gambling-schema");
 
 module.exports = {

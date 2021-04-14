@@ -1,7 +1,7 @@
 const moment = require("moment");
 const { pointsToGive } = require("@root/config.json");
 const dailyRewardsSchema = require("@schemas/daily-rewards-schema");
-const { getGamblingChannel, addPoints } = require("@utils/gambling");
+const { getGamblingChannel, addPoints } = require("@dbHelpers/gambling");
 
 // Array of member IDs who have claimed their daily rewards in the last 24 hours
 // Resets every 10 mins

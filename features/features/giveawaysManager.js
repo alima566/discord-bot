@@ -1,7 +1,7 @@
 const { GiveawaysManager } = require("discord-giveaways");
 const { rafflePoints, giveawayReactEmoji } = require("@root/config.json");
-const { addPoints } = require("@utils/gambling");
-const { incrementRaffleWins } = require("@utils/raffleWins");
+const { addPoints } = require("@dbHelpers/gambling");
+const { incrementRaffleWins } = require("@dbHelpers/raffleWins");
 const { log } = require("@utils/functions");
 const { sendMessageToBotLog } = require("@utils/functions");
 

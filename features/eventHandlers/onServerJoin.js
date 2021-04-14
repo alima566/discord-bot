@@ -1,10 +1,9 @@
 const Canvas = require("canvas");
 const { pointsToGive, welcomeMessageCache } = require("@root/config.json");
-const gambling = require("@utils/gambling");
 const welcomeSchema = require("@schemas/welcome-schema");
 const gamblingSchema = require("@schemas/gambling-schema");
 const { sendMessageToBotLog } = require("@utils/functions");
-const { getGamblingChannel } = require("@utils/gambling");
+const { addPoints, getGamblingChannel } = require("@dbHelpers/gambling");
 const muteSchema = require("@schemas/mute-schema");
 const { utcToZonedTime, format } = require("date-fns-tz");
 const { formatDistance } = require("date-fns");
@@ -139,7 +138,7 @@ module.exports = async (client) => {
 
     // Check to see if user already exists in db and that they are not a bot and a gambling channel has been set, if not, give them 1000 points
     if (!result && !user.bot && gamblingChannel) {
-      await gambling.addPoints(guild.id, user.id, pointsToGive);
+      await addPoints(guild.id, user.id, pointsToGive);
     }
 
     const timeFormat = "EEE, MMM d, yyyy h:mm a zzz";

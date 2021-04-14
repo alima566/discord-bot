@@ -1,4 +1,8 @@
-const { getGamblingChannel, getPoints, addPoints } = require("@utils/gambling");
+const {
+  getGamblingChannel,
+  getPoints,
+  addPoints,
+} = require("@dbHelpers/gambling");
 
 module.exports = {
   commands: ["gamble", "roulette"],

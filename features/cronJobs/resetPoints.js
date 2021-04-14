@@ -1,6 +1,6 @@
 const cron = require("cron");
 const gamblingSchema = require("@schemas/gambling-schema");
-const gambling = require("@utils/gambling");
+const gambling = require("@dbHelpers/gambling");
 const { log } = require("@utils/functions");
 const { timezone } = require("@root/config.json");
 

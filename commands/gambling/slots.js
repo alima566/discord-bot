@@ -1,4 +1,8 @@
-const { getGamblingChannel, getPoints, addPoints } = require("@utils/gambling");
+const {
+  getGamblingChannel,
+  getPoints,
+  addPoints,
+} = require("@dbHelpers/gambling");
 const { getRandomNumber } = require("@utils/functions");
 
 const slotsEmoji = [

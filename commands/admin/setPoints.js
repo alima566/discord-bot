@@ -1,4 +1,4 @@
-const gambling = require("@utils/gambling");
+const gambling = require("@dbHelpers/gambling");
 
 module.exports = {
   commands: ["set", "setpoints"],
