@@ -11,12 +11,16 @@ module.exports = {
     const result = await getFC(guild.id);
 
     if (!result) {
-      return message.reply("The server owner has not yet set a friend code.");
+      return message
+        .reply("The server owner hasn't set a friend code yet.")
+        .then((msg) => {
+          message.client.setTimeout(() => msg.delete(), 1000 * 5);
+        });
     }
     const owner = guild.owner.user.tag;
     const { friendCode } = result;
     return channel.send(
-      `${owner}'s Nintendo Switch Friend code is \`${friendCode}\`.`
+      `${owner}'s Nintendo Switch Friend Code is \`${friendCode}\`.`
     );
   },
 };
