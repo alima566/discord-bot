@@ -19,7 +19,7 @@ module.exports = {
     const regex = text.match(/^DA-\d{4}-\d{4}-\d{4}$/g);
     if (!regex) {
       return message.reply(
-        `Friend code is of invalid format. Format must be in \`DA-1234-1234-1234\`.`
+        `Dream Address is of invalid format. Format must be in \`DA-1234-1234-1234\`.`
       );
     }
     try {
