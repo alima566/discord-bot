@@ -86,6 +86,7 @@ const groupBy = (list, keyGetter) => {
         key !== "Configuration" &&
         key !== "Giveaways" &&
         key !== "Testing" &&
+        key !== "Guild Owner" &&
         key !== "Utils"
       )
         map.set(key, [item]);
