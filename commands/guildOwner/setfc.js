@@ -2,8 +2,6 @@ const { setFC } = require("@dbHelpers/fc");
 
 module.exports = {
   category: "Guild Owner",
-  minArgs: 1,
-  maxArgs: 1,
   description: "Sets the friend code for the guild owner only.",
   expectedArgs: "<Friend Code>",
   callback: async ({ message, text, client }) => {

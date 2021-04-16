@@ -2,8 +2,6 @@ const { setDA } = require("@dbHelpers/dreamAddress");
 
 module.exports = {
   category: "Guild Owner",
-  minArgs: 1,
-  maxArgs: 1,
   description: "Sets the dream address for the guild owner only.",
   expectedArgs: "<Dream Address>",
   callback: async ({ message, text, client }) => {
