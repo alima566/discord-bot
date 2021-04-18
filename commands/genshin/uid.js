@@ -1,7 +1,7 @@
 const { getUID } = require("@dbHelpers/uid");
 
 module.exports = {
-  category: "💡⚔️ Genshin",
+  category: "⚔️ Genshin",
   cooldown: "15s",
   description: "Show's the server owner's UID.",
   callback: async ({ message }) => {
