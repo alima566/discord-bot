@@ -7,7 +7,7 @@ const schedule = {
   Monday: "OFF",
   Tuesday: "Taco Tuesday (Stream with <@274641094484951040>)! [3:00PM]",
   Wednesday: "OFF",
-  Thursday: "Turtle Thursday! (Spiritfarer) [9:30PM]",
+  Thursday: "Teyvat Thursday! (Genshin Impact) [7:00PM]",
   Friday: "Ni no Kuni: Wrath of the White Witch [3:00PM]",
   Saturday: "OFF",
   Sunday: "OFF",
