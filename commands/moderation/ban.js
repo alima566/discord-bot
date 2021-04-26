@@ -79,53 +79,51 @@ module.exports = {
       );
     }
 
-    channel
-      .send(
-        `Are you sure you want to ban **${user.tag}**${
-          reason ? ` for ${reason}` : ""
-        }? (Y/N)`,
-        { embed: userInfoEmbed }
-      )
-      .then((msg) => {
-        const collector = msg.channel.createMessageCollector(
-          (m) => m.author.id === author.id,
-          {
-            time: 1000 * 10,
-            errors: ["time"],
-          }
-        );
+    const msg = await channel.send(
+      `Are you sure you want to ban **${user.tag}**${
+        reason ? ` for ${reason}` : ""
+      }? (Y/N)`,
+      { embed: userInfoEmbed }
+    );
 
-        collector.on("collect", (m) => {
-          switch (m.content.charAt(0).toUpperCase()) {
-            case "Y":
-              collector.stop();
-              ban(user, message, client, reason);
-              break;
-            case "N":
-              collector.stop();
-              channel.send(`**${user.tag}** was not banned.`);
-              break;
-            default:
-              m.delete();
-              channel
-                .send(
-                  `Invalid selection. Please type either Y (Yes) or N (No).`
-                )
-                .then((m) => {
-                  client.setTimeout(() => m.delete(), 1000 * 3);
-                });
-              break;
-          }
-        });
+    if (msg) {
+      const collector = msg.channel.createMessageCollector(
+        (m) => m.author.id === author.id,
+        {
+          time: 1000 * 10,
+          errors: ["time"],
+        }
+      );
 
-        collector.on("end", (collected, reason) => {
-          if (reason === "time") {
-            return channel.send(
-              `You did not choose a response in time. **${user.tag}** was not banned.`
-            );
-          }
-        });
+      collector.on("collect", (m) => {
+        switch (m.content.charAt(0).toUpperCase()) {
+          case "Y":
+            collector.stop();
+            ban(user, message, client, reason);
+            break;
+          case "N":
+            collector.stop();
+            channel.send(`**${user.tag}** was not banned.`);
+            break;
+          default:
+            m.delete();
+            channel
+              .send(`Invalid selection. Please type either Y (Yes) or N (No).`)
+              .then((m) => {
+                client.setTimeout(() => m.delete(), 1000 * 3);
+              });
+            break;
+        }
       });
+
+      collector.on("end", (collected, reason) => {
+        if (reason === "time") {
+          return channel.send(
+            `You did not choose a response in time. **${user.tag}** was not banned.`
+          );
+        }
+      });
+    }
   },
 };
 
@@ -137,63 +135,75 @@ const fetchMemberInfo = async (guild, user) => {
   return result ? result : null;
 };
 
-const ban = (user, message, client, reason) => {
-  message.guild.members
+const ban = async (user, message, client, reason) => {
+  const msg = await message.channel.send(`Banning ${user.tag}...`);
+  const fetchBans = await message.guild.fetchBans();
+  if (fetchBans) {
+    const bannedUser = fetchBans.find((b) => b.user.id === user.id);
+    if (bannedUser) {
+      return msg.edit(
+        `Hmmm... it looks like **${user.tag}** is already banned.`
+      );
+    }
+  }
+
+  const banUser = await message.guild.members
     .ban(user, { days: 7, reason })
-    .then(async (mem) => {
-      const memberObj = {
-        guildID: message.guild.id,
-        userID: mem.id,
-      };
-
-      const ban = {
-        executor: message.author.id,
-        timestamp: new Date().getTime(),
-        reason,
-        messageLink: message.url,
-      };
-
-      // const kick = {
-      //   executor: message.author.id,
-      //   timestamp: new Date().getTime(),
-      //   reason: "Kicked due to being banned from server.",
-      //   messageLink: message.url,
-      // };
-
-      await memberInfoSchema.findOneAndUpdate(
-        memberObj,
-        {
-          ...memberObj,
-          $push: {
-            bans: ban,
-            //kicks: kick,
-          },
-        },
-        {
-          upsert: true,
-        }
+    .catch((e) => {
+      log(
+        "ERROR",
+        "./commands/moderation/ban.js",
+        `An error has occurred: ${e.message}`
       );
 
-      message.channel.send(`Successfully banned **${mem.tag}**`);
-
-      const msgEmbed = new MessageEmbed()
-        .setColor("#CC0202")
-        .setAuthor(
-          message.author.tag,
-          message.author.displayAvatarURL({ dynamic: true })
-        )
-        .setThumbnail(mem.displayAvatarURL({ dynamic: true }))
-        .setDescription(
-          `**Member:** ${mem.tag}\n**Action:** Ban${
-            reason !== "" ? `\n**Reason:** ${reason}` : ""
-          }`
-        )
-        .setTimestamp()
-        .setFooter(`ID: ${mem.id}`);
-
-      sendMessageToBotLog(client, message.guild, msgEmbed);
-    })
-    .catch((e) => {
-      return console.log(e.message);
+      return msg.edit(
+        `There was an error and **${user.tag}** was not banned. Please try again.`
+      );
     });
+
+  if (banUser) {
+    const memberObj = {
+      guildID: message.guild.id,
+      userID: banUser.id,
+    };
+
+    const ban = {
+      executor: message.author.id,
+      timestamp: new Date().getTime(),
+      reason,
+      messageLink: message.url,
+    };
+
+    await memberInfoSchema.findOneAndUpdate(
+      memberObj,
+      {
+        ...memberObj,
+        $push: {
+          bans: ban,
+        },
+      },
+      {
+        upsert: true,
+      }
+    );
+
+    msg.edit(`Successfully banned **${user.tag}**`);
+
+    const msgEmbed = new MessageEmbed()
+      .setColor("#CC0202")
+      .setAuthor(
+        message.author.tag,
+        message.author.displayAvatarURL({ dynamic: true })
+      )
+      .setThumbnail(user.displayAvatarURL({ dynamic: true }))
+      .setDescription(
+        `**Member:** ${user.tag}\n**Action:** Ban${
+          reason !== "" ? `\n**Reason:** ${reason}` : ""
+        }`
+      )
+      .setTimestamp()
+      .setFooter(`ID: ${user.id}`);
+
+    sendMessageToBotLog(client, message.guild, msgEmbed);
+  }
 };
