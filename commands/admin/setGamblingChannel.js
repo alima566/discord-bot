@@ -1,4 +1,6 @@
 const gamblingChannelSchema = require("@schemas/gambling-channel-schema");
+const { gamblingChannelCache } = require("@root/config.json");
+
 module.exports = {
   commands: ["setgambling", "setgamblingchan", "setgamblingchannel"],
   category: "Admin",
@@ -12,6 +14,8 @@ module.exports = {
     const { guild } = message;
     const channel = message.mentions.channels.first() || message.channel;
     const guildID = guild.id;
+
+    gamblingChannelCache[guildID] = channel.id;
 
     await gamblingChannelSchema.findOneAndUpdate(
       {

@@ -1,6 +1,7 @@
 const gamblingSchema = require("@schemas/gambling-schema");
 const gamblingChannelSchema = require("@schemas/gambling-channel-schema");
 const pointsCache = {};
+const { gamblingChannelCache } = require("@root/config.json");
 
 module.exports.addPoints = async (guildID, userID, points) => {
   const result = await gamblingSchema.findOneAndUpdate(
@@ -71,6 +72,13 @@ module.exports.getPoints = async (guildID, userID) => {
 };
 
 module.exports.getGamblingChannel = async (guildID) => {
-  const result = await gamblingChannelSchema.findOne({ _id: guildID });
-  return result ? result.channelID : null;
+  let channelID = gamblingChannelCache[guildID];
+  if (!channelID) {
+    const result = await gamblingChannelSchema.findById(guildID);
+    if (!result) return;
+
+    channelID = result.channelID;
+    gamblingChannelCache[guildID] = channelID;
+  }
+  return channelID;
 };
