@@ -116,46 +116,6 @@ module.exports = {
         }
       });
     }
-    //   .then((msg) => {
-    //     const collector = msg.channel.createMessageCollector(
-    //       (m) => m.author.id === author.id,
-    //       {
-    //         time: 1000 * 10,
-    //         errors: ["time"],
-    //       }
-    //     );
-
-    //     collector.on("collect", (m) => {
-    //       switch (m.content.charAt(0).toUpperCase()) {
-    //         case "Y":
-    //           collector.stop();
-    //           kick(member, message, client, reason);
-    //           break;
-    //         case "N":
-    //           collector.stop();
-    //           channel.send(`**${member.user.tag}** was not kicked.`);
-    //           break;
-    //         default:
-    //           m.delete();
-    //           channel
-    //             .send(
-    //               `Invalid selection. Please type either Y (Yes) or N (No).`
-    //             )
-    //             .then((m) => {
-    //               client.setTimeout(() => m.delete(), 1000 * 3);
-    //             });
-    //           break;
-    //       }
-    //     });
-
-    //     collector.on("end", (collected, reason) => {
-    //       if (reason === "time") {
-    //         return channel.send(
-    //           `You did not choose a response in time. **${member.user.tag}** was not kicked.`
-    //         );
-    //       }
-    //     });
-    //   });
   },
 };
 
