@@ -8,6 +8,11 @@ const { log } = require("@utils/functions");
 
 const client = new Discord.Client({
   partials: ["MESSAGE", "CHANNEL", "REACTION", "USER", "GUILD_MEMBER"],
+  intents: [
+    Discord.Intents.FLAGS.GUILDS,
+    Discord.Intents.FLAGS.GUILD_MESSAGES,
+    Discord.Intents.FLAGS.GUILD_MEMBERS,
+  ],
 });
 const player = new Player(client);
 
