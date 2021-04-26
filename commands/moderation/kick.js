@@ -2,6 +2,7 @@ const { MessageEmbed, Permissions } = require("discord.js");
 const { sendMessageToBotLog } = require("@utils/functions");
 const memberInfoSchema = require("@schemas/member-info-schema");
 const muteSchema = require("@schemas/mute-schema");
+const { log } = require("@utils/functions");
 
 module.exports = {
   category: "🔨 Moderation",
@@ -68,75 +69,125 @@ module.exports = {
       );
     }
 
-    channel
-      .send(
-        `Are you sure you want to kick **${member.user.tag}**${
-          reason ? ` for ${reason}` : ""
-        }? (Y/N)`,
+    const msg = await channel.send(
+      `Are you sure you want to kick **${member.user.tag}**${
+        reason ? ` for ${reason}` : ""
+      }? (Y/N)`,
+      {
+        embed: memberInfoEmbed,
+      }
+    );
+
+    if (msg) {
+      const collector = msg.channel.createMessageCollector(
+        (m) => m.author.id === author.id,
         {
-          embed: memberInfoEmbed,
+          time: 1000 * 10,
+          errors: ["time"],
         }
-      )
-      .then((msg) => {
-        const collector = msg.channel.createMessageCollector(
-          (m) => m.author.id === author.id,
-          {
-            time: 1000 * 10,
-            errors: ["time"],
-          }
-        );
+      );
 
-        collector.on("collect", (m) => {
-          switch (m.content.charAt(0).toUpperCase()) {
-            case "Y":
-              collector.stop();
-              kick(member, message, client, reason);
-              break;
-            case "N":
-              collector.stop();
-              channel.send(`**${member.user.tag}** was not kicked.`);
-              break;
-            default:
-              m.delete();
-              channel
-                .send(
-                  `Invalid selection. Please type either Y (Yes) or N (No).`
-                )
-                .then((m) => {
-                  client.setTimeout(() => m.delete(), 1000 * 3);
-                });
-              break;
-          }
-        });
-
-        collector.on("end", (collected, reason) => {
-          if (reason === "time") {
-            return channel.send(
-              `You did not choose a response in time. **${member.user.tag}** was not kicked.`
-            );
-          }
-        });
+      collector.on("collect", (m) => {
+        switch (m.content.charAt(0).toUpperCase()) {
+          case "Y":
+            collector.stop();
+            kick(member, message, client, reason);
+            break;
+          case "N":
+            collector.stop();
+            channel.send(`**${member.user.tag}** was not kicked.`);
+            break;
+          default:
+            m.delete();
+            channel
+              .send(`Invalid selection. Please type either Y (Yes) or N (No).`)
+              .then((m) => {
+                client.setTimeout(() => m.delete(), 1000 * 3);
+              });
+            break;
+        }
       });
+
+      collector.on("end", (collected, reason) => {
+        if (reason === "time") {
+          return channel.send(
+            `You did not choose a response in time. **${member.user.tag}** was not kicked.`
+          );
+        }
+      });
+    }
+    //   .then((msg) => {
+    //     const collector = msg.channel.createMessageCollector(
+    //       (m) => m.author.id === author.id,
+    //       {
+    //         time: 1000 * 10,
+    //         errors: ["time"],
+    //       }
+    //     );
+
+    //     collector.on("collect", (m) => {
+    //       switch (m.content.charAt(0).toUpperCase()) {
+    //         case "Y":
+    //           collector.stop();
+    //           kick(member, message, client, reason);
+    //           break;
+    //         case "N":
+    //           collector.stop();
+    //           channel.send(`**${member.user.tag}** was not kicked.`);
+    //           break;
+    //         default:
+    //           m.delete();
+    //           channel
+    //             .send(
+    //               `Invalid selection. Please type either Y (Yes) or N (No).`
+    //             )
+    //             .then((m) => {
+    //               client.setTimeout(() => m.delete(), 1000 * 3);
+    //             });
+    //           break;
+    //       }
+    //     });
+
+    //     collector.on("end", (collected, reason) => {
+    //       if (reason === "time") {
+    //         return channel.send(
+    //           `You did not choose a response in time. **${member.user.tag}** was not kicked.`
+    //         );
+    //       }
+    //     });
+    //   });
   },
 };
 
-const kick = (member, message, client, reason) => {
-  member
-    .kick(reason)
-    .then(async (mem) => {
-      const memberObj = {
-        guildID: message.guild.id,
-        userID: mem.user.id,
-      };
+const kick = async (member, message, client, reason) => {
+  const msg = await message.channel.send(`Kicking **${member.user.tag}**...`);
+  const kickedMember = await member.kick(reason).catch((e) => {
+    log(
+      "ERROR",
+      "./commands/moderation/kick.js",
+      `An error has occurred: ${e.message}`
+    );
 
-      const kick = {
-        executor: message.author.id,
-        timestamp: new Date().getTime(),
-        reason,
-        messageLink: message.url,
-      };
+    return msg.edit(
+      `There was an error and **${kickedMember.user.tag}** was not kicked. Please try again.`
+    );
+  });
 
-      await memberInfoSchema.findOneAndUpdate(
+  if (kickedMember) {
+    const memberObj = {
+      guildID: message.guild.id,
+      userID: kickedMember.user.id,
+    };
+
+    const kick = {
+      executor: message.author.id,
+      timestamp: new Date().getTime(),
+      reason,
+      messageLink: message.url,
+    };
+
+    await memberInfoSchema
+      .findOneAndUpdate(
         memberObj,
         {
           ...memberObj,
@@ -147,31 +198,39 @@ const kick = (member, message, client, reason) => {
         {
           upsert: true,
         }
-      );
+      )
+      .catch((e) => {
+        log(
+          "ERROR",
+          "./commands/moderation/kick.js",
+          `An error has occurred: ${e.message}`
+        );
 
-      message.channel.send(
-        `Successfully kicked **${mem.user.tag}** from the server.`
-      );
+        return msg.edit(
+          `There was an error and **${kickedMember.user.tag}** was not kicked. Please try again.`
+        );
+      });
 
-      const msgEmbed = new MessageEmbed()
-        .setColor("PURPLE")
-        .setAuthor(
-          message.author.tag,
-          message.author.displayAvatarURL({ dynamic: true })
-        )
-        .setThumbnail(mem.user.displayAvatarURL({ dynamic: true }))
-        .setDescription(
-          `**Member:** ${mem.user.tag}\n**Action:** Kick${
-            reason !== "" ? `\n**Reason:** ${reason}` : ""
-          }`
-        )
-        .setTimestamp()
-        .setFooter(`ID: ${mem.id}`);
-      sendMessageToBotLog(client, message.guild, msgEmbed);
-    })
-    .catch((e) => {
-      return console.log(e.message);
-    });
+    msg.edit(
+      `Successfully kicked **${kickedMember.user.tag}** from the server.`
+    );
+
+    const msgEmbed = new MessageEmbed()
+      .setColor("PURPLE")
+      .setAuthor(
+        message.author.tag,
+        message.author.displayAvatarURL({ dynamic: true })
+      )
+      .setThumbnail(kickedMember.user.displayAvatarURL({ dynamic: true }))
+      .setDescription(
+        `**Member:** ${kickedMember.user.tag}\n**Action:** Kick${
+          reason !== "" ? `\n**Reason:** ${reason}` : ""
+        }`
+      )
+      .setTimestamp()
+      .setFooter(`ID: ${kickedMember.id}`);
+    sendMessageToBotLog(client, message.guild, msgEmbed);
+  }
 };
 
 const fetchMemberInfo = async (guild, member) => {
