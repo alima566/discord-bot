@@ -10,14 +10,15 @@ const client = new Discord.Client({
   partials: ["MESSAGE", "CHANNEL", "REACTION", "USER", "GUILD_MEMBER"],
   intents: [
     Discord.Intents.FLAGS.GUILDS,
-    Discord.Intents.FLAGS.GUILD_MESSAGES,
     Discord.Intents.FLAGS.GUILD_MEMBERS,
+    Discord.Intents.FLAGS.GUILD_BANS,
+    Discord.Intents.FLAGS.GUILD_PRESENCES,
+    Discord.Intents.FLAGS.GUILD_MESSAGES,
+    Discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
   ],
 });
-const player = new Player(client);
 
-client.player = player;
-client.queue = new Map();
+client.player = new Player(client);
 
 client.on("ready", async () => {
   log("SUCCESS", "./index.js", `Logged in as ${client.user.tag}!`);
@@ -28,7 +29,7 @@ client.on("ready", async () => {
   const messagesPath = "messages.json";
   const wok = new WOKCommands(client, {
     commandsDir: "commands",
-    featureDir: "features",
+    featuresDir: "features",
     messagesPath,
     showWarns: false,
     del: 3,
@@ -96,10 +97,6 @@ client.on("ready", async () => {
       "./index.js",
       state
     );
-  });
-
-  wok.on("languageNotSupported", (msg, lang) => {
-    log("WARNING", "./index.js", `Attempted to set language to ${lang}`);
   });
 });
 
