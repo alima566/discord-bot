@@ -14,14 +14,9 @@ module.exports = (client) => {
       const msgEmbed = await createChannelEmbed(
         channel,
         null,
-        `${
-          channel.type.toLowerCase() === "category"
-            ? "**Category"
-            : channel.type.toLowerCase() === "text"
-            ? "**Text Channel"
-            : "**Voice Channel"
-        } Created: ${
-          channel.type.toLowerCase() === "text"
+        `${getChannelDescription(channel.type)} Created: ${
+          channel.type.toLowerCase() === "text" ||
+          channel.type.toLowerCase() === "news"
             ? channel
             : `\`${channel.name}\``
         }**`
@@ -34,14 +29,9 @@ module.exports = (client) => {
       const msgEmbed = await createChannelEmbed(
         channel,
         null,
-        `${
-          channel.type.toLowerCase() === "category"
-            ? "**Category"
-            : channel.type.toLowerCase() === "text"
-            ? "**Text Channel"
-            : "**Voice Channel"
-        } Created: ${
-          channel.type.toLowerCase() === "text"
+        `${getChannelDescription(channel.type)} Created: ${
+          channel.type.toLowerCase() === "text" ||
+          channel.type.toLowerCase() === "news"
             ? channel
             : `\`${channel.name}\``
         }\`**`
@@ -53,14 +43,11 @@ module.exports = (client) => {
     const msgEmbed = await createChannelEmbed(
       channel,
       null,
-      `${
-        channel.type.toLowerCase() === "category"
-          ? "**Category"
-          : channel.type.toLowerCase() === "text"
-          ? "**Text Channel"
-          : "**Voice Channel"
-      } Created: ${
-        channel.type.toLowerCase() === "text" ? channel : `\`${channel.name}\``
+      `${getChannelDescription(channel.type)} Created: ${
+        channel.type.toLowerCase() === "text" ||
+        channel.type.toLowerCase() === "news"
+          ? channel
+          : `\`${channel.name}\``
       }**\n**Created By:** ${executor}`
     );
     sendMessageToBotLog(client, channel.guild, msgEmbed);
@@ -74,13 +61,7 @@ module.exports = (client) => {
       const msgEmbed = await createChannelEmbed(
         channel,
         null,
-        `${
-          channel.type.toLowerCase() === "category"
-            ? "**Category"
-            : channel.type.toLowerCase() === "text"
-            ? "**Text Channel"
-            : "**Voice Channel"
-        } Deleted:** \`${channel.name}\``
+        `${getChannelDescription(channel.type)} Deleted:** \`${channel.name}\``
       );
       return sendMessageToBotLog(client, channel.guild, msgEmbed);
     }
@@ -90,13 +71,7 @@ module.exports = (client) => {
       const msgEmbed = await createChannelEmbed(
         channel,
         null,
-        `${
-          channel.type.toLowerCase() === "category"
-            ? "**Category"
-            : channel.type.toLowerCase() === "text"
-            ? "**Text Channel"
-            : "**Voice Channel"
-        } Deleted:** \`${channel.name}\``
+        `${getChannelDescription(channel.type)} Deleted:** \`${channel.name}\``
       );
       return sendMessageToBotLog(client, channel.guild, msgEmbed);
     }
@@ -105,13 +80,9 @@ module.exports = (client) => {
     const msgEmbed = await createChannelEmbed(
       channel,
       null,
-      `${
-        channel.type.toLowerCase() === "category"
-          ? "**Category"
-          : channel.type.toLowerCase() === "text"
-          ? "**Text Channel"
-          : "**Voice Channel"
-      } Deleted:** \`${channel.name}\`\n**Deleted By:** ${executor}`
+      `${getChannelDescription(channel.type)} Deleted:** \`${
+        channel.name
+      }\`\n**Deleted By:** ${executor}`
     );
     sendMessageToBotLog(client, channel.guild, msgEmbed);
   });
@@ -121,13 +92,7 @@ module.exports = (client) => {
       const msgEmbed = await createChannelEmbed(
         oldChan,
         newChan,
-        `${
-          newChan.type.toLowerCase() === "category"
-            ? "**Category Name"
-            : newChan.type.toLowerCase() === "text"
-            ? "**Text Channel"
-            : "**Voice Channel"
-        } Changed**`
+        `${getChannelDescription(newChan.type)} Name Changed**`
       );
       sendMessageToBotLog(client, newChan.guild, msgEmbed);
     }
@@ -159,7 +124,8 @@ const createChannelEmbed = async (oldChan, newChan, description) => {
         {
           name: `**After**`,
           value:
-            newChan.type.toLowerCase() === "text"
+            newChan.type.toLowerCase() === "text" ||
+            newChan.type.toLowerCase() === "news"
               ? newChan
               : `\`${newChan.name}\``,
           inline: true,
@@ -179,7 +145,8 @@ const createChannelEmbed = async (oldChan, newChan, description) => {
         {
           name: `**After**`,
           value:
-            newChan.type.toLowerCase() === "text"
+            newChan.type.toLowerCase() === "text" ||
+            newChan.type.toLowerCase() === "news"
               ? newChan
               : `\`${newChan.name}\``,
           inline: true,
@@ -198,7 +165,8 @@ const createChannelEmbed = async (oldChan, newChan, description) => {
       {
         name: `**After**`,
         value:
-          newChan.type.toLowerCase() === "text"
+          newChan.type.toLowerCase() === "text" ||
+          newChan.type.toLowerCase() === "news"
             ? newChan
             : `\`${newChan.name}\``,
         inline: true,
@@ -207,6 +175,25 @@ const createChannelEmbed = async (oldChan, newChan, description) => {
     );
   }
   return embed;
+};
+
+const getChannelDescription = (channelType) => {
+  let channel;
+  switch (channelType.toLowerCase()) {
+    case "category":
+      channel = "**Category";
+      break;
+    case "text":
+      channel = "**Text Channel";
+      break;
+    case "news":
+      channel = "**Announcement Channel";
+      break;
+    default:
+      channel = "**Voice Channel";
+      break;
+  }
+  return channel;
 };
 
 module.exports.config = {
