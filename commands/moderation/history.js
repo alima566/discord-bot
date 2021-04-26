@@ -132,7 +132,7 @@ const loopThroughInfo = (infoType) => {
       time,
       timeFormat,
       { timeZone: timezone }
-    )}\nReason: ${reason}${
+    )}${reason ? `\nReason: ${reason}` : ""}${
       infoType.mutes ? `\nDuration: ${ms(info.duration)}` : ""
     }\nContext: [Show Me](${messageLink})\n`;
   }
