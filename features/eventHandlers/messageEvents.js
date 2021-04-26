@@ -93,6 +93,7 @@ module.exports = (client) => {
       }
     } else {
       const newM = await newMsg.fetch();
+      if (!newM) return;
       if (newM.author.bot) return;
       const msgEmbed = createEmbed(
         "RED",
