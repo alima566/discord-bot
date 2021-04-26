@@ -61,60 +61,69 @@ module.exports = {
       );
     }
 
-    channel
-      .send(
-        `Are you sure you want to soft ban **${member.user.tag}**${
-          reason ? ` for ${reason}` : ""
-        }? (Y/N)`,
-        { embed: memberInfoEmbed }
-      )
-      .then((msg) => {
-        const collector = msg.channel.createMessageCollector(
-          (m) => m.author.id === author.id,
-          {
-            time: 1000 * 10,
-            errors: ["time"],
-          }
-        );
+    const msg = await channel.send(
+      `Are you sure you want to soft ban **${member.user.tag}**${
+        reason ? ` for ${reason}` : ""
+      }? (Y/N)`,
+      { embed: memberInfoEmbed }
+    );
 
-        collector.on("collect", (m) => {
-          switch (m.content.charAt(0).toUpperCase()) {
-            case "Y":
-              collector.stop();
-              softban(member, message, client, reason);
-              break;
-            case "N":
-              collector.stop();
-              channel.send(`**${member.user.tag}** was not soft banned.`);
-              break;
-            default:
-              m.delete();
-              channel
-                .send(
-                  `Invalid selection. Please type either Y (Yes) or N (No).`
-                )
-                .then((m) => {
-                  client.setTimeout(() => m.delete(), 1000 * 3);
-                });
-              break;
-          }
-        });
+    if (msg) {
+      const collector = msg.channel.createMessageCollector(
+        (m) => m.author.id === author.id,
+        {
+          time: 1000 * 10,
+          errors: ["time"],
+        }
+      );
+
+      collector.on("collect", (m) => {
+        switch (m.content.charAt(0).toUpperCase()) {
+          case "Y":
+            collector.stop();
+            softban(member, message, client, reason);
+            break;
+          case "N":
+            collector.stop();
+            channel.send(`**${member.user.tag}** was not soft-banned.`);
+            break;
+          default:
+            m.delete();
+            channel
+              .send(`Invalid selection. Please type either Y (Yes) or N (No).`)
+              .then((m) => {
+                client.setTimeout(() => m.delete(), 1000 * 3);
+              });
+            break;
+        }
       });
+
+      collector.on("end", (collected, reason) => {
+        if (reason === "time") {
+          return channel.send(
+            `You did not choose a response in time. **${user.tag}** was not soft-banned.`
+          );
+        }
+      });
+    }
   },
 };
 
 const softban = async (member, message, client, reason) => {
+  const msg = await message.channel.send(
+    `Soft-banning **${member.user.tag}**...`
+  );
   const mem = await message.guild.members.ban(member, { days: 7, reason });
   if (!mem) {
-    return message.channel.send(
-      `An error occurred. Please try again. **${member.user.tag}** was not soft banned.`
+    return msg.edit(
+      `An error occurred. Please try again. **${member.user.tag}** was not soft-banned.`
     );
   }
 
   const unban = await message.guild.members.unban(mem.user, reason);
   if (!unban) {
-    return message.channel.send(
-      `An error occurred. Please try again. **${member.user.tag}** was not soft banned.`
+    return msg.edit(
+      `An error occurred. Please try again. **${member.user.tag}** was not soft-banned.`
     );
   }
 
@@ -143,9 +152,7 @@ const softban = async (member, message, client, reason) => {
     }
   );
 
-  message.channel.send(
-    `Successfully soft banned **${member.user.tag}** from the server.`
-  );
+  msg.edit(`Successfully soft-banned **${member.user.tag}** from the server.`);
 
   const msgEmbed = new MessageEmbed()
     .setColor("#33a532")
