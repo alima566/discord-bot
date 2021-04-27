@@ -3,6 +3,7 @@ const moment = require("moment");
 const { stripIndents } = require("common-tags");
 const { MessageEmbed } = require("discord.js");
 const gamblingSchema = require("@schemas/gambling-schema");
+const discordNitroSchema = require("@schemas/discord-nitro-schema");
 const { incrementMonthlyWins } = require("@dbHelpers/monthlyWins");
 const { monthlyPrize } = require("@root/config.json");
 const { sendMessageToBotLog, log } = require("@utils/functions");
@@ -54,7 +55,12 @@ const fetchWinner = async (guildID) => {
   return results[0];
 };
 
-const sendDM = (client, guild, userID, month, points) => {
+const sendDM = async (client, guild, userID, month, points) => {
+  const result = await discordNitroSchema.findOne({ _id: guild.id });
+  const nitroLink = result
+    ? result.nitroLink
+    : process.env.DISCORD_NITRO_GIFT_LINK;
+
   const embed = new MessageEmbed()
     .setColor("#7289da")
     .setTitle("Congratulations!")
@@ -62,7 +68,7 @@ const sendDM = (client, guild, userID, month, points) => {
       stripIndents`
       Congratulations! You have the most points for the month of ${month} with ${points.toLocaleString()} points and have won a free month of Discord Nitro!
      
-      To claim it, please click [here](${process.env.DISCORD_NITRO_GIFT_LINK}).
+      To claim it, please click [here](${nitroLink}).
       
       Please contact <@464635440801251328> if you encounter any problems.
       
