@@ -93,16 +93,20 @@ module.exports = {
       .setAuthor(author.tag, author.displayAvatarURL({ dynamic: true }))
       .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
       .setDescription(
-        `**Member:** ${member.user.tag}\n**Action:** Mute\n**Duration:** ${ms(
-          duration
-        )}\n**Reason:** ${reason}`
+        `**Member:** ${
+          member.user.tag
+        }\n**Action:** Mute\n**Duration:** ${ms(duration, {
+          long: true,
+        })}\n**Reason:** ${reason}`
       )
       .setTimestamp()
       .setFooter(`ID: ${member.id}`);
     sendMessageToBotLog(client, guild, msgEmbed);
 
     return message.channel.send(
-      `**${member.user.tag}** has been muted for ${ms(duration)}.`
+      `**${member.user.tag}** has been muted for ${ms(duration, {
+        long: true,
+      })}.`
     );
   },
 };
