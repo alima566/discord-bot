@@ -105,12 +105,10 @@ module.exports = (client) => {
         {
           name: "**Old Message**",
           value: "Unknown",
-          inline: true,
         },
         {
           name: "**New Message**",
           value: newM.content,
-          inline: true,
         }
       );
       sendMessageToBotLog(client, newM.guild, msgEmbed);
