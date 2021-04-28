@@ -62,7 +62,7 @@ module.exports = {
 
     let description = "";
     if (results) {
-      const { warnings, kicks, bans, unbans } = results;
+      const { warnings, kicks, bans, unbans, softbans } = results;
       if (warnings.length) {
         description += `**❯ Warnings [${warnings.length}]**`;
         description += loopThroughInfo({ warnings });
@@ -86,8 +86,15 @@ module.exports = {
       if (unbans.length) {
         description += bans.length
           ? `\n**❯ Unbans [${unbans.length}]**`
-          : `**❯ Unans [${unbans.length}]**`;
+          : `**❯ Unbans [${unbans.length}]**`;
         description += loopThroughInfo({ unbans });
+      }
+
+      if (softbans.length) {
+        description += unbans.length
+          ? `\n**❯ Soft-Bans [${softbans.length}]**`
+          : `**❯ Soft-Bans [${softbans.length}]**`;
+        description += loopThroughInfo({ softbans });
       }
     }
 
@@ -122,6 +129,9 @@ const loopThroughInfo = (infoType) => {
   } else if (infoType.unbans) {
     type = infoType.unbans;
     executedType = "\nUnbanned By: ";
+  } else if (infoType.softbans) {
+    type = infoType.softbans;
+    executedType = "\nSoft-Banned By: ";
   }
 
   for (const info of type) {
@@ -133,8 +143,8 @@ const loopThroughInfo = (infoType) => {
       timeFormat,
       { timeZone: timezone }
     )}${reason ? `\nReason: ${reason}` : ""}${
-      infoType.mutes ? `\nDuration: ${ms(info.duration)}` : ""
-    }\nContext: [Show Me](${messageLink})\n`;
+      infoType.mutes ? `\nDuration: ${ms(info.duration, { long: true })}` : ""
+    }\nContext: [Show Me KelleeBot](${messageLink})\n`;
   }
   return description;
 };
