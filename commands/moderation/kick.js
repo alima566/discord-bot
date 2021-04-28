@@ -184,8 +184,8 @@ const kick = async (member, message, client, reason) => {
       .setThumbnail(kickedMember.user.displayAvatarURL({ dynamic: true }))
       .setDescription(
         `**Member:** ${kickedMember.user.tag}\n**Action:** Kick${
-          reason !== "" ? `\n**Reason:** ${reason}` : ""
-        }`
+          reason ? `\n**Reason:** ${reason}` : ""
+        }\n**Context:** [Show me KelleeBot](${message.url})`
       )
       .setTimestamp()
       .setFooter(`ID: ${kickedMember.id}`);

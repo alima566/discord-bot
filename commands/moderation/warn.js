@@ -66,7 +66,7 @@ module.exports = {
       .setAuthor(author.tag, author.displayAvatarURL({ dynamic: true }))
       .setThumbnail(target.user.displayAvatarURL({ dynamic: true }))
       .setDescription(
-        `**Member:** ${target.user.tag}\n**Action:** Warn\n**Reason:** ${reason}`
+        `**Member:** ${target.user.tag}\n**Action:** Warn\n**Reason:** ${reason}\n**Context:** [Show me KelleeBot](${message.url})`
       )
       .setTimestamp()
       .setFooter(`ID: ${target.id}`);
