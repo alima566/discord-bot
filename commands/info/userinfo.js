@@ -3,7 +3,7 @@ const { utcToZonedTime, format } = require("date-fns-tz");
 const { formatDistance } = require("date-fns");
 const { timezone } = require("@root/config.json");
 const moment = require("moment");
-const momentDurationFormatSetup = require("moment-duration-format");
+require("moment-duration-format");
 
 const keyPerms = {
   ADMINISTRATOR: "Administrator",
@@ -44,7 +44,7 @@ module.exports = {
     const { user, nickname } = member;
     const { channel, guild } = message;
 
-    const botCreator = await client.users.fetch("464635440801251328");
+    const botCreator = client.users.cache.get("464635440801251328");
 
     const timeFormat = "EEE, MMM d, yyyy h:mm a zzz";
     const joinedAtEasternDate = utcToZonedTime(member.joinedAt, timezone);
