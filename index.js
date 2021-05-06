@@ -16,6 +16,7 @@ const client = new Discord.Client({
     Discord.Intents.FLAGS.GUILD_MESSAGES,
     Discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
   ],
+  allowedMentions: { parse: ["users", "roles"] },
 });
 
 client.player = new Player(client);
@@ -37,7 +38,7 @@ client.on("ready", async () => {
   })
     .setMongoPath(process.env.MONGO_PATH)
     .setBotOwner("464635440801251328")
-    .setColor("#7289da")
+    .setColor("#DFBCF5")
     .setCategorySettings([
       {
         name: "Configuration",
