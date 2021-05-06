@@ -99,7 +99,7 @@ module.exports = (client) => {
         "RED",
         newM.guild,
         newM,
-        `A [message](${newM.url}) sent by ${newM.author} was edited in ${newM.channel}:`,
+        `**A [message](${newM.url}) sent by ${newM.author} was edited in ${newM.channel}:**`,
         newM.author
       ).addFields(
         {
