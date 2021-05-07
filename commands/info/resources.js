@@ -3,8 +3,7 @@ const { MessageEmbed } = require("discord.js");
 module.exports = {
   category: "❗ Info",
   cooldown: "15s",
-  minArgs: 0,
-  maxArgs: 0,
+  slash: "both",
   description:
     "Links you to important resources to help BIPOC and LGBTQ+ communities.",
   callback: ({ message }) => {
@@ -51,6 +50,6 @@ module.exports = {
           inline: true,
         }
       );
-    return message.channel.send(msgEmbed);
+    return message ? message.channel.send(msgEmbed) : msgEmbed;
   },
 };
