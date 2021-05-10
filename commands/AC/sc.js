@@ -2,6 +2,7 @@ const { MessageEmbed } = require("discord.js");
 const character = require("@root/acSpecialCharacters.json");
 
 module.exports = {
+  slash: "both",
   category: "🍀 AC",
   expectedArgs: "<character_name>",
   minArgs: 1,
@@ -50,11 +51,10 @@ module.exports = {
           `Powered by Nookipedia`,
           `https://nookipedia.com/wikilogo.png`
         );
-      return message.channel.send(msgEmbed);
+      return message ? message.channel.send(msgEmbed) : msgEmbed;
     } else {
-      return message.channel.send(
-        "I couldn't find that specified character :sob:"
-      );
+      const errorMsg = "I couldn't find that specified character :sob:";
+      return message ? message.channel.send(errorMsg) : errorMsg;
     }
   },
 };
