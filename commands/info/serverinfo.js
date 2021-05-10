@@ -21,11 +21,15 @@ const regionFlags = {
 };
 
 module.exports = {
+  slash: "both",
   category: "❗ Info",
   cooldown: "15s",
   description: "Gives information about the server.",
-  callback: ({ message }) => {
-    const { guild, channel } = message;
+  callback: ({ message, interaction, client }) => {
+    const guild = message
+      ? message.guild
+      : client.guilds.cache.get(interaction.guild_id);
+
     const {
       name,
       region,
@@ -134,9 +138,8 @@ module.exports = {
           value: guild.id,
           inline: true,
         }
-      )
-      .setTimestamp();
-    channel.send(msgEmbed);
+      );
+    return message ? message.channel.send(msgEmbed) : msgEmbed;
   },
 };
 
