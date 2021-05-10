@@ -3,13 +3,14 @@ const { MessageEmbed } = require("discord.js");
 const { log } = require("@utils/functions");
 
 module.exports = {
+  slash: "both",
   category: "🍀 AC",
   expectedArgs: "<villager_name>",
   minArgs: 1,
   description:
     "Retrieve information about a specific villager in any Animal Crossing game.",
   cooldown: "15s",
-  callback: ({ message, text }) => {
+  callback: async ({ message, text }) => {
     text = text.trim();
     if (text.includes(" ")) {
       text = text.replace(/ +/g, "_");
@@ -19,85 +20,73 @@ module.exports = {
       text = "Étoile";
     }
 
-    fetch(
-      `https://api.nookipedia.com/villagers?name=${encodeURIComponent(
-        text.toLowerCase()
-      )}&nhdetails=true`,
-      {
-        method: "GET",
-        headers: {
-          "X-API-KEY": process.env.NOOK_API_KEY,
-          "Accept-Version": "2.0.0",
-        },
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        const msgEmbed = new MessageEmbed()
-          .setColor(data[0].title_color ? `#${data[0].title_color}` : "ORANGE")
-          .setURL(`${data[0].url}`)
-          .setAuthor(
-            `${data[0].name}`,
-            data[0].nh_details === null
-              ? `${data[0].image_url}`
-              : `${data[0].nh_details.icon_url}`,
-            `${data[0].url}`
-          )
-          .setDescription(
-            `More info about ${data[0].name} can be found here:\n${data[0].url}`
-          )
-          .setThumbnail(`${data[0].image_url}`)
-          .addFields(
-            {
-              name: `**Species**`,
-              value: `${data[0].species}`,
-              inline: true,
-            },
-            {
-              name: `**Personality**`,
-              value: `${data[0].personality}`,
-              inline: true,
-            },
-            {
-              name: `**Gender**`,
-              value: `${data[0].gender}`,
-              inline: true,
-            },
-            {
-              name: `**Catchphrase**`,
-              value: `${data[0].phrase}`,
-              inline: true,
-            },
-            {
-              name: `**Birthday**`,
-              value:
-                data[0].birthday_month === "" || data[0].birthday_day === ""
-                  ? "-"
-                  : `${data[0].birthday_month} ${
-                      data[0].birthday_day
-                    }${getOrdinal(parseInt(data[0].birthday_day))}`,
-              inline: true,
-            },
-            {
-              name: `**Sign**`,
-              value: `${data[0].sign}`,
-              inline: true,
-            }
-          )
-          .setFooter(
-            `Powered by Nookipedia`,
-            `https://nookipedia.com/wikilogo.png`
-          );
-        message.channel.send(msgEmbed);
-      })
-      .catch((e) => {
-        message.channel.send(`I couldn't find that villager :sob:`);
-        log(
-          "ERROR",
-          "./commands/AC/villager.js",
-          `An error has occurred: ${e.message}`
+    try {
+      const resp = await fetch(
+        `https://api.nookipedia.com/villagers?name=${encodeURIComponent(
+          text.toLowerCase()
+        )}&nhdetails=true`,
+        {
+          method: "GET",
+          headers: {
+            "X-API-KEY": process.env.NOOK_API_KEY,
+            "Accept-Version": "2.0.0",
+          },
+        }
+      );
+
+      const data = await resp.json();
+      const {
+        title_color,
+        url,
+        name,
+        nh_details,
+        image_url,
+        species,
+        personality,
+        gender,
+        phrase,
+        birthday_month,
+        birthday_day,
+        sign,
+      } = data[0];
+
+      const msgEmbed = new MessageEmbed()
+        .setColor(title_color ? `#${title_color}` : "ORANGE")
+        .setURL(url)
+        .setAuthor(name, nh_details ? nh_details.icon_url : image_url, url)
+        .setDescription(`More info about ${name} can be found here:\n${url}`)
+        .setThumbnail(image_url)
+        .addFields(
+          { name: "**Species**", value: species, inline: true },
+          { name: "**Personality**", value: personality, inline: true },
+          { name: "**Gender**", value: gender, inline: true },
+          { name: "**Catchphrase**", value: phrase, inline: true },
+          {
+            name: "**Birthday**",
+            value:
+              birthday_month === "" || birthday_day === ""
+                ? "-"
+                : `${birthday_month} ${birthday_day}${getOrdinal(
+                    parseInt(birthday_day)
+                  )}`,
+            inline: true,
+          },
+          { name: "**Sign**", value: sign, inline: true }
+        )
+        .setFooter(
+          `Powered by Nookipedia`,
+          `https://nookipedia.com/wikilogo.png`
         );
-      });
+      return message ? message.channel.send(msgEmbed) : msgEmbed;
+    } catch (e) {
+      const errorMsg = "I couldn't find that villager :sob:";
+      log(
+        "ERROR",
+        "./commands/AC/villager.js",
+        `An error has occurred: ${e.message}`
+      );
+      return message ? message.channel.send(errorMsg) : errorMsg;
+    }
   },
 };
 
