@@ -14,14 +14,13 @@ module.exports = {
         ? message.channel.send(data.slip.advice)
         : data.slip.advice;
     } catch (e) {
+      const errorMsg = "Oops, an error occurred. Please try again.";
       log(
         "ERROR",
         "./commands/misc/dadadvice.js",
         `An error has occurred: ${e.message}`
       );
-      return message
-        ? message.channel.send("Oops, an error occurred. Please try again.")
-        : "Oops, an error occurred. Please try again.";
+      return message ? message.channel.send(errorMsg) : errorMsg;
     }
   },
 };

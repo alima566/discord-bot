@@ -17,14 +17,13 @@ module.exports = {
       const data = await resp.json();
       return message ? message.channel.send(data.joke) : data.joke;
     } catch (e) {
+      const errorMsg = "Oops, an error occurred. Please try again.";
       log(
         "ERROR",
         "./commands/misc/dadjoke.js",
         `An error has occurred: ${e.message}`
       );
-      return message
-        ? message.channel.send("Oops, an error occurred. Please try again.")
-        : "Oops, an error occurred. Please try again.";
+      return message ? message.channel.send(errorMsg) : errorMsg;
     }
   },
 };
