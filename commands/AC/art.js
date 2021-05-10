@@ -8,7 +8,7 @@ const errorMsg = "I couldn't find that artwork :sob:";
 module.exports = {
   slash: "both",
   category: "🍀 AC",
-  expectedArgs: "<Artwork Name>",
+  expectedArgs: "<artwork_name>",
   minArgs: 1,
   description:
     "Retrieve information about a specific artwork in *Animal Crossing: New Horizons*.",
