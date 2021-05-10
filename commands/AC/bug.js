@@ -8,85 +8,94 @@ const {
 } = require("@utils/functions");
 
 module.exports = {
-  commands: "bug",
+  slash: "both",
   category: "🍀 AC",
   expectedArgs: "<bug_name>",
   minArgs: 1,
-  //maxArgs: 1,
   description:
     "Retrieve information about a specific bug in *Animal Crossing: New Horizons*.",
   cooldown: "15s",
-  callback: ({ message, text }) => {
+  callback: async ({ message, text }) => {
     text = text.trim();
     if (text.includes(" ")) {
       text = text.replace(/ +/g, "_");
     }
-    fetch(`https://api.nookipedia.com/nh/bugs/${text.toLowerCase()}`, {
-      method: "GET",
-      headers: {
-        "X-API-KEY": process.env.NOOK_API_KEY,
-        "Accept-Version": "2.0.0",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        const msgEmbed = new MessageEmbed()
-          .setColor("NAVY")
-          .setURL(`${data.url}`)
-          .setAuthor(`${data.name}`, `${data.image_url}`, `${data.url}`)
-          .setDescription(
-            `More info about the ${data.name} can be found here:\n${data.url}`
-          )
-          .setThumbnail(`${data.image_url}`)
-          .addFields(
-            {
-              name: `**Price**`,
-              value: `${numeral(data.sell_nook).format("0,0")}`,
-              inline: true,
-            },
-            {
-              name: `**Flick Price**`,
-              value: `${numeral(data.sell_flick).format("0,0")}`,
-              inline: true,
-            },
-            /*{
-              name: `**Rarity**`,
-              value: `${data.rarity}`,
-              inline: true
-            },*/
-            {
-              name: `**Location**`,
-              value: `${data.location}`,
-              inline: true,
-            },
-            {
-              name: `**Months Available**`,
-              value: `North:\n${getMonthsAvailable(
-                data.north
-              )}\nSouth:\n${getMonthsAvailable(data.south)}`,
-              inline: true,
-            },
-            {
-              name: `**Time Available**`,
-              value: `North:\n${getTimesAvailable(
-                data.north
-              )}\nSouth:\n${getTimesAvailable(data.south)}`,
-              inline: true,
-            }
-          )
-          .setFooter(
-            `Powered by Nookipedia`,
-            `https://nookipedia.com/wikilogo.png`
-          );
-        message.channel.send(msgEmbed);
-      })
-      .catch((e) => {
-        message.channel.send(`I couldn't find that bug :sob:`);
-        log(
-          "ERROR",
-          "./commands/AC/bug.js",
-          `An error has occurred: ${e.message}`
+
+    try {
+      const resp = await fetch(
+        `https://api.nookipedia.com/nh/bugs/${text.toLowerCase()}`,
+        {
+          method: "GET",
+          headers: {
+            "X-API-KEY": process.env.NOOK_API_KEY,
+            "Accept-Version": "2.0.0",
+          },
+        }
+      );
+      const data = await resp.json();
+      const {
+        url,
+        name,
+        image_url,
+        sell_nook,
+        sell_flick,
+        location,
+        north,
+        south,
+      } = data;
+
+      const msgEmbed = new MessageEmbed()
+        .setColor("NAVY")
+        .setURL(url)
+        .setAuthor(name, image_url, url)
+        .setDescription(
+          `More info about the ${name} can be found here:\n${url}`
+        )
+        .setThumbnail(image_url)
+        .addFields(
+          {
+            name: "**Price**",
+            value: numeral(sell_nook).format("0,0"),
+            inline: true,
+          },
+          {
+            name: "**Flick Price**",
+            value: numeral(sell_flick).format("0,0"),
+            inline: true,
+          },
+          {
+            name: "**Location**",
+            value: location,
+            inline: true,
+          },
+          {
+            name: "**Months Available**",
+            value: `North:\n${getMonthsAvailable(
+              north
+            )}\nSouth:\n${getMonthsAvailable(south)}`,
+            inline: true,
+          },
+          {
+            name: "**Time Available**",
+            value: `North:\n${getTimesAvailable(
+              north
+            )}\nSouth:\n${getTimesAvailable(south)}`,
+            inline: true,
+          }
+        )
+        .setFooter(
+          `Powered by Nookipedia`,
+          `https://nookipedia.com/wikilogo.png`
         );
-      });
+      return message ? message.channel.send(msgEmbed) : msgEmbed;
+    } catch (e) {
+      const errorMsg = "I couldn't find that bug :sob:";
+      log(
+        "ERROR",
+        "./commands/AC/bug.js",
+        `An error has occurred: ${e.message}`
+      );
+      return message ? message.channel.send(errorMsg) : errorMsg;
+    }
   },
 };
