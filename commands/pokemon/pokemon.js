@@ -24,6 +24,7 @@ const embedColor = {
 };
 
 module.exports = {
+  slash: "both",
   category: "🍚 Pokemon",
   expectedArgs: "<pokemon_name>",
   minArgs: 1,
@@ -33,7 +34,6 @@ module.exports = {
     const P = new Pokedex();
     const pokeName = text.toLowerCase();
 
-    const { channel } = message;
     try {
       const result = await P.getPokemonByName(pokeName);
       const height = result.height * 10;
@@ -87,14 +87,15 @@ module.exports = {
             inline: true,
           }
         );
-      channel.send(msgEmbed);
+      return message ? message.channel.send(msgEmbed) : msgEmbed;
     } catch (e) {
-      channel.send(`I couldn't find that Pokémon :sob:`);
+      const errorMsg = "I couldn't find that Pokémon :sob:";
       log(
         "ERROR",
         "./commands/pokemon/pokemon.js",
         `An error has occurred: ${e.message}`
       );
+      return message ? message.channel.send(errorMsg) : errorMsg;
     }
   },
 };
