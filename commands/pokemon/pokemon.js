@@ -26,13 +26,13 @@ const embedColor = {
 module.exports = {
   slash: "both",
   category: "🍚 Pokemon",
-  expectedArgs: "<pokemon_name>",
+  expectedArgs: "<pokemon>",
   minArgs: 1,
   description: "Retrieve information about a specific Pokémon.",
   cooldown: "15s",
   callback: async ({ message, text }) => {
     const P = new Pokedex();
-    const pokeName = text.toLowerCase();
+    const pokeName = text.toLowerCase().trim();
 
     try {
       const result = await P.getPokemonByName(pokeName);
