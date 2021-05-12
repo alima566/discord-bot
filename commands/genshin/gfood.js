@@ -10,41 +10,42 @@ const stars = {
 };
 
 module.exports = {
+  slash: "both",
   category: "⚔️ Genshin",
-  expectedArgs: "<Recipe>",
+  expectedArgs: "<food>",
   minArgs: 1,
   description:
     "Retrieve information about a specific recipe in Genshin Impact.",
   cooldown: "15s",
   callback: ({ message, text }) => {
-    const recipe = genshin.recipes(text);
+    const recipe = genshin.foods(text);
     if (!recipe) {
-      return message.reply(`I could not find a recipe by that name.`);
+      const noRecipe = "I could not find a recipe by that name.";
+      return message ? message.reply(noRecipe) : noRecipe;
     }
 
     if (recipe.length) {
-      return message.reply(
-        `"${text}" returned more than one result. Please be more specific.`
-      );
+      const multipleResults = `"${text}" returned more than one result. Please be more specific.`;
+      return message ? message.reply(multipleResults) : multipleResults;
     }
 
     const {
       name,
       rarity,
-      foodrecipetype,
+      foodtype,
+      foodfilter,
       description,
       effect,
-      buffs,
       images,
       ingredients,
-      source,
+      url,
     } = recipe;
 
-    const embed = new MessageEmbed()
+    const msgEmbed = new MessageEmbed()
       .setColor("#355272")
-      .setAuthor(name, images.image)
+      .setAuthor(name, images.image, url.fandom)
       .setThumbnail(images.image)
-      .setDescription(description)
+      .setDescription(`${description}\n[Read More](${url.fandom})`)
       .addFields(
         {
           name: "**Rarity**",
@@ -53,12 +54,12 @@ module.exports = {
         },
         {
           name: "**Food Recipe Type**",
-          value: foodrecipetype,
+          value: toProperCase(foodtype),
           inline: true,
         },
         {
-          name: "**Buffs**",
-          value: buffs.join(", "),
+          name: "**Food Filter**",
+          value: foodfilter,
           inline: true,
         },
         {
@@ -67,16 +68,23 @@ module.exports = {
           inline: false,
         },
         {
-          name: "**Source**",
-          value: source,
-          inline: false,
-        },
-        {
           name: "**Ingredients**",
-          value: ingredients.join("\n"),
+          value: getIngredients(ingredients),
           inline: false,
         }
       );
-    message.channel.send(embed);
+    return message ? message.channel.send(msgEmbed) : msgEmbed;
   },
+};
+
+const getIngredients = (data) => {
+  let ingredients = "";
+  data.forEach((i) => {
+    ingredients += `${i.count}x ${i.name}\n`;
+  });
+  return ingredients;
+};
+
+const toProperCase = (string) => {
+  return string.charAt(0) + string.slice(1).toLowerCase();
 };

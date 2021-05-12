@@ -10,9 +10,10 @@ const stars = {
 };
 
 module.exports = {
+  slash: "both",
   commands: ["gi"],
   category: "⚔️ Genshin",
-  expectedArgs: "<character name>",
+  expectedArgs: "<character>",
   minArgs: 1,
   description:
     "Retrieve information about a specific character in Genshin Impact.",
@@ -20,13 +21,13 @@ module.exports = {
   callback: ({ message, text }) => {
     const character = genshin.characters(text);
     if (!character) {
-      return message.reply(`I could not find a character by that name.`);
+      const noChar = "I could not find a character by that name.";
+      return message ? message.reply(noChar) : noChar;
     }
 
     if (character.length) {
-      return message.reply(
-        `"${text}" returned more than one result. Please be more specific.`
-      );
+      const multipleResults = `"${text}" returned more than one result. Please be more specific.`;
+      return message ? message.reply(multipleResults) : multipleResults;
     }
 
     const {
@@ -45,9 +46,9 @@ module.exports = {
       url,
     } = character;
 
-    const embed = new MessageEmbed()
+    const msgEmbed = new MessageEmbed()
       .setColor("#355272")
-      .setAuthor(name, images.image, url)
+      .setAuthor(name, images.image, url.fandom)
       .setThumbnail(images.portrait)
       .setDescription(
         `${description}\n\nMore info about ${name} can be found here:\n${url}`
@@ -99,6 +100,6 @@ module.exports = {
           inline: true,
         }
       );
-    message.channel.send(embed);
+    return message ? message.channel.send(msgEmbed) : msgEmbed;
   },
 };
