@@ -5,10 +5,10 @@ const { timezone } = require("@root/config.json");
 
 const schedule = {
   Monday: "OFF",
-  Tuesday: "Taco Tuesday (Stream with <@274641094484951040>)! [3:00PM]",
+  Tuesday: "Taco Tuesday (Stream with <@274641094484951040>)! [2:30PM]",
   Wednesday: "OFF",
   Thursday: "Teyvat Thursday! (Genshin Impact) [7:00PM]",
-  Friday: "Ni no Kuni: Wrath of the White Witch [3:00PM]",
+  Friday: "OFF",
   Saturday: "OFF",
   Sunday: "OFF",
 };
@@ -32,11 +32,10 @@ const execute = async (client) => {
 
   let text = `Below, you will find Kéllee's weekly streaming schedule. All times listed below are in ${timezoneFormat} and are subject to change without notice.\n\n`;
   for (const key in schedule) {
-    if (key.toLowerCase() === today.toLowerCase()) {
-      text += `**${key}: ${schedule[key]}**\n`;
-    } else {
-      text += `${key}: ${schedule[key]}\n`;
-    }
+    text +=
+      key.toLowerCase() === today.toLowerCase()
+        ? `**${key}: ${schedule[key]}**\n`
+        : `${key}: ${schedule[key]}\n`;
   }
   text += `\nThere could be occassional surprise streams too! Pay attention to the <#724484131643457650> channel for updates and don't forget to assign yourself the <@&732780296986034287> role in the <#732786545169399838> channel to get notified for whenever Kéllee goes live!`;
 
