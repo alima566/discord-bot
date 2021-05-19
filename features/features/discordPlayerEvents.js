@@ -1,16 +1,22 @@
 const { MessageEmbed, Util } = require("discord.js");
-const { paginateEmbed, chunkArray, guildIcon } = require("@utils/functions");
+const {
+  paginateEmbed,
+  chunkArray,
+  guildIcon,
+  msToTime,
+} = require("@utils/functions");
 
 module.exports = (client) => {
   client.player
     .on("trackStart", (msg, track) => {
+      const nextTrack = track.queue.tracks;
       const msgEmbed = new MessageEmbed()
         .setColor("#1ED761")
-        .setAuthor("Now Playing", `${guildIcon(msg.guild)}`)
+        .setAuthor("Now Playing", guildIcon(msg.guild))
         .setDescription(
-          `[${Util.escapeMarkdown(track.title)}](${track.url}) (${
-            track.duration
-          })`
+          `[${Util.escapeMarkdown(track.title)}](${track.url}) (${msToTime(
+            track.durationMS
+          )})\n\n**Up Next: **${nextTrack[1] ? nextTrack[1].title : "Nothing"}`
         )
         .setFooter(
           `Requested by ${track.requestedBy.tag}`,
@@ -25,9 +31,9 @@ module.exports = (client) => {
         .setColor("#1ED761")
         .setAuthor("Track Added", `${guildIcon(msg.guild)}`)
         .setDescription(
-          `[${Util.escapeMarkdown(track.title)}](${track.url}) (${
-            track.duration
-          }) has been added to the queue!\n\nThere's now \`${
+          `[${Util.escapeMarkdown(track.title)}](${track.url}) (${msToTime(
+            track.durationMS
+          )}) has been added to the queue!\n\nThere's now \`${
             tracks.length
           }\` song${tracks.length !== 1 ? "s" : ""} in the queue.`
         )
@@ -63,7 +69,9 @@ module.exports = (client) => {
         for (let j = 0; j < tracksArray[i].length; j++) {
           text += `${counter + 1}. [${Util.escapeMarkdown(
             tracksArray[i][j].title
-          )}](${tracksArray[i][j].url}) (${tracksArray[i][j].duration})\n`;
+          )}](${tracksArray[i][j].url}) (${msToTime(
+            tracksArray[i][j].durationMS
+          )})\n`;
           counter++;
         }
         embed.setDescription(text);

@@ -12,6 +12,7 @@ const consoleColors = {
 const getRandomNumber = (array) => {
   return Math.floor(Math.random() * array.length);
 };
+
 const getMonthsAvailable = (hemisphere) => {
   let avail = "";
   hemisphere.availability_array.forEach((hem) => {
@@ -125,6 +126,13 @@ const guildIcon = (guild) => {
     : "https://i.imgur.com/2rWkqIA.png";
 };
 
+const msToTime = (ms) => {
+  const duration = new Date(ms).toISOString().slice(11, -5);
+  return duration.charAt(0) === "0" && duration.charAt(1) === "0"
+    ? duration.slice(3)
+    : duration;
+};
+
 module.exports = {
   getRandomNumber,
   getMonthsAvailable,
@@ -135,4 +143,5 @@ module.exports = {
   paginateEmbed,
   fetchAuditLog,
   guildIcon,
+  msToTime,
 };

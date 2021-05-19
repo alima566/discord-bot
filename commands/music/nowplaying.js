@@ -1,5 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-const { guildIcon } = require("@utils/functions");
+const { guildIcon, msToTime } = require("@utils/functions");
 
 module.exports = {
   commands: ["np", "song"],
@@ -12,16 +12,22 @@ module.exports = {
     const progressBar = message.client.player.createProgressBar(message, {
       timecodes: true,
     });
+
+    const nextTrack = nowPlaying.queue.tracks;
     const msgEmbed = new MessageEmbed()
       .setColor("#1ED761")
-      .setAuthor(`Currently Playing`, guildIcon(message.guild))
+      .setAuthor("Currently Playing", guildIcon(message.guild))
       .setDescription(
-        `[${nowPlaying.title}](${nowPlaying.url}) (${nowPlaying.duration})\n${progressBar}`
+        `[${nowPlaying.title}](${nowPlaying.url}) (${msToTime(
+          nowPlaying.durationMS
+        )})\n${progressBar}\n\n**Up Next: **${
+          nextTrack[1] ? nextTrack[1].title : "Nothing"
+        }`
       )
-      .setThumbnail(`${nowPlaying.thumbnail}`)
+      .setThumbnail(nowPlaying.thumbnail)
       .setFooter(
         `Requested by ${nowPlaying.requestedBy.tag}`,
-        `${nowPlaying.requestedBy.displayAvatarURL({ dynamic: true })}`
+        nowPlaying.requestedBy.displayAvatarURL({ dynamic: true })
       );
     return message.channel.send(msgEmbed);
   },
