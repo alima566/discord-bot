@@ -123,7 +123,7 @@ const fetchAuditLog = async (guild, auditLogAction) => {
 const guildIcon = (guild) => {
   return guild.iconURL()
     ? guild.iconURL({ dynamic: true })
-    : "https://i.imgur.com/2rWkqIA.png";
+    : "https://i.imgur.com/XhpH3KD.png"; //"https://i.imgur.com/2rWkqIA.png";
 };
 
 const msToTime = (ms) => {
