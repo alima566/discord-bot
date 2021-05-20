@@ -6,12 +6,14 @@ const {
   msToTime,
 } = require("@utils/functions");
 
+const embedColor = "#1ED761";
+
 module.exports = (client) => {
   client.player
     .on("trackStart", (msg, track) => {
       const nextTrack = track.queue.tracks;
       const msgEmbed = new MessageEmbed()
-        .setColor("#1ED761")
+        .setColor(embedColor)
         .setAuthor("Now Playing", guildIcon(msg.guild))
         .setDescription(
           `[${Util.escapeMarkdown(track.title)}](${track.url}) (${msToTime(
@@ -28,7 +30,7 @@ module.exports = (client) => {
     .on("trackAdd", (msg, queue, track) => {
       const tracks = queue.tracks;
       const msgEmbed = new MessageEmbed()
-        .setColor("#1ED761")
+        .setColor(embedColor)
         .setAuthor("Track Added", `${guildIcon(msg.guild)}`)
         .setDescription(
           `[${Util.escapeMarkdown(track.title)}](${track.url}) (${msToTime(
@@ -57,7 +59,7 @@ module.exports = (client) => {
       for (let i = 0; i < tracksArray.length; i++) {
         let text = `Page ${i + 1} of ${tracksArray.length}\n\n`;
         const embed = new MessageEmbed()
-          .setColor("#1ED761")
+          .setColor(embedColor)
           .setAuthor(
             `Here are your search results for ${query}:`,
             `${guildIcon(msg.guild)}`
@@ -83,13 +85,13 @@ module.exports = (client) => {
       if (content.toLowerCase() === "cancel") {
         collector.stop();
         const msgEmbed = new MessageEmbed()
-          .setColor("#1ED761")
+          .setColor(embedColor)
           .setAuthor("Search Canceled", `${guildIcon(msg.guild)}`)
           .setDescription(`❌ | You have canceled the search for "${query}".`);
         return msg.channel.send(msgEmbed);
       }
       const msgEmbed = new MessageEmbed()
-        .setColor("#1ED761")
+        .setColor(embedColor)
         .setAuthor("Invalid Response", `${guildIcon(msg.guild)}`)
         .setDescription(
           `❌ | You must type a valid number between 1 and ${tracks.length}!`
@@ -101,23 +103,23 @@ module.exports = (client) => {
     })
     .on("searchCancel", (msg, query, tracks) => {
       const msgEmbed = new MessageEmbed()
-        .setColor("#1ED761")
+        .setColor(embedColor)
         .setAuthor("Search Canceled", `${guildIcon(msg.guild)}`)
         .setDescription(
-          `❌ | You did not provide a valid response! Please send the command again.`
+          `❌ | Search has been canceled. Please send the command again.`
         );
       msg.channel.send(msgEmbed);
     })
     .on("noResults", (msg, query) => {
       const msgEmbed = new MessageEmbed()
-        .setColor("#1ED761")
+        .setColor(embedColor)
         .setAuthor("No Results", `${guildIcon(msg.guild)}`)
         .setDescription(`❌ | No results were found for "${query}".`);
       msg.channel.send(msgEmbed);
     })
     .on("queueEnd", (msg, queue) => {
       const msgEmbed = new MessageEmbed()
-        .setColor("#1ED761")
+        .setColor(embedColor)
         .setAuthor(`No More Music`, `${guildIcon(msg.guild)}`)
         .setDescription(
           `⏹️ | Music stopped as there is no more music in the queue.`
@@ -126,7 +128,7 @@ module.exports = (client) => {
     })
     .on("channelEmpty", (msg, queue) => {
       const msgEmbed = new MessageEmbed()
-        .setColor("#1ED761")
+        .setColor(embedColor)
         .setAuthor(`Voice Channel Empty`, `${guildIcon(msg.guild)}`)
         .setDescription(
           `⏹️ | Music stopped as there are no more members in the voice channel.`
@@ -135,7 +137,7 @@ module.exports = (client) => {
     })
     .on("botDisconnect", (msg) => {
       const msgEmbed = new MessageEmbed()
-        .setColor("#1ED761")
+        .setColor(embedColor)
         .setAuthor("Bot Disconnected", `${guildIcon(msg.guild)}`)
         .setDescription(
           `⏹️ | Music stopped as I have been disconnected from the voice channel.`
@@ -143,7 +145,7 @@ module.exports = (client) => {
       msg.channel.send(msgEmbed);
     })
     .on("error", (err, msg) => {
-      const msgEmbed = new MessageEmbed().setColor("#1ED761");
+      const msgEmbed = new MessageEmbed().setColor(embedColor);
       switch (err) {
         case "NotPlaying":
           msgEmbed
