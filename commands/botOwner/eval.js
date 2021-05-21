@@ -4,10 +4,14 @@ const { guildIcon } = require("@utils/functions");
 module.exports = {
   category: "Bot Owner",
   description: "Evaluates some JS code.",
+  minArgs: 1,
+  expectedArgs: "<The code to evaluate>",
   ownerOnly: true,
   callback: ({ message, text }) => {
     if (text.toLowerCase().includes("process.env.")) {
-      return message.channel.send("Those are super secret variables that I cannot show you.");
+      return message.channel.send(
+        "Those are super secret variables that I cannot show you."
+      );
     }
 
     const msgEmbed = new MessageEmbed()
