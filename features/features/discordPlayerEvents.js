@@ -18,7 +18,9 @@ module.exports = (client) => {
         .setDescription(
           `[${Util.escapeMarkdown(track.title)}](${track.url}) (${msToTime(
             track.durationMS
-          )})\n\n**Up Next: **${nextTrack[1] ? nextTrack[1].title : "Nothing"}`
+          )})\n\n**Up Next: **${
+            nextTrack[1] ? `\`${nextTrack[1].title}\`` : "Nothing"
+          }`
         )
         .setFooter(
           `Requested by ${track.requestedBy.tag}`,

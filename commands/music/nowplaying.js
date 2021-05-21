@@ -21,7 +21,7 @@ module.exports = {
         `[${nowPlaying.title}](${nowPlaying.url}) (${msToTime(
           nowPlaying.durationMS
         )})\n${progressBar}\n\n**Up Next: **${
-          nextTrack[1] ? nextTrack[1].title : "Nothing"
+          nextTrack[1] ? `\`${nextTrack[1].title}\`` : "Nothing"
         }`
       )
       .setThumbnail(nowPlaying.thumbnail)
