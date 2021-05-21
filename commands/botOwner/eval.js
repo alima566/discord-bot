@@ -6,8 +6,8 @@ module.exports = {
   description: "Evaluates some JS code.",
   ownerOnly: true,
   callback: ({ message, text }) => {
-    if (text.toLowerCase().includes("token")) {
-      return message.channel.send("(╯°□°)╯︵ ┻━┻ MY token. **MINE**.");
+    if (text.toLowerCase().includes("process.env.")) {
+      return message.channel.send("Those are super secret variables that I cannot show you.");
     }
 
     const msgEmbed = new MessageEmbed()
