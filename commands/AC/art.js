@@ -31,16 +31,7 @@ module.exports = {
         }
       );
       const data = await resp.json();
-      const {
-        title,
-        url,
-        name,
-        image_url,
-        buy,
-        sell,
-        has_fake,
-        authenticity,
-      } = data;
+      const { title, url, name, image_url, buy, sell, has_fake, authenticity } = data;
 
       if (title === "No data was found for the given query.") {
         return message ? message.channel.send(errorMsg) : errorMsg;
