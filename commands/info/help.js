@@ -73,23 +73,25 @@ module.exports = {
 };
 
 const groupBy = (list, keyGetter) => {
+  const doNotShow = [
+    "",
+    "Admin",
+    "Bot Owner",
+    "Configuration",
+    "Development",
+    "Giveaways",
+    "Testing",
+    "Guild Owner",
+    "Utils",
+  ]; // An array of categories to not show in the help menu
   const map = new Map();
   list.forEach((item) => {
     const key = keyGetter(item);
     const collection = map.get(key);
     if (!collection) {
-      //Don't show commands from these categories in the help menu
-      if (
-        key !== "" &&
-        key !== "Admin" &&
-        key !== "Bot Owner" &&
-        key !== "Configuration" &&
-        key !== "Giveaways" &&
-        key !== "Testing" &&
-        key !== "Guild Owner" &&
-        key !== "Utils"
-      )
+      if (!doNotShow.includes(key)) {
         map.set(key, [item]);
+      }
     } else {
       collection.push(item);
     }
