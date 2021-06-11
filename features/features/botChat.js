@@ -5,6 +5,7 @@ module.exports = (client, instance) => {
   client.on("message", async (message) => {
     const { guild, channel } = message;
     if (
+      !guild ||
       message.author.bot ||
       message.content.startsWith(instance.getPrefix(guild)) // Don't have bot chat back if running a command
     )
