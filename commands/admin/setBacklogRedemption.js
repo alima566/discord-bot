@@ -18,7 +18,6 @@ module.exports = {
     await backlogRedemptionSchema.findOneAndUpdate(
       {
         _id: guildID,
-        channelID: channel.id,
       },
       {
         _id: guildID,

@@ -20,7 +20,6 @@ module.exports = {
     await gamblingChannelSchema.findOneAndUpdate(
       {
         _id: guildID,
-        channelID: channel.id,
       },
       {
         _id: guildID,
