@@ -46,7 +46,7 @@ module.exports = {
 };
 
 const convertToFahrenheit = (temp) => {
-  return convert(temp).from("celsius").to("fahrenheit").toFixed(1);
+  return convert(temp, "C").to("F").toFixed(1);
 };
 
 const showAllCities = (query, results, message, client) => {
@@ -106,10 +106,9 @@ const showAllCities = (query, results, message, client) => {
 const showWeatherResult = (city) => {
   const location = city.location;
   const current = city.current;
-  const miles = convert(current.windspeed.split(" ")[0])
-    .from("kilometers")
-    .to("miles")
-    .toFixed(1);
+  const miles = Number(
+    convert(current.windspeed.split(" ")[0], "kilometers").to("miles")
+  ).toFixed(1);
   const timezone = getTimezone(current, location);
   const lastUpdatedAt = current.observationtime.substring(
     0,
