@@ -57,7 +57,7 @@ module.exports = {
       messages: {
         giveaway: `${giveawayReactEmoji}${giveawayReactEmoji} **GIVEAWAY** ${giveawayReactEmoji}${giveawayReactEmoji}`,
         giveawayEnded: `${giveawayReactEmoji}${giveawayReactEmoji} **GIVEAWAY ENDED** ${giveawayReactEmoji}${giveawayReactEmoji}`,
-        timeRemaining: `Time remaining: **<t:${Math.round(
+        timeRemaining: `Giveaway ends: **<t:${Math.round(
           (Date.now() + ms(giveawayDuration)) / 1000
         )}:R>**!`,
         inviteToParticipate: `React with ${giveawayReactEmoji} to participate!`,

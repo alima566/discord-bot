@@ -33,11 +33,19 @@ const execute = async (client) => {
     winnerCount: giveawayNumberWinners,
     // Who hosts this giveaway
     hostedBy: `<@${client.user.id}>`, //`<@754033907267010560>`,
+    lastChance: {
+      enabled: true,
+      content: "⚠️ **LAST CHANCE TO ENTER !** ⚠️",
+      threshold: 1000 * 60 * 5,
+      embedColor: "#FF0000",
+    },
     // Messages
     messages: {
       giveaway: `${giveawayReactEmoji}${giveawayReactEmoji} **RAFFLE** ${giveawayReactEmoji}${giveawayReactEmoji}`,
       giveawayEnded: `${giveawayReactEmoji}${giveawayReactEmoji} **RAFFLE ENDED** ${giveawayReactEmoji}${giveawayReactEmoji}`,
-      timeRemaining: "Time remaining: **{duration}**!",
+      timeRemaining: `Raffle ends: **<t:${Math.round(
+        (Date.now() + ms(giveawayDuration)) / 1000
+      )}:R>**!`,
       inviteToParticipate: `React with ${giveawayReactEmoji} to participate!`,
       winMessage:
         "Congratulations, {winners}! You won **{prize}**! I have automatically added the points to your account. Happy gambling! 🥳🥳",
