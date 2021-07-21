@@ -57,12 +57,20 @@ module.exports = {
       messages: {
         giveaway: `${giveawayReactEmoji}${giveawayReactEmoji} **GIVEAWAY** ${giveawayReactEmoji}${giveawayReactEmoji}`,
         giveawayEnded: `${giveawayReactEmoji}${giveawayReactEmoji} **GIVEAWAY ENDED** ${giveawayReactEmoji}${giveawayReactEmoji}`,
-        timeRemaining: "Time remaining: **{duration}**!",
+        timeRemaining: `Time remaining: **<t:${Math.round(
+          (Date.now() + ms(giveawayDuration)) / 1000
+        )}:R>**!`,
         inviteToParticipate: `React with ${giveawayReactEmoji} to participate!`,
         winMessage: "Congratulations, {winners}! You won **{prize}**!",
         embedFooter: "Giveaways",
         noWinner: "Giveaway cancelled, no valid participants.",
         hostedBy: "Hosted by: {user}",
+        lastChance: {
+          enabled: true,
+          content: "⚠️ **LAST CHANCE TO ENTER !** ⚠️",
+          threshold: 5000,
+          embedColor: "#FF0000",
+        },
         winners: "winner(s)",
         endedAt: "Ended at",
         units: {
